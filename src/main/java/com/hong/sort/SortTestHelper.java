@@ -46,10 +46,10 @@ public class SortTestHelper {
       * @param arr
      * @return
      */
-    public static boolean isSorted(Comparable[] arr){
+    public static boolean isSorted(int[] arr){
 
         for( int i = 0 ; i < arr.length - 1 ; i ++ ){
-            if( arr[i].compareTo(arr[i+1]) > 0 ){
+            if( arr[i] > arr[i+1]){
                 return false;
             }
         }
@@ -61,13 +61,13 @@ public class SortTestHelper {
      * @param sortClassName
      * @param arr
      */
-    public static void testSort(String sortClassName, Comparable[] arr){
+    public static void testSort(String sortClassName, int[] arr){
         /**
          * Java的反射机制，通过排序的类名，运行排序函数
          */
         try{
             Class sortClass = Class.forName(sortClassName);
-            Method sortMethod = sortClass.getMethod("sort",new Class[]{Comparable[].class});
+            Method sortMethod = sortClass.getMethod("sort",new Class[]{int[].class});
             Object[] params = new Object[]{arr};
 
             long startTime = System.currentTimeMillis();
