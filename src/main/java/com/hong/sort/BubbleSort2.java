@@ -26,7 +26,7 @@ public class BubbleSort2 {
             for (int i = 0; i < n - 1; i++) {
                 if (arr[i] > arr[i+1]){
                     swap(arr,i,i+1);
-                    // 记录最后一次的交换位置,在此之后的元素在下一轮扫描中均不考虑
+                    // 记录最后一次的交换位置,在此之后的元素在下一轮扫描中均不考虑,注意这里的临界点
                     lastSwapIndex = i+1;
                 }
             }
