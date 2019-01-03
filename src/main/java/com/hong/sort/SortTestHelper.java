@@ -76,7 +76,7 @@ public class SortTestHelper {
             long endTime = System.currentTimeMillis();
 
             assert isSorted( arr );
-
+            System.out.println(isSorted(arr));
             System.out.println( sortClass.getSimpleName()+ " : " + (endTime-startTime) + "ms" );
         }
         catch(Exception e){
