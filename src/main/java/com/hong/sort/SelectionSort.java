@@ -12,7 +12,7 @@ public class SelectionSort {
             // 寻找[i,n)区间里的最小索引
             minIndex = i;
             for (int j = i + 1; j < n; j++) {
-                if (arr[j] < arr[i]){
+                if (arr[j] < arr[minIndex]){
                     minIndex = j;
                 }
             }
@@ -31,7 +31,7 @@ public class SelectionSort {
 
     public static void main(String[] args) {
         int N = 20000;
-        int[] arr = SortTestHelper.generateRandomArray(N, 0, 100000);
+        int[] arr = SortTestHelper.generateRandomArray(N, 1, 100000);
         SortTestHelper.testSort("com.hong.sort.SelectionSort", arr);
     }
 }

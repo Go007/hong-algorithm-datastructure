@@ -2,6 +2,7 @@ package com.hong.sort;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * 排序算法测试辅助类
@@ -21,10 +22,10 @@ public class SortTestHelper {
      */
     public static int[] generateRandomArray(int n, int leftRange, int rightRange) {
         assert leftRange <= rightRange;
-
+        Random random = new Random();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = leftRange + (int) Math.random() * (rightRange - leftRange + 1);
+            arr[i] = leftRange + random.nextInt(rightRange)%(rightRange-leftRange+1);
         }
         return arr;
     }
