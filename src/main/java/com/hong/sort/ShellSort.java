@@ -7,9 +7,8 @@ package com.hong.sort;
 public class ShellSort {
 
     public static void sort(int[] a) {
-        int d = a.length;
-        while (true) {
-            d = d / 2;
+        int d = a.length / 2 ;
+        while (d >=1) {
             for (int x = 0; x < d; x++) {
                 for (int i = x + d; i < a.length; i = i + d) {
                     int temp = a[i];
@@ -20,9 +19,7 @@ public class ShellSort {
                     a[j + d] = temp;
                 }
             }
-            if (d == 1) {
-                break;
-            }
+            d = d / 2;
         }
     }
 

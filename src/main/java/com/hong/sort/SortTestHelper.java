@@ -1,7 +1,10 @@
 package com.hong.sort;
 
+import com.google.common.primitives.Ints;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -25,16 +28,42 @@ public class SortTestHelper {
         Random random = new Random();
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = leftRange + random.nextInt(rightRange)%(rightRange-leftRange+1);
+            arr[i] = leftRange + random.nextInt(rightRange) % (rightRange - leftRange + 1);
         }
         return arr;
     }
 
     /**
+     * 生成一个近乎有序的数组
+     *
+     * @param n
+     * @param swapTimes
+     * @return
+     */
+    public static int[] generateNearlyOrderedArray(int n, int swapTimes) {
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = i;
+        }
+
+        Random random = new Random();
+        for (int i = 0; i < swapTimes; i++) {
+            int posx = random.nextInt(n);
+            int posy = random.nextInt(n);
+            int t = arr[posx];
+            arr[posx] = arr[posy];
+            arr[posy] = t;
+        }
+
+        return arr;
+    }
+
+    /**
      * 打印arr数组的所有内容
+     *
      * @param arr
      */
-    public static void printArray(Object[] arr){
+    public static void printArray(Object[] arr) {
         Arrays.asList(arr).forEach(e -> {
             System.out.print(e);
             System.out.print(' ');
@@ -43,14 +72,15 @@ public class SortTestHelper {
     }
 
     /**
-     *  判断arr数组是否有序(升序)
-      * @param arr
+     * 判断arr数组是否有序(升序)
+     *
+     * @param arr
      * @return
      */
-    public static boolean isSorted(int[] arr){
+    public static boolean isSorted(int[] arr) {
 
-        for( int i = 0 ; i < arr.length - 1 ; i ++ ){
-            if( arr[i] > arr[i+1]){
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
                 return false;
             }
         }
@@ -59,30 +89,36 @@ public class SortTestHelper {
 
     /**
      * 测试sortClassName所对应的排序算法排序arr数组所得到结果的正确性和算法运行时间
+     *
      * @param sortClassName
      * @param arr
      */
-    public static void testSort(String sortClassName, int[] arr){
+    public static void testSort(String sortClassName, int[] arr) {
         /**
          * Java的反射机制，通过排序的类名，运行排序函数
          */
-        try{
+        try {
             Class sortClass = Class.forName(sortClassName);
-            Method sortMethod = sortClass.getMethod("sort",new Class[]{int[].class});
+            Method sortMethod = sortClass.getMethod("sort", new Class[]{int[].class});
             Object[] params = new Object[]{arr};
 
             long startTime = System.currentTimeMillis();
             // 调用排序函数
-            sortMethod.invoke(null,params);
+            sortMethod.invoke(null, params);
             long endTime = System.currentTimeMillis();
 
-            assert isSorted( arr );
+            assert isSorted(arr);
             System.out.println(isSorted(arr));
-            System.out.println( sortClass.getSimpleName()+ " : " + (endTime-startTime) + "ms" );
-        }
-        catch(Exception e){
+            System.out.println(sortClass.getSimpleName() + " : " + (endTime - startTime) + "ms");
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = generateNearlyOrderedArray(100, 10);
+        List<Integer> list = Ints.asList(arr);
+        list.forEach(i -> System.out.println(i + " "));
     }
 
 }
