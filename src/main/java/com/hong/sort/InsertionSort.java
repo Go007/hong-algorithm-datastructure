@@ -22,9 +22,9 @@ public class InsertionSort {
             }*/
 
             for (int j = i; j > 0; j--) {
-                if (arr[j] < arr[j-1]){
-                    swap(arr,j,j-1);
-                }else {
+                if (arr[j] < arr[j - 1]) {
+                    swap(arr, j, j - 1);
+                } else {
                     /**
                      * 因为插入排序当前元素前面的元素都是排好序的，
                      * 所以一旦发现当前元素>当前元素的前一个元素，就可以直接停止比较，继续下一个
@@ -39,6 +39,23 @@ public class InsertionSort {
         int t = arr[i];
         arr[i] = arr[j];
         arr[j] = t;
+    }
+
+    /**
+     * 对arr[l...r]的区间使用InsertionSort排序
+     * @param arr
+     * @param l
+     * @param r
+     */
+    public static void sort(int[] arr, int l, int r) {
+        for (int i = l + 1; i <= r; i++) {
+            int e = arr[i];
+            int j = i;
+            for (; j > l && arr[j - 1] > e; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[j] = e;
+        }
     }
 
     public static void main(String[] args) {
