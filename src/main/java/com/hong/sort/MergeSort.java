@@ -10,61 +10,58 @@ public class MergeSort {
 
     /**
      * 将arr[l...mid]和arr[mid+1...r]两部分进行归并
+     *
      * @param arr
-     * @param l 左半部元素起始点
+     * @param l   左半部元素起始点
      * @param mid 左半部元素终点
-     * @param r 右半部元素终点
+     * @param r   右半部元素终点
      */
-    public static void merge(int[] arr,int l,int mid,int r) {
-        int[] aux = Arrays.copyOfRange(arr,l,r+1);
+    private static void merge(int[] arr, int l, int mid, int r) {
+
+        int[] aux = Arrays.copyOfRange(arr, l, r + 1);
+
         // 初始化，i指向左半部分的起始索引位置l；j指向右半部分起始索引位置mid+1
-        int i = l;
-        int j = mid + 1;
-        for (int k = l;k <= r;k++){
-            // 如果左半部分元素已经全部处理完毕
-            if (i > mid){
-                arr[k] = aux[j-1];
+        int i = l, j = mid + 1;
+        for (int k = l; k <= r; k++) {
+
+            if (i > mid) {  // 如果左半部分元素已经全部处理完毕
+                arr[k] = aux[j - l];
                 j++;
-            }
-            // 如果右半部分元素已经全部处理完毕
-            else if (j > r){
-                arr[k] = aux[i-1];
+            } else if (j > r) {   // 如果右半部分元素已经全部处理完毕
+                arr[k] = aux[i - l];
                 i++;
-            }
-            // 左半部分所指元素 < 右半部分所指元素
-            else if (aux[i-1] < aux[j-1]){
-                arr[k] = aux[i-1];
+            } else if (aux[i - l] < aux[j - l]) {  // 左半部分所指元素 < 右半部分所指元素
+                arr[k] = aux[i - l];
                 i++;
-            }
-            // 左半部分所指元素 >= 右半部分所指元素
-            else {
-                arr[k] = aux[j-l];
-                j ++;
+            } else {  // 左半部分所指元素 >= 右半部分所指元素
+                arr[k] = aux[j - l];
+                j++;
             }
         }
     }
 
     /**
      * 递归使用归并排序,对arr[l...r]的范围进行排序
+     *
      * @param arr
      * @param l
      * @param r
      */
-    public static void sort(int[] arr,int l,int r){
-        if (l >= r){
+    public static void sort(int[] arr, int l, int r) {
+        if (l >= r) {
             return;
         }
 
-        int mid = (l + r)/2;
-        sort(arr,l,mid);
-        sort(arr,mid+1,r);
-        merge(arr,l,mid,r);
+        int mid = (l + r) / 2;
+        sort(arr, l, mid);
+        sort(arr, mid + 1, r);
+        merge(arr, l, mid, r);
     }
 
-    public static void sort(int[] arr){
+    public static void sort(int[] arr) {
         int n = arr.length;
         // [0,n-1]，这里注意区间的开闭
-        sort(arr, 0, n-1);
+        sort(arr, 0, n - 1);
     }
 
     // 测试MergeSort
