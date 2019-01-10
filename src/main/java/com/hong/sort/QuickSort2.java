@@ -1,10 +1,10 @@
 package com.hong.sort;
 
 /**
- * <br>快速排序</br>
+ * <br>随机化快速排序法</br>
+ *
  */
-public class QuickSort {
-
+public class QuickSort2 {
     /**
      * 分区.对arr[l...r]部分进行partition操作
      * 返回p,使得arr[l...p-1] < arr[p] < arr[p+1...r]
@@ -15,15 +15,14 @@ public class QuickSort {
      * @return
      */
     public static int partition(int[] arr, int l, int r) {
-        int v = arr[l]; // 将第一个元素值作为临界点
-        //arr[l+1...j] < v ; arr[j+1...i) > v
+        /**
+         * 随机在arr[l...r]的范围中, 选择一个数值作为标定点pivot
+         */
+        swap( arr, l , (int)(Math.random()*(r-l+1))+l );
+        int v = arr[l];
         int j = l;
         for (int i = l; i <= r; i++) {
             if (arr[i] < v){
-                /**
-                 * 从第一个元素开始依次与临界点值比较,若发现 arr[i]< 临界点,
-                 * 则j向前一位,则arr[j]就是当前第一个>v的值,交换i,j.
-                 */
                 j++;
                 swap(arr,i,j);
             }
@@ -49,7 +48,9 @@ public class QuickSort {
      * @param arr
      */
     public static void sort(int[] arr, int l, int r) {
-        if( l >= r ){
+        // 对于小规模数组, 使用插入排序
+        if( r - l <= 15 ){
+            InsertionSort.sort(arr, l, r);
             return;
         }
 
@@ -63,7 +64,7 @@ public class QuickSort {
         // 可以在1秒之内轻松处理100万数量级的数据
         int N = 10000;
         int[] arr = SortTestHelper.generateRandomArray(N, 1, 100000);
-        SortTestHelper.testSort("com.hong.sort.QuickSort", arr);
+        SortTestHelper.testSort("com.hong.sort.QuickSort2", arr);
     }
 
 }
