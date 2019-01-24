@@ -12,8 +12,6 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class LockParkTest {
 
-    private static Object lock = new Object();
-
     public static void main(String[] args) throws InterruptedException {
         Thread t = new Thread(() -> {
             try {
