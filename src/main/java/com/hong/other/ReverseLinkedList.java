@@ -7,8 +7,23 @@ package com.hong.other;
  */
 public class ReverseLinkedList<T> {
 
+    static class Node<T> {
+        T value;
+        Node<T> next;
+
+        Node(T value) {
+            this.value = value;
+        }
+    }
+
     private Node<T> head, tail;
 
+    /**
+     *@SafeVarargs在JDK 7中引入，主要目的是处理可变长参数中的泛型，此注解告诉编译器：在可变长参数中的泛型是类型安全的。可变长参数是使用数组存储的，
+     * 而数组和泛型不能很好的混合使用[effective-java, p105，第25条：列表优先于数组]
+     * @param values
+     */
+    @SafeVarargs
     public ReverseLinkedList(T... values) {
         for (T v : values) {
             if (tail == null) {
@@ -106,6 +121,7 @@ public class ReverseLinkedList<T> {
         // nodeList = nodeList.reverseByLoop();
         nodeList = nodeList.reverseByRecursive();
         System.out.println(nodeList);
+        System.out.println(nodeList.reverseByRecursive());
     }
 
 }
