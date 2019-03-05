@@ -1,7 +1,10 @@
-package com.hong.other;
+package com.hong.linked;
+
+import java.awt.*;
 
 /**
  * Created by John on 2019/1/24.
+ * https://leetcode-cn.com/problems/reverse-linked-list/
  * 逆转单向列表
  * 将 head -> a -> b -> c -> d <- tail 变成 head -> d -> c -> b -> a <- tail
  */
@@ -19,9 +22,9 @@ public class ReverseLinkedList<T> {
     private Node<T> head, tail;
 
     /**
-     *@SafeVarargs在JDK 7中引入，主要目的是处理可变长参数中的泛型，此注解告诉编译器：在可变长参数中的泛型是类型安全的。可变长参数是使用数组存储的，
-     * 而数组和泛型不能很好的混合使用[effective-java, p105，第25条：列表优先于数组]
      * @param values
+     * @SafeVarargs在JDK 7中引入，主要目的是处理可变长参数中的泛型，此注解告诉编译器：在可变长参数中的泛型是类型安全的。可变长参数是使用数组存储的，
+     * 而数组和泛型不能很好的混合使用[effective-java, p105，第25条：列表优先于数组]
      */
     @SafeVarargs
     public ReverseLinkedList(T... values) {
@@ -29,8 +32,7 @@ public class ReverseLinkedList<T> {
             if (tail == null) {
                 head = tail = new Node<>(v);
             } else {
-                Node<T> oldTail = tail;
-                oldTail.next = tail = new Node<>(v);
+                tail = tail.next = new Node<>(v);
             }
         }
     }
