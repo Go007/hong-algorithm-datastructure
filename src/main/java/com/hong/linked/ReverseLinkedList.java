@@ -129,7 +129,7 @@ public class ReverseLinkedList<T> {
         System.out.println(nodeList.reverseByRecursive());*/
 
         System.out.println("++++++++++++++++++++++++++");
-        nodeList.head = nodeList.reverse3(nodeList.head);
+        nodeList.head = nodeList.reverse(nodeList.head);
         System.out.println(nodeList);
     }
 
@@ -146,17 +146,18 @@ public class ReverseLinkedList<T> {
         if (head == null || head.next == null) {
             return head;
         }
-        Node<T> temp = head.next;
+
         /**
          * 假设原链表为1->2->3->4,
-         * 递归到head=3,则temp=4，head.next=4, 再次进入递归，满足退出条件，压栈结束，开始弹栈
+         * 递归到head=3,则next=4，head.next=4, 再次进入递归，满足退出条件，压栈结束，开始弹栈
          * newHead = 4,
-         * 程序继续执行 temp.next = head就相当于4->3
+         * 程序继续执行 next.next = head就相当于4->3
          * head.next = null 即把 3结点指向4结点的指针断掉。
          * 返回新链表的头结点newHead
          */
-        Node<T> newHead = reverse(head.next);
-        temp.next = head;
+        Node<T> next = head.next;
+        Node<T> newHead = reverse(next);
+        next.next = head;
         head.next = null;
         return newHead;
     }
