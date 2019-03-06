@@ -1,6 +1,6 @@
 package com.hong.linked;
 
-import java.awt.*;
+import java.util.List;
 
 /**
  * Created by John on 2019/1/24.
@@ -124,6 +124,28 @@ public class ReverseLinkedList<T> {
         nodeList = nodeList.reverseByRecursive();
         System.out.println(nodeList);
         System.out.println(nodeList.reverseByRecursive());
+
+        Node<Integer> head = nodeList.reverse(nodeList.head);
+        System.out.println(head.value);
+    }
+
+    public Node<T> reverse(Node<T> head) {
+       /* Node<T> next = head.next;
+        if (next == null) return head;
+        head = head.next.next;
+        if (head !=null){
+            head.next = null;
+        }
+        return reverse(next);*/
+       Node<T> node = head;
+        while (head != null) {
+            Node<T> next = node.next;
+            if (next == null) break;
+            node.next = null;
+            node = next .next;
+            head = next;
+        }
+        return head;
     }
 
 }
