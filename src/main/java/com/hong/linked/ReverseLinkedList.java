@@ -1,11 +1,9 @@
 package com.hong.linked;
 
-import java.util.List;
-
 /**
  * Created by John on 2019/1/24.
  * https://leetcode-cn.com/problems/reverse-linked-list/
- * 逆转单向列表
+ * 逆转单向列表  https://juejin.im/post/5c46d82ee51d45215c2e438b
  * 将 head -> a -> b -> c -> d <- tail 变成 head -> d -> c -> b -> a <- tail
  */
 public class ReverseLinkedList<T> {
@@ -131,7 +129,7 @@ public class ReverseLinkedList<T> {
         System.out.println(nodeList.reverseByRecursive());*/
 
         System.out.println("++++++++++++++++++++++++++");
-        nodeList.head = nodeList.reverse2(nodeList.head);
+        nodeList.head = nodeList.reverse3(nodeList.head);
         System.out.println(nodeList);
     }
 
@@ -140,11 +138,12 @@ public class ReverseLinkedList<T> {
      * 定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点
      * 递归实质上就是系统帮你压栈的过程，系统在压栈的时候会保留现场。
      * 递归法是从最后一个Node开始，在弹栈的过程中将指针顺序置换的
+     *
      * @param head
      * @return
      */
     public Node<T> reverse(Node<T> head) {
-        if (head == null || head.next == null){
+        if (head == null || head.next == null) {
             return head;
         }
         Node<T> temp = head.next;
@@ -159,16 +158,17 @@ public class ReverseLinkedList<T> {
         Node<T> newHead = reverse(head.next);
         temp.next = head;
         head.next = null;
-        return newHead ;
+        return newHead;
     }
 
     /**
      * 迭代遍历
      * 假设原链表 1->2->3->4
-     *  第一次：head=1,next=2,1.next=null,pre=1    1->null
-     *  第二次：head=2,next=3,2.next=1,pre=2       2->1->null
-     *  第二次：head=3,next=4,3.next=2,pre=3       3->2->1->null
-     *  第四次：head=4,next=null,4.next=3,pre=4    4->3->2->1->null
+     * 第一次：head=1,next=2,1.next=null,pre=1    1->null
+     * 第二次：head=2,next=3,2.next=1,pre=2       2->1->null
+     * 第二次：head=3,next=4,3.next=2,pre=3       3->2->1->null
+     * 第四次：head=4,next=null,4.next=3,pre=4    4->3->2->1->null
+     *
      * @param head
      * @return
      */
@@ -177,7 +177,7 @@ public class ReverseLinkedList<T> {
         Node<T> pre = null;
         //next中间临时变量
         Node<T> next = null;
-        while (head != null){
+        while (head != null) {
             next = head.next;
             head.next = pre;
             pre = head;
@@ -186,4 +186,28 @@ public class ReverseLinkedList<T> {
         return pre;
     }
 
+    /**
+     * 1->2->3->4
+     * 第一次遍历：1->2 2->1 3->4  cur=2,nextNext=next=3
+     * 第二次遍历：1->2 3->2->1 4  cur=3,nextNext=next=4
+     * 第三次遍历：1->2 4-3->2->1 cur=4,nextNext=next=null,退出循环
+     *
+     * 使用三个临时变量，cur,next,nextNext，分别代表当前元素，当前元素的下一个元素，当前元素下一个元素的下一个元素，
+     * 将这三个变量从head开始依次向后递进，每次递进过程中，将当前元素的下一个元素的next域指向自己
+     * @param head
+     * @return
+     */
+    public Node<T> reverse3(Node<T> head) {
+        Node<T> cur = head;
+        Node<T> next = cur.next;
+        while (next != null) {
+            Node<T> nextNext = next.next;
+            next.next = cur;
+            cur = next;
+            next = nextNext;
+        }
+        head.next = null;
+        head = cur;
+        return head;
+    }
 }
