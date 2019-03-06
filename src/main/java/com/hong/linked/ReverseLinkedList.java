@@ -207,7 +207,6 @@ public class ReverseLinkedList<T> {
             next = nextNext;
         }
         head.next = null;
-        head = cur;
-        return head;
+        return cur;
     }
 }
