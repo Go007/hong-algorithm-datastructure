@@ -26,16 +26,45 @@ public class ArrayMerge {
         }
         System.out.println();
         System.out.println(SortTestHelper.isSorted(result));
+
+        System.out.println("=======================");
+        int[] arr3 = {1,2,3,4,5};
+        int[] arr4 = {5,6,7,8,9};
+        int[] res = merge(arr3, arr4);
+        for (int i:res){
+            System.out.print(i + " ");
+        }
     }
 
     /**
      * 将两个有序数组合并为一个有序数组
+     * 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+     * 说明:
+     * 初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+     * 你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+     * 示例:
+     * 输入:
+     * nums1 = [1,2,3,0,0,0], m = 3
+     * nums2 = [2,5,6],       n = 3
+     * 输出: [1,2,2,3,5,6]
      *
      * @param arr1
      * @param arr2
      * @return
      */
     public static int[] merge(int[] arr1, int[] arr2) {
+        /**
+         * 优化：如果其中一个数组的元素均大于另一个数组的元素，则可以直接组合，不用拆分。
+         * 即：其中一个数组的第一个元素大于或者等于另一个数组的最后一个元素
+         */
+        if (arr1[0] >= arr2[arr2.length-1]){
+            return connectArray(arr2,arr1);
+        }
+
+        if (arr2[0] >= arr1[arr1.length-1]){
+            return connectArray(arr1,arr2);
+        }
+
         int l = 0;
         int r = 0;
         int k = 0;
@@ -65,5 +94,18 @@ public class ArrayMerge {
         }
 
         return result;
+    }
+
+    /**
+     * 合并数组，将arr2[]数组整个追加到arr1[]的后面，返会合并后的数组
+     * @param arr1
+     * @param arr2
+     * @return
+     */
+    public static int[] connectArray(int[] arr1,int[] arr2){
+        int[] mergeArray = new int[arr1.length + arr2.length];
+        System.arraycopy(arr1,0,mergeArray,0,arr1.length);
+        System.arraycopy(arr2,0,mergeArray,arr1.length,arr2.length);
+        return mergeArray;
     }
 }
