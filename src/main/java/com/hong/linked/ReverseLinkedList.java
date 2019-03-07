@@ -133,7 +133,7 @@ public class ReverseLinkedList<T> {
         System.out.println(nodeList);*/
 
         System.out.println("=========================");
-        Node<Integer> node = new Node<>(5);
+        Node<Integer> node = new Node<>(1);
         nodeList.deleteNode(node);
         System.out.println(nodeList);
     }
@@ -235,6 +235,7 @@ public class ReverseLinkedList<T> {
             head = head.next;
         }else {
             prev.next = cur.next;
+            cur.next = null;
         }
     }
 
