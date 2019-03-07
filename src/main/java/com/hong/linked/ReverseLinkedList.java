@@ -133,8 +133,8 @@ public class ReverseLinkedList<T> {
         System.out.println(nodeList);*/
 
         System.out.println("=========================");
-        Node<Integer> node = new Node<>(1);
-        nodeList.deleteNode(node);
+       // nodeList.deleteNode(4);
+        nodeList.head = nodeList.removeNthFromEnd(nodeList.head,6);
         System.out.println(nodeList);
     }
 
@@ -197,9 +197,10 @@ public class ReverseLinkedList<T> {
      * 第一次遍历：1->2 2->1 3->4  cur=2,nextNext=next=3
      * 第二次遍历：1->2 3->2->1 4  cur=3,nextNext=next=4
      * 第三次遍历：1->2 4-3->2->1 cur=4,nextNext=next=null,退出循环
-     *
+     * <p>
      * 使用三个临时变量，cur,next,nextNext，分别代表当前元素，当前元素的下一个元素，当前元素下一个元素的下一个元素，
      * 将这三个变量从head开始依次向后递进，每次递进过程中，将当前元素的下一个元素的next域指向自己
+     *
      * @param head
      * @return
      */
@@ -217,26 +218,75 @@ public class ReverseLinkedList<T> {
     }
 
     /**
-     * 删除链表中指定的节点
+     * 删除链表中数据域等于指定值的节点
      * https://leetcode-cn.com/problems/delete-node-in-a-linked-list/
-     * @param node
+     *
+     * @param t
      */
-    public void deleteNode(Node<T> node){
+    public void deleteNode(T t) {
         Node<T> prev = null;
         Node<T> cur = head;
 
-        while (cur.value != node.value){
+        while (cur.value != t) {
             prev = cur;
             cur = cur.next;
         }
 
         // 待删除的节点是头节点,则将头节点的下一个节点置为头结点
-        if (prev == null){
+        if (prev == null) {
             head = head.next;
-        }else {
+        } else {
             prev.next = cur.next;
             cur.next = null;
         }
+    }
+
+    /**
+     * 删除链表的倒数第N个节点,并返回删除后的链表头节点
+     * https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
+     * <p>
+     * 使用两个节点，一个是p一个是q。先让p走n步，然后再让p和q同时往前走，当p走到头时，q即是倒数第n+1个节点了。
+     * 令p.next = p.next.next则删除了倒数第n个结点
+     * 但有两种特殊情况：1.链表长度小于n，则返回原链表 2.链表长度为n，则返回head.next
+     *
+     * @param head
+     * @param n
+     * @return
+     */
+    public Node<T> removeNthFromEnd(Node<T> head, int n) {
+        Node<T> p = head;
+        int i;
+        for (i = 0; i < n; i++) {
+            p = p.next;
+            if (p == null) {
+                break;
+            }
+        }
+
+        if (p == null) {
+            //链表长度为n时，删除头节点
+            if (i == (n - 1)) {
+                Node<T> newHead = head.next;
+                head.next = null;
+                return newHead;
+            }
+            // 链表长度<n时，返回原链表
+            if (i < (n - 1)) {
+                return head;
+            }
+        }
+
+        Node<T> q = head;
+        while (p.next != null) {
+            q = q.next;
+            p = p.next;
+        }
+
+        Node<T> nNode = q.next;
+        q.next = nNode.next;
+        nNode.next = null;
+
+        return head;
     }
 
 }
