@@ -128,8 +128,13 @@ public class ReverseLinkedList<T> {
         System.out.println(nodeList);
         System.out.println(nodeList.reverseByRecursive());*/
 
-        System.out.println("++++++++++++++++++++++++++");
+       /* System.out.println("++++++++++++++++++++++++++");
         nodeList.head = nodeList.reverse(nodeList.head);
+        System.out.println(nodeList);*/
+
+        System.out.println("=========================");
+        Node<Integer> node = new Node<>(5);
+        nodeList.deleteNode(node);
         System.out.println(nodeList);
     }
 
@@ -210,4 +215,27 @@ public class ReverseLinkedList<T> {
         head.next = null;
         return cur;
     }
+
+    /**
+     * 删除链表中指定的节点
+     * https://leetcode-cn.com/problems/delete-node-in-a-linked-list/
+     * @param node
+     */
+    public void deleteNode(Node<T> node){
+        Node<T> prev = null;
+        Node<T> cur = head;
+
+        while (cur.value != node.value){
+            prev = cur;
+            cur = cur.next;
+        }
+
+        // 待删除的节点是头节点,则将头节点的下一个节点置为头结点
+        if (prev == null){
+            head = head.next;
+        }else {
+            prev.next = cur.next;
+        }
+    }
+
 }
