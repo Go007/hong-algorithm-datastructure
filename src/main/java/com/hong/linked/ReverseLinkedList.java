@@ -246,7 +246,7 @@ public class ReverseLinkedList<T> {
      * https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
      * <p>
      * 使用两个节点，一个是p一个是q。先让p走n步，然后再让p和q同时往前走，当p走到头时，q即是倒数第n+1个节点了。
-     * 令p.next = p.next.next则删除了倒数第n个结点
+     * 令q.next = q.next.next则删除了倒数第n个结点
      * 但有两种特殊情况：1.链表长度小于n，则返回原链表 2.链表长度为n，则返回head.next
      *
      * @param head
