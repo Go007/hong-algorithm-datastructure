@@ -77,7 +77,10 @@ public class SST<K extends Comparable<K>,V> {
             return;
         }
 
-        //头节点需要特殊处理
+        /**
+         *  如果待删除的节点就是头结点, 则需要特殊处理
+         *  思考: 对于链表, 可以使用什么技术不去特殊处理头结点的特殊情况?
+         */
         if (head.key.compareTo(key) == 0){
             Node delNode = head;
             head = head.next;

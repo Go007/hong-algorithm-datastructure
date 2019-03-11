@@ -133,8 +133,9 @@ public class ReverseLinkedList<T> {
         System.out.println(nodeList);*/
 
         System.out.println("=========================");
-       // nodeList.deleteNode(4);
-        nodeList.head = nodeList.removeNthFromEnd(nodeList.head,6);
+        //  nodeList.deleteNode(1);
+       // nodeList.head = nodeList.removeNthFromEnd(nodeList.head, 3);
+        nodeList.head = nodeList.removeNthFromEnd2(nodeList.head, 2);
         System.out.println(nodeList);
     }
 
@@ -234,7 +235,9 @@ public class ReverseLinkedList<T> {
 
         // 待删除的节点是头节点,则将头节点的下一个节点置为头结点
         if (prev == null) {
+            Node delNode = head;
             head = head.next;
+            delNode.next = null;
         } else {
             prev.next = cur.next;
             cur.next = null;
@@ -285,6 +288,35 @@ public class ReverseLinkedList<T> {
         Node<T> nNode = q.next;
         q.next = nNode.next;
         nNode.next = null;
+
+        return head;
+    }
+
+    public Node<T> removeNthFromEnd2(Node<T> head, int n) {
+        if (head == null)
+            return head;
+
+        Node node = head;
+        int size = 1;
+        while (node.next != null) {
+            size++;
+            node = node.next;
+        }
+
+        int delIndex = size - n;
+        if (delIndex == 0) {
+            Node delNode = head;
+            head = head.next;
+            delNode.next = null;
+        } else if (delIndex > 0) {
+            Node prev = head;
+            for (int i = 1; i < delIndex; i++) {
+                prev = prev.next;
+            }
+            Node delNode = prev.next;
+            prev.next = prev.next.next;
+            delNode.next = null;
+        }
 
         return head;
     }
