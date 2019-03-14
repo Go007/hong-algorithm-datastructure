@@ -39,25 +39,18 @@ public class SST<K extends Comparable<K>, V> {
      * @param value
      */
     public void insert2(K key, V value) {
-        head = dummyHead.next;
-        if (head == null) {
-            head = new Node(key, value);
-            dummyHead.next = head;
-            count++;
-        } else {
-            Node node = head;
-            while (node != null) {
-                if (node.key.compareTo(key) == 0) {
-                    node.value = value;
-                    return;
-                }
-                node = node.next;
+        Node node = dummyHead.next;
+        while (node != null) {
+            if (node.key.compareTo(key) == 0) {
+                node.value = value;
+                return;
             }
-            Node newHead = new Node(key, value);
-            newHead.next = head;
-            head = newHead;
-            count++;
+            node = node.next;
         }
+        Node newNode = new Node(key, value);
+        newNode.next = dummyHead.next;
+        dummyHead.next = newNode;
+        count++;
     }
 
     /**
@@ -111,7 +104,7 @@ public class SST<K extends Comparable<K>, V> {
 
         /**
          *  如果待删除的节点就是头结点, 则需要特殊处理
-         *  思考: 对于链表, 可以使用什么技术不去特殊处理头结点的特殊情况?
+         *  思考: 对于链表, 可以使用什么技术不去特殊处理头结点的特殊情况?  C语言中的指针
          *  设置一个dummy node,且它的next域指向head。
          */
         if (head.key.compareTo(key) == 0) {
@@ -136,10 +129,6 @@ public class SST<K extends Comparable<K>, V> {
     }
 
     public void remove2(K key) {
-        if (head == null) {
-            return;
-        }
-
         Node node = dummyHead;
         while (node.next != null && node.next.key.compareTo(key) != 0) {
             node = node.next;
@@ -153,4 +142,33 @@ public class SST<K extends Comparable<K>, V> {
         }
     }
 
+    public static void main(String[] args) {
+        SST<Integer, Integer> sst = new SST<>();
+        sst.insert2(1, 1);
+        sst.insert2(2, 2);
+        sst.insert2(3, 3);
+        sst.insert2(4, 4);
+        sst.insert2(5, 5);
+        System.out.println(sst);
+
+        sst.remove2(1);
+        System.out.println(sst);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        SST.Node cur = dummyHead.next;
+        while (cur != null) {
+            Comparable k = cur.key;
+            Object v = cur.value;
+            sb.append(k + "=" + v);
+            cur = cur.next;
+            if (cur != null) {
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
