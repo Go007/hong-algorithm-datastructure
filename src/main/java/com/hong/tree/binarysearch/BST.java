@@ -5,13 +5,13 @@ package com.hong.tree.binarysearch;
  * @date 2019/03/11 9:41
  * 二分搜索树，Key需要可以比较，所以extends Comparable
  **/
-public class BST<K extends Comparable<K>,V> {
+public class BST<K extends Comparable<K>, V> {
 
     /**
      * 树中节点私有类，
      * 外界不需要了解具体实现
      */
-    private class Node{
+    private class Node {
         private K key;
         private V value;
         private Node left;
@@ -30,102 +30,176 @@ public class BST<K extends Comparable<K>,V> {
      * 默认构造一颗空节点
      */
     public BST() {
-        root =null;
+        root = null;
         count = 0;
     }
 
-    public int size(){
+    public int size() {
         return count;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return count == 0;
     }
 
-    public void insert(K key,V value){
-        root = insert(root,key,value);
+    public void insert(K key, V value) {
+        root = insert(root, key, value);
     }
 
-    public boolean contain(K key){
-        return contain(root,key);
+    public boolean contain(K key) {
+        return contain(root, key);
     }
 
     /**
      * 在二分搜索树中查找key对应的value，没有则返回null
+     *
      * @param key
      * @return
      */
-    public V search(K key){
-        return search(root,key);
+    public V search(K key) {
+        return search(root, key);
     }
+
+    // 二分搜索树的前序遍历
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    // 二分搜索树的中序遍历
+    public void inOrder(){
+        inOrder(root);
+    }
+
+    // 二分搜索树的后序遍历
+    public void postOrder(){
+        postOrder(root);
+    }
+
+    //================================辅助函数==================================//
 
     /**
      * 向以node为根节点的二分搜索树中插入新的节点，返回插入后新的根节点
+     *
      * @param node
      * @param key
      * @param value
      * @return
      */
-    private Node insert(Node node,K key,V value){
-        if (node == null){
-            return new Node(key,value);
+    private Node insert(Node node, K key, V value) {
+        if (node == null) {
+            count++;
+            return new Node(key, value);
         }
 
-        if (key.compareTo(node.key) == 0){
+        if (key.compareTo(node.key) == 0) {
             node.value = value;
-        }else if (key.compareTo(node.key) < 0){
-            node.left = insert(node.left,key,value);
-        }else {
-            node.right = insert(node.right,key,value);
+        } else if (key.compareTo(node.key) < 0) {
+            node.left = insert(node.left, key, value);
+        } else {
+            node.right = insert(node.right, key, value);
         }
 
         return node;
     }
 
     /**
-     *  查看以node为根节点的二分搜索树中是否存在键值为key的节点
+     * 查看以node为根节点的二分搜索树中是否存在键值为key的节点
+     *
      * @param node
      * @param key
      * @return
      */
-    public boolean contain(Node node,K key){
-        if (node == null){
+    public boolean contain(Node node, K key) {
+        if (node == null) {
             return false;
         }
 
-        if (key.compareTo(node.key) == 0){
+        if (key.compareTo(node.key) == 0) {
             return true;
-        }else if (key.compareTo(node.key) < 0){
-            return contain(node.left,key);
-        }else {
-            return contain(node.right,key);
+        } else if (key.compareTo(node.key) < 0) {
+            return contain(node.left, key);
+        } else {
+            return contain(node.right, key);
         }
     }
 
     /**
      * 在以node为根的二分搜索树中查找key所对应的value, 递归算法
-     *  若key不存在，返回null
+     * 若key不存在，返回null
+     *
      * @param node
      * @param key
      * @return
      */
-    public V search(Node node,K key){
-        if (node == null){
+    public V search(Node node, K key) {
+        if (node == null) {
             return null;
         }
-        if (key.compareTo(node.key) == 0){
+        if (key.compareTo(node.key) == 0) {
             return node.value;
-        }else if (key.compareTo(node.key) < 0){
-            return search(node.left,key);
-        }else {
-            return search(node.right,key);
+        } else if (key.compareTo(node.key) < 0) {
+            return search(node.left, key);
+        } else {
+            return search(node.right, key);
+        }
+    }
+
+    /**
+     * 二分搜索树的深度优先遍历
+     *                28
+     *            /      \
+     *          16       30
+     *        /   \     /  \
+     *      13    22  29   42
+     *      对于上面的这个二分搜索树，
+     *      前序遍历结果是：28  16  13  22  30  29  42，
+     *      中序遍历结果是：13  16  22  28  29  30  42，
+     *      后序遍历结果是：13  22  16  29  42  30  2
+     * 前序遍历   我你他
+     * 中序遍历  你我他
+     * 后序遍历  你他我
+     */
+    // 对以node为根的二叉搜索树进行前序遍历, 递归算法
+    private void preOrder(Node node) {
+        if (node != null) {
+            System.out.print(node.key + ",");
+            preOrder(node.left);
+            preOrder(node.right);
+        }
+    }
+
+    // 对以node为根的二叉搜索树进行中序遍历, 递归算法
+    private void inOrder(Node node){
+        if (node != null){
+            inOrder(node.left);
+            System.out.print(node.key + ",");
+            inOrder(node.right);
+        }
+    }
+
+    // 对以node为根的二叉搜索树进行后序遍历, 递归算法
+    private void postOrder(Node node){
+        if (node != null){
+            postOrder(node.left);
+            preOrder(node.right);
+            System.out.print(node.key + ",");
         }
     }
 
     // 测试二分搜索树
     public static void main(String[] args) {
+        BST<Integer, String> bst = new BST<>();
+        int[] arr = new int[]{28, 16, 13, 22, 30, 29, 42};
+        for (int k : arr) {
+            bst.insert(k, k + "");
+        }
+        bst.preOrder();
+        System.out.println();
+        bst.inOrder();
+        System.out.println();
+        bst.postOrder();
 
-        int N = 1000000;
+/*        int N = 10;
 
         // 创建一个数组，包含[0...N)的所有元素
         Integer[] arr = new Integer[N];
@@ -160,6 +234,6 @@ public class BST<K extends Comparable<K>,V> {
                 assert res.equals(Integer.toString(i));
             else
                 assert res == null;
-        }
+        }*/
     }
 }
