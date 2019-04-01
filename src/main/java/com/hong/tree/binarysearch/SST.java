@@ -108,18 +108,28 @@ public class SST<K extends Comparable<K>, V> {
          *  设置一个dummy node,且它的next域指向head。
          */
         if (head.key.compareTo(key) == 0) {
-            Node delNode = head;
+            Node next = head.next;
+            head.next = null;
+            head = next;
+
+           /* Node delNode = head;
             head = head.next;
-            delNode.next = null;
+            delNode.next = null;*/
             count--;
             return;
         }
 
+        /**
+         * 从头节点向后遍历，直到找到待删除节点的前一个节点或者是尾节点
+         */
         Node node = head;
         while (node.next != null && node.next.key.compareTo(key) != 0) {
             node = node.next;
         }
 
+        /**
+         * 链表中存在待删除的节点
+         */
         if (node.next != null) {
             Node delNode = node.next;
             node.next = node.next.next;
@@ -144,21 +154,23 @@ public class SST<K extends Comparable<K>, V> {
 
     public static void main(String[] args) {
         SST<Integer, Integer> sst = new SST<>();
-        sst.insert2(1, 1);
-        sst.insert2(2, 2);
-        sst.insert2(3, 3);
-        sst.insert2(4, 4);
-        sst.insert2(5, 5);
+        sst.insert(1, 1);
+        sst.insert(2, 2);
+        sst.insert(3, 3);
+        sst.insert(4, 4);
+        sst.insert(5, 5);
         System.out.println(sst);
 
-        sst.remove2(1);
+        sst.remove(5);
         System.out.println(sst);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        SST.Node cur = dummyHead.next;
+      //  SST.Node cur = dummyHead.next;
+        SST.Node cur = head;
+
         while (cur != null) {
             Comparable k = cur.key;
             Object v = cur.value;
