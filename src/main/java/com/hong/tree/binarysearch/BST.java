@@ -107,6 +107,24 @@ public class BST<K extends Comparable<K>, V> {
         }
     }
 
+    /**
+     * 删除二分搜索树中最小值节点
+     */
+    public void removeMin(){
+        if (root != null){
+            root = removeMin(root);
+        }
+    }
+
+    /**
+     *  删除二分搜索树中最大值节点
+     */
+    public void removeMax(){
+        if (root != null){
+            root = removeMax(root);
+        }
+    }
+
     //================================辅助函数==================================//
 
     /**
@@ -259,6 +277,40 @@ public class BST<K extends Comparable<K>, V> {
         }
     }
 
+    /**
+     * 删除以node为根的二分搜索树中的最小节点
+     * @param node
+     * @return
+     */
+    private Node removeMin(Node node){
+        if( node.left == null ){
+            Node rightNode = node.right;
+            node.right = null;
+            count --;
+            return rightNode;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    /**
+     *  删除以node为根的二分搜索树中的最大节点
+     * @param node
+     * @return
+     */
+    private Node removeMax(Node node){
+        if (node.right == null){
+            Node leftNode = node.left;
+            node.right = null;
+            count--;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
+    }
+
     // 测试二分搜索树
     public static void main(String[] args) {
         BST<Integer, String> bst = new BST<>();
@@ -276,6 +328,10 @@ public class BST<K extends Comparable<K>, V> {
        /* System.out.println();
         bst.postOrder();*/
         System.out.println();
+        bst.levelOrder();
+        System.out.println();
+       // bst.removeMin();
+        bst.removeMax();
         bst.levelOrder();
 
 /*        int N = 10;
