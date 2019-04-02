@@ -1,5 +1,8 @@
 package com.hong.tree.binarysearch;
 
+import java.util.LinkedList;
+import java.util.Stack;
+
 /**
  * @author Macrowang
  * @date 2019/03/11 9:41
@@ -66,13 +69,21 @@ public class BST<K extends Comparable<K>, V> {
     }
 
     // 二分搜索树的中序遍历
-    public void inOrder(){
+    public void inOrder() {
         inOrder(root);
     }
 
     // 二分搜索树的后序遍历
-    public void postOrder(){
+    public void postOrder() {
         postOrder(root);
+    }
+
+    public void preOrderByStack() {
+        preOrderByStack(root);
+    }
+
+    public  void inOrderByStack(){
+        inOrderByStack(root);
     }
 
     //================================辅助函数==================================//
@@ -146,15 +157,15 @@ public class BST<K extends Comparable<K>, V> {
 
     /**
      * 二分搜索树的深度优先遍历
-     *                28
-     *            /      \
-     *          16       30
-     *        /   \     /  \
-     *      13    22  29   42
-     *      对于上面的这个二分搜索树，
-     *      前序遍历结果是：28  16  13  22  30  29  42，
-     *      中序遍历结果是：13  16  22  28  29  30  42，
-     *      后序遍历结果是：13  22  16  29  42  30  2
+     * 28
+     * /      \
+     * 16       30
+     * /   \     /  \
+     * 13    22  29   42
+     * 对于上面的这个二分搜索树，
+     * 前序遍历结果是：28  16  13  22  30  29  42，
+     * 中序遍历结果是：13  16  22  28  29  30  42，
+     * 后序遍历结果是：13  22  16  29  42  30  2
      * 前序遍历   我你他
      * 中序遍历  你我他
      * 后序遍历  你他我
@@ -168,23 +179,57 @@ public class BST<K extends Comparable<K>, V> {
         }
     }
 
-    // 对以node为根的二叉搜索树进行前序遍历, 非递归算法
-    public void preOrder2(Node node){
+    /**
+     * 对以node为根的二叉搜索树进行前序遍历, 使用栈，非递归算法
+     * LinkedList.push()/pop()也可以实现类似栈的效果
+     */
+    private void preOrderByStack(Node node) {
+        if (node == null) return;
 
+        Stack<Node> stack = new Stack<>();
+        stack.push(node);
+        while (!stack.isEmpty()) {
+            Node pop = stack.pop();
+            System.out.print(pop.key + ",");
+            // 有序栈结构先进后出的特性，需要将右孩子先于左孩子压入栈底
+            if (pop.right != null) {
+                stack.push(pop.right);
+            }
+            if (pop.left != null) {
+                stack.push(pop.left);
+            }
+        }
     }
 
     // 对以node为根的二叉搜索树进行中序遍历, 递归算法
-    private void inOrder(Node node){
-        if (node != null){
+    private void inOrder(Node node) {
+        if (node != null) {
             inOrder(node.left);
             System.out.print(node.key + ",");
             inOrder(node.right);
         }
     }
 
+    private void inOrderByStack(Node node){
+        if (node == null) return;
+
+        LinkedList<Node> stack = new LinkedList<>();
+        Node cur = node;
+        while (cur != null || !stack.isEmpty()){
+            // 一直循环到二叉排序树最左端的叶子节点
+            while (cur != null){
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            System.out.print(cur.key + ",");
+            cur = cur.right;
+        }
+    }
+
     // 对以node为根的二叉搜索树进行后序遍历, 递归算法
-    private void postOrder(Node node){
-        if (node != null){
+    private void postOrder(Node node) {
+        if (node != null) {
             postOrder(node.left);
             preOrder(node.right);
             System.out.print(node.key + ",");
@@ -198,11 +243,15 @@ public class BST<K extends Comparable<K>, V> {
         for (int k : arr) {
             bst.insert(k, k + "");
         }
-        bst.preOrder();
+      /*  bst.preOrder();
         System.out.println();
+        bst.preOrderByStack();
+        System.out.println();*/
         bst.inOrder();
         System.out.println();
-        bst.postOrder();
+        bst.inOrderByStack();
+       /* System.out.println();
+        bst.postOrder();*/
 
 /*        int N = 10;
 
