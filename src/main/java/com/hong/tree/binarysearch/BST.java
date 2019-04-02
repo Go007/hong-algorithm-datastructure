@@ -1,6 +1,7 @@
 package com.hong.tree.binarysearch;
 
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -82,8 +83,28 @@ public class BST<K extends Comparable<K>, V> {
         preOrderByStack(root);
     }
 
-    public  void inOrderByStack(){
+    public void inOrderByStack() {
         inOrderByStack(root);
+    }
+
+    /**
+     * 二叉搜索树的广度优先遍历(层序遍历)
+     */
+    public void levelOrder() {
+        // 使用Linked List作为队列使用
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            System.out.print(node.key + ",");
+
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+        }
     }
 
     //================================辅助函数==================================//
@@ -169,6 +190,8 @@ public class BST<K extends Comparable<K>, V> {
      * 前序遍历   我你他
      * 中序遍历  你我他
      * 后序遍历  你他我
+     *
+     * 广度优先遍历：28，16，30，13，22，29，42
      */
     // 对以node为根的二叉搜索树进行前序遍历, 递归算法
     private void preOrder(Node node) {
@@ -210,14 +233,14 @@ public class BST<K extends Comparable<K>, V> {
         }
     }
 
-    private void inOrderByStack(Node node){
+    private void inOrderByStack(Node node) {
         if (node == null) return;
 
         LinkedList<Node> stack = new LinkedList<>();
         Node cur = node;
-        while (cur != null || !stack.isEmpty()){
+        while (cur != null || !stack.isEmpty()) {
             // 一直循环到二叉排序树最左端的叶子节点
-            while (cur != null){
+            while (cur != null) {
                 stack.push(cur);
                 cur = cur.left;
             }
@@ -252,6 +275,8 @@ public class BST<K extends Comparable<K>, V> {
         bst.inOrderByStack();
        /* System.out.println();
         bst.postOrder();*/
+        System.out.println();
+        bst.levelOrder();
 
 /*        int N = 10;
 
