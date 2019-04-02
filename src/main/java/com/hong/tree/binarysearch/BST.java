@@ -168,6 +168,11 @@ public class BST<K extends Comparable<K>, V> {
         }
     }
 
+    // 对以node为根的二叉搜索树进行前序遍历, 非递归算法
+    public void preOrder2(Node node){
+
+    }
+
     // 对以node为根的二叉搜索树进行中序遍历, 递归算法
     private void inOrder(Node node){
         if (node != null){
