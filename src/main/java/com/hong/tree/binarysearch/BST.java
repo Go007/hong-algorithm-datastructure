@@ -25,6 +25,14 @@ public class BST<K extends Comparable<K>, V> {
             this.key = key;
             this.value = value;
         }
+
+        public Node(Node node){
+            this.key = node.key;
+            this.value = node.value;
+            this.left = node.left;
+            this.right = node.right;
+        }
+
     }
 
     private Node root;
@@ -110,19 +118,44 @@ public class BST<K extends Comparable<K>, V> {
     /**
      * 删除二分搜索树中最小值节点
      */
-    public void removeMin(){
-        if (root != null){
+    public void removeMin() {
+        if (root != null) {
             root = removeMin(root);
         }
     }
 
     /**
-     *  删除二分搜索树中最大值节点
+     * 删除二分搜索树中最大值节点
      */
-    public void removeMax(){
-        if (root != null){
+    public void removeMax() {
+        if (root != null) {
             root = removeMax(root);
         }
+    }
+
+    /**
+     * 从二分搜索树中删除指定K的节点
+     *
+     * @param k
+     */
+    public void remove(K k) {
+        root = remove(root, k);
+    }
+
+    // 返回以node为根的二分搜索树的最小键值所在的节点
+    private Node minimum(Node node){
+        if( node.left == null )
+            return node;
+
+        return minimum(node.left);
+    }
+
+    // 返回以node为根的二分搜索树的最大键值所在的节点
+    private Node maximum(Node node){
+        if( node.right == null )
+            return node;
+
+        return maximum(node.right);
     }
 
     //================================辅助函数==================================//
@@ -208,7 +241,7 @@ public class BST<K extends Comparable<K>, V> {
      * 前序遍历   我你他
      * 中序遍历  你我他
      * 后序遍历  你他我
-     *
+     * <p>
      * 广度优先遍历：28，16，30，13，22，29，42
      */
     // 对以node为根的二叉搜索树进行前序遍历, 递归算法
@@ -279,14 +312,15 @@ public class BST<K extends Comparable<K>, V> {
 
     /**
      * 删除以node为根的二分搜索树中的最小节点
+     *
      * @param node
      * @return
      */
-    private Node removeMin(Node node){
-        if( node.left == null ){
+    private Node removeMin(Node node) {
+        if (node.left == null) {
             Node rightNode = node.right;
             node.right = null;
-            count --;
+            count--;
             return rightNode;
         }
 
@@ -295,12 +329,13 @@ public class BST<K extends Comparable<K>, V> {
     }
 
     /**
-     *  删除以node为根的二分搜索树中的最大节点
+     * 删除以node为根的二分搜索树中的最大节点
+     *
      * @param node
      * @return
      */
-    private Node removeMax(Node node){
-        if (node.right == null){
+    private Node removeMax(Node node) {
+        if (node.right == null) {
             Node leftNode = node.left;
             node.right = null;
             count--;
@@ -311,6 +346,61 @@ public class BST<K extends Comparable<K>, V> {
         return node;
     }
 
+    /**
+     * 删除以node为根的二分搜索树中指定key的节点，
+     * 返回删除后新的root
+     *
+     * @param node
+     * @param k
+     * @return
+     */
+    private Node remove(Node node, K k) {
+        if (node == null) return null;
+
+        if (k.compareTo(node.key) < 0) {
+            node.left = remove(node.left, k);
+            return node;
+        } else if (k.compareTo(node.key) > 0) {
+            node.right = remove(node.right, k);
+            return node;
+        } else {
+            /**
+             * 找到待删除节点后，需要判断三种情况
+             * 1. 待删除节点左子树为空
+             * 2. 待删除节点右子树为空
+             * 3. 待删除节点左右子树都不为空
+             */
+            if (node.left == null) {
+                Node rightNode = node.right;
+                node.right = node;
+                count--;
+                return rightNode;
+            }
+
+            if (node.right == null) {
+                Node leftNode = node.left;
+                node.left = null;
+                count--;
+                return leftNode;
+            }
+
+            /**
+             *   找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
+             *   用这个节点顶替代删除节点的位置
+             */
+            Node successor = new Node(minimum(node.right));
+            count++;
+
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+
+            node.left = node.right = null;
+            count--;
+
+            return successor;
+        }
+    }
+
     // 测试二分搜索树
     public static void main(String[] args) {
         BST<Integer, String> bst = new BST<>();
@@ -318,20 +408,10 @@ public class BST<K extends Comparable<K>, V> {
         for (int k : arr) {
             bst.insert(k, k + "");
         }
-      /*  bst.preOrder();
-        System.out.println();
-        bst.preOrderByStack();
-        System.out.println();*/
-        bst.inOrder();
-        System.out.println();
-        bst.inOrderByStack();
-       /* System.out.println();
-        bst.postOrder();*/
-        System.out.println();
+
         bst.levelOrder();
+        bst.remove(16);
         System.out.println();
-       // bst.removeMin();
-        bst.removeMax();
         bst.levelOrder();
 
 /*        int N = 10;
