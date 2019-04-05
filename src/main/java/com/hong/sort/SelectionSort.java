@@ -2,9 +2,20 @@ package com.hong.sort;
 
 /**
  * <br>选择排序</br>
+ * O(n^2)
  */
 public class SelectionSort {
 
+    /**
+     * 选择排序思想：
+     * 从第一个位置开始，找到后面最小的元素，然后与第一个位置的元素交换，
+     * 这样，第一个位置的元素就是最小的元素了；
+     * 然后从第二个位置开始，依次重复上面的步骤。
+     * 两层for循环：
+     * 外层循环：控制比较的轮数
+     * 内层循环：寻找剩下元素中的最小元素
+     * @param arr
+     */
     public static void sort(int[] arr) {
         int n = arr.length;
         int minIndex;
