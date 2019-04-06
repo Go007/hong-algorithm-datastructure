@@ -1,6 +1,7 @@
 package com.hong.stacks;
 
-import java.util.Stack;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wanghong
@@ -25,23 +26,24 @@ public class Solution {
      * @return
      */
     public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
+        // java.util.Stack<Character> stack = new Stack<>();
+        Stack<Character> stack = new ArrayStack<>();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == '(' || c == '{' || c == '['){
+            if (c == '(' || c == '{' || c == '[') {
                 stack.push(c);
-            }else {
+            } else {
                 if (stack.isEmpty()) {
                     return false;
                 }
                 Character topChar = stack.pop();
-                if (c == ')' && topChar != '('){
+                if (c == ')' && topChar != '(') {
                     return false;
                 }
-                if (c == '}' && topChar != '{'){
+                if (c == '}' && topChar != '{') {
                     return false;
                 }
-                if (c == ']' && topChar != '['){
+                if (c == ']' && topChar != '[') {
                     return false;
                 }
             }
@@ -51,9 +53,38 @@ public class Solution {
         return stack.isEmpty();
     }
 
+    private static Map<Character, Character> map = new HashMap<>();
+
+    static {
+        map.put(')', '(');
+        map.put('}', '{');
+        map.put(']', '[');
+    }
+
+    public boolean isValid2(String s) {
+        java.util.Stack<Character> stack = new java.util.Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)){
+                if (stack.isEmpty()){
+                    return false;
+                }
+
+                Character topChar = stack.pop();
+                if (topChar != map.get(c)){
+                    return false;
+                }
+            }else {
+                stack.push(c);
+            }
+        }
+        // If the stack still contains elements, then it is an invalid expression.
+        return stack.isEmpty();
+    }
+
     public static void main(String[] args) {
-        System.out.println((new Solution()).isValid("()[]{}"));
-        System.out.println((new Solution()).isValid("([)]"));
+        System.out.println((new Solution()).isValid2("()[]{}"));
+        System.out.println((new Solution()).isValid2("([)]"));
     }
 
 }
