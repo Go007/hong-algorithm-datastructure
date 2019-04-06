@@ -19,6 +19,11 @@ public class Array<T> {
     }
 
     public int getCapacity() {
+        return data.length;
+    }
+
+    // 获取数组中的元素个数
+    public int getSize(){
         return size;
     }
 
@@ -83,6 +88,14 @@ public class Array<T> {
         }
 
         return data[index];
+    }
+
+    public T getLast(){
+        return get(size - 1);
+    }
+
+    public T getFirst(){
+        return get(0);
     }
 
     /**
