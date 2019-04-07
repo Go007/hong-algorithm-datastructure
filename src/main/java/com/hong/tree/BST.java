@@ -1,6 +1,7 @@
-package com.hong.tree.binarysearch;
+package com.hong.tree;
 
 import com.hong.queues.LoopQueue;
+import com.hong.queues.LoopQueue3;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -462,7 +463,7 @@ public class BST<K extends Comparable<K>, V> {
             return res;
         }
 
-        LoopQueue<Pair<Node, Integer>> queue = new LoopQueue<>();
+        LoopQueue3<Pair<Node, Integer>> queue = new LoopQueue3<>();
         queue.enqueue(new Pair<>(root, 0));
 
         while (!queue.isEmpty()) {

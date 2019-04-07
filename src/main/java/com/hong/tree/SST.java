@@ -1,4 +1,4 @@
-package com.hong.tree.binarysearch;
+package com.hong.tree;
 
 /**
  * @author Macrowang
