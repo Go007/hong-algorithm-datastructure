@@ -1,8 +1,9 @@
 package com.hong.tree.binarysearch;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import com.hong.queues.LoopQueue;
+import javafx.util.Pair;
+
+import java.util.*;
 
 /**
  * @author Macrowang
@@ -26,7 +27,7 @@ public class BST<K extends Comparable<K>, V> {
             this.value = value;
         }
 
-        public Node(Node node){
+        public Node(Node node) {
             this.key = node.key;
             this.value = node.value;
             this.left = node.left;
@@ -143,16 +144,16 @@ public class BST<K extends Comparable<K>, V> {
     }
 
     // 返回以node为根的二分搜索树的最小键值所在的节点
-    private Node minimum(Node node){
-        if( node.left == null )
+    private Node minimum(Node node) {
+        if (node.left == null)
             return node;
 
         return minimum(node.left);
     }
 
     // 返回以node为根的二分搜索树的最大键值所在的节点
-    private Node maximum(Node node){
-        if( node.right == null )
+    private Node maximum(Node node) {
+        if (node.right == null)
             return node;
 
         return maximum(node.right);
@@ -401,6 +402,92 @@ public class BST<K extends Comparable<K>, V> {
         }
     }
 
+    /**
+     * Leetcode 102. Binary Tree Level Order Traversal
+     * https://leetcode.com/problems/binary-tree-level-order-traversal/description/
+     * https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
+     * 二叉树的层序遍历
+     * 二叉树的层序遍历是一个典型的可以借助队列解决的问题。
+     * 该代码主要用于使用Leetcode上的问题测试LoopQueue。
+     **/
+    public List<List<V>> levelOrder(Node root) {
+        /**
+         * 集合中的泛型List<Integer>表示二叉树中每个层级的节点集
+         */
+        ArrayList<List<V>> res = new ArrayList<>();
+        if (root == null)
+            return res;
+
+        /**
+         * key:层级根是0，依次递增
+         * value:二叉树中每个层级的节点的属性值集
+         */
+        Map<Integer, List<V>> map = new LinkedHashMap<>();
+
+        /**
+         *  使用自定义的循环队列，泛型Pair<TreeNode, Integer>表示 TreeNode 和所属层级的配对
+         */
+        LoopQueue<Pair<Node, Integer>> queue = new LoopQueue<>();
+        // 层级从0开始，root就是0级
+        queue.enqueue(new Pair<>(root, 0));
+
+        while (!queue.isEmpty()) {
+            Pair<Node, Integer> front = queue.dequeue();
+            Node node = front.getKey();
+            int level = front.getValue();
+
+            List<V> levelNodeList = map.get(level);
+            if (levelNodeList == null) {
+                levelNodeList = new ArrayList<>();
+                map.put(level, levelNodeList);
+            }
+            levelNodeList.add(node.value);
+
+            if (node.left != null)
+                queue.enqueue(new Pair<>(node.left, level + 1));
+            if (node.right != null)
+                queue.enqueue(new Pair<>(node.right, level + 1));
+        }
+
+        for (Integer level : map.keySet()) {
+            res.add(map.get(level));
+        }
+
+        return res;
+    }
+
+    public List<List<V>> levelOrder2(Node root) {
+        ArrayList<List<V>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        LoopQueue<Pair<Node, Integer>> queue = new LoopQueue<>();
+        queue.enqueue(new Pair<>(root, 0));
+
+        while (!queue.isEmpty()) {
+            Pair<Node, Integer> front = queue.dequeue();
+            Node node = front.getKey();
+            int level = front.getValue();
+
+            /**
+             * 因为时层序遍历，res的size跟随level的变化，且同一层级，两者的数值是相等的
+             */
+            if (level == res.size()) {
+                res.add(new ArrayList<>());
+            }
+
+            assert level < res.size();
+            res.get(level).add(node.value);
+            if (node.left != null)
+                queue.enqueue(new Pair<>(node.left, level + 1));
+            if (node.right != null)
+                queue.enqueue(new Pair<>(node.right, level + 1));
+        }
+
+        return res;
+    }
+
     // 测试二分搜索树
     public static void main(String[] args) {
         BST<Integer, String> bst = new BST<>();
@@ -410,9 +497,14 @@ public class BST<K extends Comparable<K>, V> {
         }
 
         bst.levelOrder();
-        bst.remove(16);
+        // bst.remove(16);
         System.out.println();
-        bst.levelOrder();
+        //  bst.levelOrder();
+        List<List<String>> levelList = bst.levelOrder(bst.getRoot());
+        levelList.forEach(list -> System.out.println(list));
+        System.out.println();
+        levelList = bst.levelOrder2(bst.getRoot());
+        levelList.forEach(list -> System.out.println(list));
 
 /*        int N = 10;
 
@@ -450,5 +542,9 @@ public class BST<K extends Comparable<K>, V> {
             else
                 assert res == null;
         }*/
+    }
+
+    public Node getRoot() {
+        return root;
     }
 }

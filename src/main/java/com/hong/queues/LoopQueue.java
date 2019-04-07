@@ -14,6 +14,8 @@ public class LoopQueue<E> implements Queue<E> {
     private E[] data;
     private int front;
     private int tail;
+    // LoopQueue中不声明size，如何完成所有的逻辑？
+    // 这个问题可能会比想象的要难一点点：）
     private int size;
 
     public LoopQueue(int capacity) {
