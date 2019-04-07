@@ -120,4 +120,93 @@ public class LinkedList<E> {
         prev.next = new Node(e, prev.next);
         size++;
     }
+
+    /**
+     * 获取链表index位置的Node
+     *
+     * @param index
+     * @return
+     */
+    public E get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Get failed. Illegal index.");
+        }
+
+        Node cur = dummyNode.next;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+
+        return cur.e;
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size - 1);
+    }
+
+    /**
+     * 更新链表index位置的节点数据域
+     *
+     * @param index
+     * @param e
+     */
+    public void set(int index, E e) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Set failed. Illegal index.");
+        }
+
+        Node cur = dummyNode.next;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        cur.e = e;
+    }
+
+    /**
+     * 判断链表中是否含有元素e
+     *
+     * @param e
+     * @return
+     */
+    public boolean contains(E e) {
+        Node cur = dummyNode.next;
+        while (cur != null) {
+            if (cur.e.equals(e)) {
+                return true;
+            }
+            cur = cur.next;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+      /*  Node cur = dummyNode.next;
+        while (cur != null){
+            res.append(cur + "->");
+            cur = cur.next;
+        }*/
+        for (Node cur = dummyNode.next; cur != null; cur = cur.next) {
+            res.append(cur + "->");
+        }
+        res.append("NULL");
+
+        return res.toString();
+    }
+
+    public static void main(String[] args) {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        for (int i = 0; i < 5; i++) {
+            linkedList.addFirst(i);
+            System.out.println(linkedList);
+        }
+
+        linkedList.add(2, 666);
+        System.out.println(linkedList);
+    }
 }
