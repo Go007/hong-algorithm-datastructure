@@ -29,11 +29,14 @@ public class LinkedList<E> {
         }
     }
 
-    private Node head;
+    //  private Node head;
+    // 为链表设立虚拟头节点
+    private Node dummyNode;
     private int size;
 
     public LinkedList() {
-        head = null;
+        // head = null;
+        dummyNode = new Node();
         size = 0;
     }
 
@@ -74,7 +77,7 @@ public class LinkedList<E> {
      * @param index
      * @param e
      */
-    public void add(int index, E e) {
+  /*  public void add(int index, E e) {
         // 判断index是否合法
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("Add failed. Illegal index.");
@@ -89,10 +92,32 @@ public class LinkedList<E> {
                 prev = prev.next;
             }
 
-          /*  Node node = new Node(e,prev.next);
-            prev.next = node;*/
+          *//*  Node node = new Node(e,prev.next);
+            prev.next = node;*//*
             prev.next = new Node(e, prev.next);
         }
+        size++;
+    }*/
+
+    /**
+     * 使用虚拟头节点，从而避免原先的需要对index=0的特殊处理
+     *
+     * @param index
+     * @param e
+     */
+    public void add(int index, E e) {
+        // 判断index是否合法
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("Add failed. Illegal index.");
+        }
+
+        // 遍历链表，找出index位置的前一个节点
+        Node prev = dummyNode;
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
+        }
+
+        prev.next = new Node(e, prev.next);
         size++;
     }
 }
