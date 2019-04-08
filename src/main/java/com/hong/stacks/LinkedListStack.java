@@ -1,6 +1,6 @@
-package com.hong.linked;
+package com.hong.stacks;
 
-import com.hong.stacks.Stack;
+import com.hong.linked.LinkedList;
 
 /**
  * @author Macrowang

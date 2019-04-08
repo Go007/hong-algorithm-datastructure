@@ -1,6 +1,4 @@
-package com.hong.linked;
-
-import com.hong.queues.Queue;
+package com.hong.queues;
 
 /**
  * @author Macrowang
