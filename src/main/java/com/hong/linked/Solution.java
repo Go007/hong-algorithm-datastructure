@@ -143,8 +143,49 @@ public class Solution {
             return head;
         }
 
-        head.next = removeElements4(head.next, val);
+        head.next = removeElements5(head.next, val);
         return head.val == val ? head.next : head;
+    }
+
+    /**
+     * 递归算法的调试
+     */
+    public ListNode removeElements(ListNode head, int val, int depth) {
+
+        String depthString = generateDepthString(depth);
+
+        System.out.print(depthString);
+        System.out.println("Call: remove " + val + " in " + head);
+
+        if (head == null) {
+            System.out.print(depthString);
+            System.out.println("Return: " + head);
+            return head;
+        }
+
+        ListNode res = removeElements(head.next, val, depth + 1);
+        System.out.print(depthString);
+        System.out.println("After remove " + val + ": " + res);
+
+        ListNode ret;
+        if (head.val == val)
+            ret = res;
+        else {
+            head.next = res;
+            ret = head;
+        }
+        System.out.print(depthString);
+        System.out.println("Return: " + ret);
+
+        return ret;
+    }
+
+    private String generateDepthString(int depth) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < depth; i++) {
+            res.append("--");
+        }
+        return res.toString();
     }
 
     public static void main(String[] args) {
@@ -164,7 +205,7 @@ public class Solution {
         }
 
         System.out.println();
-        head = solution.removeElements5(head, 6);
+        head = solution.removeElements(head, 6,0);
         while (head != null) {
             System.out.print(head.val + "->");
             head = head.next;
