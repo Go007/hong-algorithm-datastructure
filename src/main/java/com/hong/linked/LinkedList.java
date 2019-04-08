@@ -199,6 +199,87 @@ public class LinkedList<E> {
         return res.toString();
     }
 
+    /**
+     * 从链表中删除index位置的节点，并返回被删除节点的数据域
+     *
+     * @param index
+     * @return
+     */
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Remove failed. Illegal index.");
+        }
+
+        /**
+         *  找到待删除节点的前一个节点
+         */
+        Node prev = dummyNode;
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
+        }
+        // 当前待删除的节点
+        Node cur = prev.next;
+        prev.next = cur.next;
+        cur.next = null;
+
+        size--;
+
+        return cur.e;
+    }
+
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    public E removeLast() {
+        return remove(size - 1);
+    }
+
+    /**
+     * 从链表中删除指定元素
+     * 如果链表中存在重复的指定元素，则则例删除的是第一个
+     *
+     * @param e
+     */
+    public void removeElement(E e) {
+        Node prev = dummyNode;
+        Node cur = null;
+        while (prev.next != null) {
+            cur = prev.next;
+            if (cur.e.equals(e)) {
+                prev.next = cur.next;
+                cur.next = null;
+                size--;
+                return;
+            }
+            prev = cur;
+        }
+    }
+
+    /**
+     *  ??? 如何删除链表中的重复元素 ?
+     * @param e
+     */
+    public void removeElement2(E e) {
+        Node prev = dummyNode;
+        while (prev.next != null) {
+            if (prev.next.e.equals(e)) {
+                break;
+            }
+            prev = prev.next;
+        }
+
+        /**
+         * 链表操作中注意操作的顺序
+         */
+        if (prev.next != null) {
+            Node delNode = prev.next;
+            prev.next = delNode.next;
+            delNode.next = null;
+            size--;
+        }
+    }
+
     public static void main(String[] args) {
         LinkedList<Integer> linkedList = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
@@ -207,6 +288,11 @@ public class LinkedList<E> {
         }
 
         linkedList.add(2, 666);
+        System.out.println(linkedList);
+        System.out.println();
+        linkedList.removeElement(2);
+        System.out.println(linkedList);
+        linkedList.removeElement2(2);
         System.out.println(linkedList);
     }
 }
