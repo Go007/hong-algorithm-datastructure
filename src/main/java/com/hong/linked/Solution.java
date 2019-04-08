@@ -19,6 +19,27 @@ public class Solution {
     }
 
     /**
+     * 通过传递的数组构建链表,头插法
+     *
+     * @param nums
+     * @return
+     */
+    public ListNode build(int[] nums) {
+        ListNode head = null;
+        for (int val : nums) {
+            if (head == null) {
+                head = new ListNode(val);
+            } else {
+                ListNode newHead = new ListNode(val);
+                newHead.next = head;
+                head = newHead;
+            }
+        }
+
+        return head;
+    }
+
+    /**
      * 删除链表中所有数据域=val的节点，并返回删除后链表的head
      *
      * @param head
@@ -94,5 +115,59 @@ public class Solution {
         }
 
         return dummyNode.next;
+    }
+
+    /**
+     * 使用递归的方式删除
+     *
+     * @param head
+     * @param val
+     * @return
+     */
+    public ListNode removeElements4(ListNode head, int val) {
+        if (head == null) {
+            return head;
+        }
+
+        ListNode next = removeElements4(head.next, val);
+        if (head.val == val) {
+            return next;
+        } else {
+            head.next = next;
+            return head;
+        }
+    }
+
+    public ListNode removeElements5(ListNode head, int val) {
+        if (head == null) {
+            return head;
+        }
+
+        head.next = removeElements4(head.next, val);
+        return head.val == val ? head.next : head;
+    }
+
+    public static void main(String[] args) {
+
+        Solution solution = new Solution();
+        int[] nums = {1, 2, 6, 3, 4, 5, 6};
+        ListNode head = solution.build(nums);
+        ListNode cur = head;
+        while (cur != null) {
+            System.out.print(cur.val);
+            cur = cur.next;
+            if (cur != null) {
+                System.out.print("->");
+            } else {
+                System.out.print("->NULL");
+            }
+        }
+
+        System.out.println();
+        head = solution.removeElements5(head, 6);
+        while (head != null) {
+            System.out.print(head.val + "->");
+            head = head.next;
+        }
     }
 }
