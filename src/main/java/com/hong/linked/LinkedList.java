@@ -3,6 +3,8 @@ package com.hong.linked;
 /**
  * @author wanghong
  * @date 2019/04/07 22:12
+ *
+ * 链表真正的实现了动态扩容，不像数组，需要经过resize()实现动态扩容
  **/
 public class LinkedList<E> {
 
