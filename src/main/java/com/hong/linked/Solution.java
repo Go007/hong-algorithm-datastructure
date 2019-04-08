@@ -47,7 +47,7 @@ public class Solution {
      * @return
      */
     public ListNode removeElements(ListNode head, int val) {
-        // 要删除的节点是头节点
+        // 要删除的节点是头节点，这里注意是while，不是if，因为有可能head后面数据域还是val
         while (head != null && head.val == val) {
             ListNode delNode = head;
             head = head.next;
@@ -77,7 +77,7 @@ public class Solution {
         /**
          * 在removeElement()方法中，每次找到数据域等于=val的节点node，
          * 在将node的prev的next指向node的next后，会将node的next置null,
-         * 这样，node就变成了完全孤立的节点，让GC及时回收。
+         * 这样，node就变成了完全孤立的节点，让GC及时回收，释放了被删除节点占用的空间。
          * 但是在removeElements2()中，只管将node的prev的next指向node的next。
          */
         while (head != null && head.val == val) {

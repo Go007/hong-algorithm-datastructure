@@ -5,6 +5,7 @@ package com.hong.queues;
  * @date 2019/04/08 10:59
  * <p>
  * 带有尾指针的链表：使用链表实现队列
+ * 从head端删除元素，从tail端插入元素
  **/
 public class LinkedListQueue<E> implements Queue<E> {
 
@@ -63,7 +64,7 @@ public class LinkedListQueue<E> implements Queue<E> {
         retNode.next = null;
         /**
          * 如果dequeue()后，head == null，说明当前队列中只有一个节点，即head = tail
-         * 需要将tail = null。因为如果不这样做，tail指向的是已经出对的节点了，这显然是不对的。
+         * 需要将tail = null。因为如果不这样做，tail指向的是已经出队的节点了，这显然是不对的。
          */
         if (head == null){
             tail = null;
