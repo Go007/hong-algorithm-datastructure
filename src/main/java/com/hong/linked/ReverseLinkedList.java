@@ -2,7 +2,7 @@ package com.hong.linked;
 
 /**
  * Created by John on 2019/1/24.
- * https://leetcode-cn.com/problems/reverse-linked-list/
+ * 206 https://leetcode-cn.com/problems/reverse-linked-list/
  * 逆转单向列表  https://juejin.im/post/5c46d82ee51d45215c2e438b
  * 将 head -> a -> b -> c -> d <- tail 变成 head -> d -> c -> b -> a <- tail
  */
@@ -119,26 +119,6 @@ public class ReverseLinkedList<T> {
         return from;
     }
 
-    public static void main(String[] args) {
-        ReverseLinkedList<Integer> nodeList = new ReverseLinkedList<>(1, 2, 3, 4, 5);
-        System.out.println(nodeList);
-        /*System.out.println(nodeList.size());
-        // nodeList = nodeList.reverseByLoop();
-        nodeList = nodeList.reverseByRecursive();
-        System.out.println(nodeList);
-        System.out.println(nodeList.reverseByRecursive());*/
-
-       /* System.out.println("++++++++++++++++++++++++++");
-        nodeList.head = nodeList.reverse(nodeList.head);
-        System.out.println(nodeList);*/
-
-        System.out.println("=========================");
-        //  nodeList.deleteNode(1);
-       // nodeList.head = nodeList.removeNthFromEnd(nodeList.head, 3);
-        nodeList.head = nodeList.removeNthFromEnd2(nodeList.head, 2);
-        System.out.println(nodeList);
-    }
-
     /**
      * https://www.jianshu.com/p/36ed87e1937a
      * 定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点
@@ -206,6 +186,9 @@ public class ReverseLinkedList<T> {
      * @return
      */
     public Node<T> reverse3(Node<T> head) {
+        if (head == null){
+            return head;
+        }
         Node<T> cur = head;
         Node<T> next = cur.next;
         while (next != null) {
@@ -216,6 +199,18 @@ public class ReverseLinkedList<T> {
         }
         head.next = null;
         return cur;
+    }
+
+    public Node<T> reverse4(Node<T> head){
+        Node<T> prev = null;
+        Node<T> cur = head;
+        while (cur != null){
+            Node<T> next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+        return prev;
     }
 
     /**
@@ -319,6 +314,27 @@ public class ReverseLinkedList<T> {
         }
 
         return head;
+    }
+
+
+    public static void main(String[] args) {
+        ReverseLinkedList<Integer> nodeList = new ReverseLinkedList<>(1, 2, 3, 4, 5);
+        System.out.println(nodeList);
+        /*System.out.println(nodeList.size());
+        // nodeList = nodeList.reverseByLoop();
+        nodeList = nodeList.reverseByRecursive();
+        System.out.println(nodeList);
+        System.out.println(nodeList.reverseByRecursive());*/
+
+       /* System.out.println("++++++++++++++++++++++++++");
+        nodeList.head = nodeList.reverse(nodeList.head);
+        System.out.println(nodeList);*/
+
+        System.out.println("=========================");
+        //  nodeList.deleteNode(1);
+        // nodeList.head = nodeList.removeNthFromEnd(nodeList.head, 3);
+        nodeList.head = nodeList.removeNthFromEnd2(nodeList.head, 2);
+        System.out.println(nodeList);
     }
 
 }
