@@ -119,7 +119,10 @@ public class Solution {
 
     /**
      * 使用递归的方式删除
-     *
+     *  从递归的宏观语义上去看递归函数，不要陷入递归底层运行机制的纠结中。
+     *  比如 removeElements(ListNode head, int val) 函数本身的意义就是要删除
+     *  以head为头节点的链表中数据域为val的节点，将递归调用看成普通的A()调B()，
+     *  B()调C()。。。只不过A(),B(),C()函数体都是一样的。
      * @param head
      * @param val
      * @return
@@ -128,7 +131,11 @@ public class Solution {
         if (head == null) {
             return head;
         }
-
+        /**
+         * 递归的关键是将一个大的问题转化为一个同性质的更小的问题，
+         * 直到这个更小的问题无法再进行拆分，且已有明确的答案，
+         * 那么再向上回溯，组合每一层的答案，最终得到整个答案。
+         */
         ListNode next = removeElements4(head.next, val);
         if (head.val == val) {
             return next;
@@ -155,17 +162,17 @@ public class Solution {
         String depthString = generateDepthString(depth);
 
         System.out.print(depthString);
-        System.out.println("Call: remove " + val + " in " + head);
+        System.out.println("Call: remove " + val + " in " + (head != null ? head.val:null));
 
         if (head == null) {
             System.out.print(depthString);
-            System.out.println("Return: " + head);
+            System.out.println("Return: " + null);
             return head;
         }
 
         ListNode res = removeElements(head.next, val, depth + 1);
         System.out.print(depthString);
-        System.out.println("After remove " + val + ": " + res);
+        System.out.println("After remove " + val + ": " + (res != null ? res.val:null));
 
         ListNode ret;
         if (head.val == val)
@@ -175,7 +182,7 @@ public class Solution {
             ret = head;
         }
         System.out.print(depthString);
-        System.out.println("Return: " + ret);
+        System.out.println("Return: " + ret.val);
 
         return ret;
     }
@@ -191,7 +198,7 @@ public class Solution {
     public static void main(String[] args) {
 
         Solution solution = new Solution();
-        int[] nums = {1, 2, 6, 3, 4, 5, 6};
+        int[] nums = {3,2,1};
         ListNode head = solution.build(nums);
         ListNode cur = head;
         while (cur != null) {
@@ -205,7 +212,7 @@ public class Solution {
         }
 
         System.out.println();
-        head = solution.removeElements(head, 6,0);
+        head = solution.removeElements(head, 2,0);
         while (head != null) {
             System.out.print(head.val + "->");
             head = head.next;
