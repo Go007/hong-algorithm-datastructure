@@ -28,7 +28,7 @@ public class BST<E extends Comparable<E>> {
         return size == 0;
     }
 
-    public void add(E e) {
+   /* public void add(E e) {
         if (root == null) {
             root = new Node(e);
             size++;
@@ -37,13 +37,37 @@ public class BST<E extends Comparable<E>> {
         }
     }
 
-    /**
+    */
+
+   public void add(E e){
+       root = add(root,e);
+   }
+
+   /**
      * 向以node为根的二分搜索树中添加数据域为e的新节点,
      * 如果树中已存在数据域为e的节点，则直接返回
      *
      * @param node
      * @param e
      */
+   private Node add(Node node,E e){
+       if (node == null){
+           size++;
+           return new Node(e);
+       }
+
+       if (e.compareTo(node.e) < 0){
+           node.left = add(node.left,e);
+       }
+
+       if (e.compareTo(node.e) > 0){
+           node.right = add(node.right,e);
+       }
+
+       return node;
+   }
+
+    /*
     private void add(Node node, E e) {
         if (e.compareTo(node.e) == 0) {
             return;
@@ -66,5 +90,5 @@ public class BST<E extends Comparable<E>> {
         } else {
             add(node.right, e);
         }
-    }
+    }*/
 }
