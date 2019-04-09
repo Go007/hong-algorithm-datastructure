@@ -31,10 +31,26 @@ public class Solution {
         return set.size();
     }
 
+    public int uniqueMorseRepresentations2(String[] words) {
+        BST<String> bst = new BST<>();
+        StringBuilder code = null;
+        char[] chars = null;
+        for (String word : words) {
+            chars = word.toCharArray();
+            code = new StringBuilder();
+            for (char c : chars) {
+                code.append(codes[c - 'a']);
+            }
+            bst.add(code.toString());
+        }
+
+        return bst.size();
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         String[] words = {"gin", "zen", "gig", "msg"};
-        System.out.println(solution.uniqueMorseRepresentations(words));
+        System.out.println(solution.uniqueMorseRepresentations2(words));
     }
 
 }

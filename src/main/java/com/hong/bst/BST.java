@@ -20,7 +20,7 @@ public class BST<E extends Comparable<E>> {
     private Node root;
     private int size;
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
