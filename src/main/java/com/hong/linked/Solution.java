@@ -2,6 +2,7 @@ package com.hong.linked;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author Macrowang
@@ -193,7 +194,8 @@ public class Solution {
     /**
      * 1019. 链表中的下一个更大节点
      * https://leetcode-cn.com/problems/next-greater-node-in-linked-list/
-     *  第一版：超时
+     * 第一版：超时
+     *
      * @param head
      * @return
      */
@@ -219,6 +221,37 @@ public class Solution {
         }
 
         return resList.stream().mapToInt(Integer::valueOf).toArray();
+    }
+
+    public int[] nextLargerNodes1(ListNode head) {
+        // 1. 创建一个容器 list 来存储数据
+        List<Integer> list = new ArrayList<>();
+        int size = 0;
+        while (head != null) {
+            list.add(head.val);
+            size++;
+            head = head.next;
+        }
+
+        int[] res = new int[size];
+        // 2. 创建一个栈 stack ，这个栈里面top存储的是对应位置的 list 元素,及其之后元素中最大的值。
+        Stack<Integer> stack = new Stack<>();
+        // 倒序遍历
+        for (int i = size - 1; i >= 0; i--) {
+            int cur = list.get(i);
+            /** 3. 在 list 中从右往左遍历，stack 中凡是 <= list.get(i) 都 pop 出去，
+             *    这样 stack 剩下的元素都是比 list.get(i) 更大的元素,
+             *    且栈顶就是第一个比list.get(i)大的元素，如果没有栈顶元素，则说明当前元素是它后面元素中最大的
+             */
+            while (!stack.isEmpty() && stack.peek() <= cur){
+                stack.pop();
+            }
+
+            res[i] = stack.isEmpty() ? 0:stack.peek();
+            stack.push(cur);
+        }
+
+        return res;
     }
 
     public static void main(String[] args) {
@@ -249,7 +282,7 @@ public class Solution {
         int[] array = {2, 7, 4, 3, 5};
         ListNode node = new ListNode(array);
         System.out.println(node);
-        int[] res = solution.nextLargerNodes(node);
+        int[] res = solution.nextLargerNodes1(node);
         for (int i : res) {
             System.out.print(i + ",");
         }
