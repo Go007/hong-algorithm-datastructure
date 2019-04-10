@@ -39,33 +39,33 @@ public class BST<E extends Comparable<E>> {
 
     */
 
-   public void add(E e){
-       root = add(root,e);
-   }
+    public void add(E e) {
+        root = add(root, e);
+    }
 
-   /**
+    /**
      * 向以node为根的二分搜索树中添加数据域为e的新节点,
      * 如果树中已存在数据域为e的节点，则直接返回
      *
      * @param node
      * @param e
      */
-   private Node add(Node node,E e){
-       if (node == null){
-           size++;
-           return new Node(e);
-       }
+    private Node add(Node node, E e) {
+        if (node == null) {
+            size++;
+            return new Node(e);
+        }
 
-       if (e.compareTo(node.e) < 0){
-           node.left = add(node.left,e);
-       }
+        if (e.compareTo(node.e) < 0) {
+            node.left = add(node.left, e);
+        }
 
-       if (e.compareTo(node.e) > 0){
-           node.right = add(node.right,e);
-       }
+        if (e.compareTo(node.e) > 0) {
+            node.right = add(node.right, e);
+        }
 
-       return node;
-   }
+        return node;
+    }
 
     /*
     private void add(Node node, E e) {
@@ -91,4 +91,26 @@ public class BST<E extends Comparable<E>> {
             add(node.right, e);
         }
     }*/
+
+    public boolean contains(E e) {
+        return contains(root, e);
+    }
+
+    private boolean contains(Node node, E e) {
+        if (node == null) {
+            return false;
+        }
+
+        if (e.compareTo(node.e) == 0) {
+            return true;
+        }
+
+        if (e.compareTo(node.e) < 0) {
+            return contains(node.left, e);
+        } else {
+            return contains(node.right, e);
+        }
+    }
+
+
 }
