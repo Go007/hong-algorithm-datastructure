@@ -243,15 +243,58 @@ public class Solution {
              *    这样 stack 剩下的元素都是比 list.get(i) 更大的元素,
              *    且栈顶就是第一个比list.get(i)大的元素，如果没有栈顶元素，则说明当前元素是它后面元素中最大的
              */
-            while (!stack.isEmpty() && stack.peek() <= cur){
+            while (!stack.isEmpty() && stack.peek() <= cur) {
                 stack.pop();
             }
 
-            res[i] = stack.isEmpty() ? 0:stack.peek();
+            res[i] = stack.isEmpty() ? 0 : stack.peek();
             stack.push(cur);
         }
 
         return res;
+    }
+
+    /**
+     * 21. 合并两个有序链表
+     * https://leetcode-cn.com/problems/merge-two-sorted-lists/
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+      /*  ListNode head = null;
+        if (l1 == null && l2 == null) {
+            return head;
+        } else if (l1 == null) {
+            head = l2;
+        } else if (l2 == null) {
+            head = l1;
+        } else {
+            head = l1.val <= l2.val ? l1 : l2;
+        }*/
+
+        ListNode tail = new ListNode(-1);
+        ListNode dummyHead = tail;
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                tail.next = l1;
+                tail = l1;
+            } else {
+                tail.next = l2;
+                tail = l2;
+            }
+        }
+
+        if (l1 != null) {
+            tail.next = l1;
+        }
+
+        if (l2 != null) {
+            tail.next = l2;
+        }
+
+        return dummyHead.next;
     }
 
     public static void main(String[] args) {
@@ -286,5 +329,9 @@ public class Solution {
         for (int i : res) {
             System.out.print(i + ",");
         }
+
+        System.out.println("========================================");
+        int[] a1 = {1};
+        ListNode l1 = new ListNode(array);
     }
 }
