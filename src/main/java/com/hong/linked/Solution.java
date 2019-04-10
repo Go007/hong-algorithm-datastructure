@@ -1,5 +1,8 @@
 package com.hong.linked;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Macrowang
  * @date 2019/04/08 11:53
@@ -8,15 +11,6 @@ package com.hong.linked;
  * https://leetcode-cn.com/problems/remove-linked-list-elements/
  **/
 public class Solution {
-
-    private class ListNode {
-        int val;
-        ListNode next;
-
-        public ListNode(int val) {
-            this.val = val;
-        }
-    }
 
     /**
      * 通过传递的数组构建链表,头插法
@@ -119,10 +113,11 @@ public class Solution {
 
     /**
      * 使用递归的方式删除
-     *  从递归的宏观语义上去看递归函数，不要陷入递归底层运行机制的纠结中。
-     *  比如 removeElements(ListNode head, int val) 函数本身的意义就是要删除
-     *  以head为头节点的链表中数据域为val的节点，将递归调用看成普通的A()调B()，
-     *  B()调C()。。。只不过A(),B(),C()函数体都是一样的。
+     * 从递归的宏观语义上去看递归函数，不要陷入递归底层运行机制的纠结中。
+     * 比如 removeElements(ListNode head, int val) 函数本身的意义就是要删除
+     * 以head为头节点的链表中数据域为val的节点，将递归调用看成普通的A()调B()，
+     * B()调C()。。。只不过A(),B(),C()函数体都是一样的。
+     *
      * @param head
      * @param val
      * @return
@@ -162,7 +157,7 @@ public class Solution {
         String depthString = generateDepthString(depth);
 
         System.out.print(depthString);
-        System.out.println("Call: remove " + val + " in " + (head != null ? head.val:null));
+        System.out.println("Call: remove " + val + " in " + (head != null ? head.val : null));
 
         if (head == null) {
             System.out.print(depthString);
@@ -172,7 +167,7 @@ public class Solution {
 
         ListNode res = removeElements(head.next, val, depth + 1);
         System.out.print(depthString);
-        System.out.println("After remove " + val + ": " + (res != null ? res.val:null));
+        System.out.println("After remove " + val + ": " + (res != null ? res.val : null));
 
         ListNode ret;
         if (head.val == val)
@@ -195,10 +190,41 @@ public class Solution {
         return res.toString();
     }
 
+    /**
+     * 1019. 链表中的下一个更大节点
+     * https://leetcode-cn.com/problems/next-greater-node-in-linked-list/
+     *  第一版：超时
+     * @param head
+     * @return
+     */
+    public int[] nextLargerNodes(ListNode head) {
+        List<Integer> resList = new ArrayList<>();
+
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode compNode = cur.next;
+            while (compNode != null) {
+                if (compNode.val > cur.val) {
+                    resList.add(compNode.val);
+                    break;
+                }
+                compNode = compNode.next;
+            }
+
+            if (compNode == null) {
+                resList.add(0);
+            }
+
+            cur = cur.next;
+        }
+
+        return resList.stream().mapToInt(Integer::valueOf).toArray();
+    }
+
     public static void main(String[] args) {
 
         Solution solution = new Solution();
-        int[] nums = {3,2,1};
+        int[] nums = {3, 2, 1};
         ListNode head = solution.build(nums);
         ListNode cur = head;
         while (cur != null) {
@@ -212,10 +238,20 @@ public class Solution {
         }
 
         System.out.println();
-        head = solution.removeElements(head, 2,0);
+        head = solution.removeElements(head, 2, 0);
         while (head != null) {
             System.out.print(head.val + "->");
             head = head.next;
+        }
+
+
+        System.out.println("=======================================");
+        int[] array = {2, 7, 4, 3, 5};
+        ListNode node = new ListNode(array);
+        System.out.println(node);
+        int[] res = solution.nextLargerNodes(node);
+        for (int i : res) {
+            System.out.print(i + ",");
         }
     }
 }
