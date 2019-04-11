@@ -333,16 +333,13 @@ public class Solution {
      * @return
      */
     public boolean hasCycle(ListNode head) {
-        if (head == null) {
-            return false;
-        }
         int pos = -1;
         Map<Integer, Integer> map = new HashMap<>();
         ListNode cur = head;
         int index = 0;
-        while (cur.next != null) {
-            if (map.containsKey(cur.next.val)) {
-                pos = map.get(cur.next.val);
+        while (cur != null) {
+            if (map.containsKey(cur.val)) {
+                pos = map.get(cur.val);
                 break;
             }
             map.put(cur.val, index);
