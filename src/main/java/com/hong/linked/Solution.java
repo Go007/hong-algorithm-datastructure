@@ -262,22 +262,57 @@ public class Solution {
      * @param l2
      * @return
      */
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    public ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
         ListNode tail = new ListNode(-1);
         ListNode dummyHead = tail;
-        ListNode next1 = null;
-        ListNode next2 = null;
+        // 不改变原链表的next指向，创建新链表存储排序后的节点
+        ListNode p1 = l1, p2 = l2;
+        while (p1 != null && p2 != null) {
+            if (p1.val <= p2.val) {
+                tail = tail.next = new ListNode(p1.val);
+                p1 = p1.next;
+            } else {
+                tail = tail.next = new ListNode(p2.val);
+                p2 = p2.next;
+            }
+        }
+
+        while (p1 != null) {
+            tail = tail.next = new ListNode(p1.val);
+            p1 = p1.next;
+        }
+
+        while (p2 != null) {
+            tail = tail.next = new ListNode(p2.val);
+            p2 = p2.next;
+        }
+
+        return dummyHead.next;
+    }
+
+    /**
+     * 在mergeTwoLists()方法中，代码实现改变原来链表 l1 和 l2 的 next 指针指向，
+     * 没有使用新的链表去存储原来链表的数据，减少了空间复杂度，这点上是有所优化的。
+     * 题目中提到 "新链表是通过拼接给定的两个链表的所有节点组成的"，
+     * 两种实现方式(改变原链表指向和创建新链表存储) 其实都实现了所谓的 "拼接"，
+     * 若原链表在其他地方有所引用，最好创建新的链表进行数据存储，否则，改变原链表指向的方法更优
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        //表示拼接后链表的尾节点
+        ListNode tail = new ListNode(-1);
+        //虚拟头结点 dummyHead 保留对链表头部的引用
+        ListNode dummyHead = tail;
         while (l1 != null && l2 != null) {
             if (l1.val <= l2.val) {
-                next1 = l1.next;
-                l1.next = null;
                 tail = tail.next = l1;
-                l1 = next1;
+                l1 = l1.next;
             } else {
-                next2 = l2.next;
-                l2.next = null;
                 tail = tail.next = l2;
-                l2 = next2;
+                l2 = l2.next;
             }
         }
 
@@ -330,7 +365,7 @@ public class Solution {
         int[] a2 = {1, 3, 4};
         ListNode l1 = new ListNode(a1);
         ListNode l2 = new ListNode(a2);
-        ListNode listNode = solution.mergeTwoLists(l1, l2);
+        ListNode listNode = solution.mergeTwoLists2(l1, l2);
         System.out.println(listNode);
     }
 }
