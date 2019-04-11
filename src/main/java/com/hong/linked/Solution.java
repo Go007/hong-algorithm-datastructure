@@ -1,8 +1,6 @@
 package com.hong.linked;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author Macrowang
@@ -325,6 +323,34 @@ public class Solution {
         }
 
         return dummyHead.next;
+    }
+
+    /**
+     * 141. 环形链表
+     * https://leetcode-cn.com/problems/linked-list-cycle/
+     *
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        int pos = -1;
+        Map<Integer, Integer> map = new HashMap<>();
+        ListNode cur = head;
+        int index = 0;
+        while (cur.next != null) {
+            if (map.containsKey(cur.next.val)) {
+                pos = map.get(cur.next.val);
+                break;
+            }
+            map.put(cur.val, index);
+            index++;
+            cur = cur.next;
+        }
+
+        return pos == -1 ? false : true;
     }
 
     public static void main(String[] args) {
