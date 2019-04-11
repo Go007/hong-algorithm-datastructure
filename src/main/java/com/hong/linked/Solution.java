@@ -263,26 +263,21 @@ public class Solution {
      * @return
      */
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-      /*  ListNode head = null;
-        if (l1 == null && l2 == null) {
-            return head;
-        } else if (l1 == null) {
-            head = l2;
-        } else if (l2 == null) {
-            head = l1;
-        } else {
-            head = l1.val <= l2.val ? l1 : l2;
-        }*/
-
         ListNode tail = new ListNode(-1);
         ListNode dummyHead = tail;
+        ListNode next1 = null;
+        ListNode next2 = null;
         while (l1 != null && l2 != null) {
             if (l1.val <= l2.val) {
-                tail.next = l1;
-                tail = l1;
+                next1 = l1.next;
+                l1.next = null;
+                tail = tail.next = l1;
+                l1 = next1;
             } else {
-                tail.next = l2;
-                tail = l2;
+                next2 = l2.next;
+                l2.next = null;
+                tail = tail.next = l2;
+                l2 = next2;
             }
         }
 
@@ -331,7 +326,11 @@ public class Solution {
         }
 
         System.out.println("========================================");
-        int[] a1 = {1};
-        ListNode l1 = new ListNode(array);
+        int[] a1 = {1, 2, 4};
+        int[] a2 = {1, 3, 4};
+        ListNode l1 = new ListNode(a1);
+        ListNode l2 = new ListNode(a2);
+        ListNode listNode = solution.mergeTwoLists(l1, l2);
+        System.out.println(listNode);
     }
 }
