@@ -12,28 +12,37 @@ public class ArrayMerge {
         int[] arr2 = SortTestHelper.generateRandomArray(15, 1, 100);
         QuickSort.sort(arr1);
         QuickSort.sort(arr2);
-        for (int i:arr1){
+        for (int i : arr1) {
             System.out.print(i + " ");
         }
         System.out.println();
-        for (int i:arr2){
+        for (int i : arr2) {
             System.out.print(i + " ");
         }
         System.out.println();
         int[] result = merge(arr1, arr2);
-        for (int i:result){
+        for (int i : result) {
             System.out.print(i + " ");
         }
         System.out.println();
         System.out.println(SortTestHelper.isSorted(result));
 
         System.out.println("=======================");
-        int[] arr3 = {1,2,3,4,5};
-        int[] arr4 = {5,6,7,8,9};
-        int[] res = merge(arr3, arr4);
-        for (int i:res){
+
+        int[] arr3 = new int[10];
+        for (int i = 10; i < 15; i++) {
+            arr3[i - 10] = i + 1;
+        }
+        int[] arr4 = {5, 6, 7, 8, 9};
+        merge(arr3, 5, arr4, 5);
+        System.out.println(arr3.length);
+        for (int i : arr3) {
             System.out.print(i + " ");
         }
+
+        int m = 3, n = 3;
+        System.out.println(m-- + n-- + 1);
+        System.out.println(m + " " + n);
     }
 
     /**
@@ -57,12 +66,12 @@ public class ArrayMerge {
          * 优化：如果其中一个数组的元素均大于另一个数组的元素，则可以直接组合，不用拆分。
          * 即：其中一个数组的第一个元素大于或者等于另一个数组的最后一个元素
          */
-        if (arr1[0] >= arr2[arr2.length-1]){
-            return connectArray(arr2,arr1);
+        if (arr1[0] >= arr2[arr2.length - 1]) {
+            return connectArray(arr2, arr1);
         }
 
-        if (arr2[0] >= arr1[arr1.length-1]){
-            return connectArray(arr1,arr2);
+        if (arr2[0] >= arr1[arr1.length - 1]) {
+            return connectArray(arr1, arr2);
         }
 
         int l = 0;
@@ -97,15 +106,41 @@ public class ArrayMerge {
     }
 
     /**
+     * 88. 合并两个有序数组
+     * https://leetcode-cn.com/problems/merge-sorted-array/
+     * 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 nums1 成为一个有序数组。
+     * 输入:
+     * nums1 = [1,2,3,0,0,0], m = 3
+     * nums2 = [2,5,6],       n = 3
+     * <p>
+     * 输出: [1,2,2,3,5,6]
+     *
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        int p = m-- + n-- - 1;
+        while (m >= 0 && n >= 0) {
+            nums1[p--] = nums1[m] > nums2[n] ? nums1[m--] : nums2[n--];
+        }
+        while (n >= 0) {
+            nums1[p--] = nums2[n--];
+        }
+    }
+
+    /**
      * 合并数组，将arr2[]数组整个追加到arr1[]的后面，返会合并后的数组
+     *
      * @param arr1
      * @param arr2
      * @return
      */
-    public static int[] connectArray(int[] arr1,int[] arr2){
+    public static int[] connectArray(int[] arr1, int[] arr2) {
         int[] mergeArray = new int[arr1.length + arr2.length];
-        System.arraycopy(arr1,0,mergeArray,0,arr1.length);
-        System.arraycopy(arr2,0,mergeArray,arr1.length,arr2.length);
+        System.arraycopy(arr1, 0, mergeArray, 0, arr1.length);
+        System.arraycopy(arr2, 0, mergeArray, arr1.length, arr2.length);
         return mergeArray;
     }
 }
