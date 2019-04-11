@@ -29,7 +29,7 @@ public class ArrayMerge {
 
         System.out.println("=======================");
 
-        int[] arr3 = new int[10];
+        /*int[] arr3 = new int[10];
         for (int i = 10; i < 15; i++) {
             arr3[i - 10] = i + 1;
         }
@@ -42,7 +42,14 @@ public class ArrayMerge {
 
         int m = 3, n = 3;
         System.out.println(m-- + n-- + 1);
-        System.out.println(m + " " + n);
+        System.out.println(m + " " + n);*/
+
+        int[] a0 = {1, 3, 4, 6};
+        int[] a1 = {2, 3, 5, 7};
+        int[] res = merge2(a0, a1);
+        for (int i : res) {
+            System.out.print(i + ",");
+        }
     }
 
     /**
@@ -128,6 +135,26 @@ public class ArrayMerge {
         while (n >= 0) {
             nums1[p--] = nums2[n--];
         }
+    }
+
+    public static int[] merge2(int[] arr1, int[] arr2) {
+        int m = arr1.length;
+        int n = arr2.length;
+
+        int[] result = new int[m + n];
+        int p = m-- + n-- - 1;
+
+        while (m >= 0 && n >= 0) {
+            result[p--] = arr1[m] > arr2[n] ? arr1[m--] : arr2[n--];
+        }
+        while (m >= 0) {
+            result[p--] = arr1[m--];
+        }
+        while (n >= 0) {
+            result[p--] = arr2[n--];
+        }
+
+        return result;
     }
 
     /**
