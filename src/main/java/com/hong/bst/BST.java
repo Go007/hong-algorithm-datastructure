@@ -1,5 +1,7 @@
 package com.hong.bst;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -164,6 +166,36 @@ public class BST<E extends Comparable<E>> {
         postOrder(root);
     }
 
+    // 层序遍历
+    public void levelOrder(){
+        if (root == null){
+            return;
+        }
+
+        /**
+         * 使用LinkedList add() 和remove() 作为
+         * 队列的先入先出特性使用
+         */
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        StringBuilder sb = new StringBuilder();
+        while (!queue.isEmpty()){
+            Node cur = queue.remove();
+            sb.append(cur.e + "->");
+
+            if (cur.left != null){
+                queue.add(cur.left);
+            }
+
+            if (cur.right != null){
+                queue.add(cur.right);
+            }
+        }
+
+        sb.delete(sb.length()-2,sb.length());
+        System.out.println(sb);
+    }
+
     private void preOrder(Node node) {
         if (node == null) {
             return;
@@ -226,5 +258,6 @@ public class BST<E extends Comparable<E>> {
         BST<Integer> bst = new BST();
         bst.build(nums);
         bst.preOrderNR();
+        bst.levelOrder();
     }
 }
