@@ -167,8 +167,8 @@ public class BST<E extends Comparable<E>> {
     }
 
     // 层序遍历
-    public void levelOrder(){
-        if (root == null){
+    public void levelOrder() {
+        if (root == null) {
             return;
         }
 
@@ -179,29 +179,30 @@ public class BST<E extends Comparable<E>> {
         Queue<Node> queue = new LinkedList<>();
         queue.add(root);
         StringBuilder sb = new StringBuilder();
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             Node cur = queue.remove();
             sb.append(cur.e + "->");
 
-            if (cur.left != null){
+            if (cur.left != null) {
                 queue.add(cur.left);
             }
 
-            if (cur.right != null){
+            if (cur.right != null) {
                 queue.add(cur.right);
             }
         }
 
-        sb.delete(sb.length()-2,sb.length());
+        sb.delete(sb.length() - 2, sb.length());
         System.out.println(sb);
     }
 
     /**
      * 寻找二分搜索树最小节点值
+     *
      * @return
      */
-    public E minimum(){
-        if (size == 0){
+    public E minimum() {
+        if (size == 0) {
             throw new IllegalArgumentException("BST is empty!");
         }
 
@@ -211,10 +212,11 @@ public class BST<E extends Comparable<E>> {
 
     /**
      * 寻找二分搜索树最大节点值
+     *
      * @return
      */
-    public E maximum(){
-        if (size == 0){
+    public E maximum() {
+        if (size == 0) {
             throw new IllegalArgumentException("BST is empty!");
         }
 
@@ -224,9 +226,10 @@ public class BST<E extends Comparable<E>> {
 
     /**
      * 删除二分搜索树中最小值节点，并返回最小值
+     *
      * @return
      */
-    public E removeMin(){
+    public E removeMin() {
         E ret = minimum();
         root = removeMin(root);
         return ret;
@@ -234,12 +237,22 @@ public class BST<E extends Comparable<E>> {
 
     /**
      * 删除二分搜索树中最大值节点，并返回最大值
+     *
      * @return
      */
-    public E removeMax(){
+    public E removeMax() {
         E ret = maximum();
         root = removeMax(root);
         return ret;
+    }
+
+    /**
+     * 删除节点值为E的节点
+     *
+     * @param e
+     */
+    public void remove(E e) {
+        root = remove(root, e);
     }
 
     private void preOrder(Node node) {
@@ -272,24 +285,24 @@ public class BST<E extends Comparable<E>> {
         System.out.println(node.e);
     }
 
-    private Node minimum(Node node){
-        if (node.left == null){
+    private Node minimum(Node node) {
+        if (node.left == null) {
             return node;
         }
 
         return minimum(node.left);
     }
 
-    private Node maximum(Node node){
-        if (node.right == null){
+    private Node maximum(Node node) {
+        if (node.right == null) {
             return node;
         }
 
         return maximum(node.right);
     }
 
-    private Node removeMin(Node node){
-        if (node.left == null){
+    private Node removeMin(Node node) {
+        if (node.left == null) {
             Node right = node.right;
             node.right = null;
             size--;
@@ -300,8 +313,8 @@ public class BST<E extends Comparable<E>> {
         return node;
     }
 
-    private Node removeMax(Node node){
-        if (node.right == null){
+    private Node removeMax(Node node) {
+        if (node.right == null) {
             Node left = node.left;
             node.left = null;
             size--;
@@ -310,6 +323,54 @@ public class BST<E extends Comparable<E>> {
 
         node.right = removeMax(node.right);
         return node;
+    }
+
+    /**
+     * 删除以node为根的二叉搜索树中节点数据域为e的节点，返回删除后的根节点
+     *
+     * @param node
+     * @param e
+     */
+    private Node remove(Node node, E e) {
+        if (node == null) {
+            return null;
+        }
+
+        if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        } else if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+            return node;
+        } else {
+            /**
+             * 如果待删除的节点的左子树为空，则直接将其右孩子代替它
+             * 如果待删除的节点的右子树为空，则直接将其左孩子代替它
+             */
+            if (node.left == null) {
+                Node right = node.right;
+                node.right = null;
+                size--;
+                return right;
+            }
+
+            if (node.right == null) {
+                Node left = node.left;
+                node.left = null;
+                size--;
+                return left;
+            }
+
+            /**
+             * 如果待删除节点的左右孩子均不为空，则找到比待删除节点
+             * 大的最小节点，即待删除节点右子树的最小值节点，用它代替待删除节点
+             */
+            Node successor = minimum(node);
+            successor.left = node.left;
+            successor.right = removeMin(node);
+            node.left = node.right = null;
+            return successor;
+        }
     }
 
     @Override
