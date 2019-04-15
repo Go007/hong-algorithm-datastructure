@@ -133,6 +133,9 @@ public class BST<E extends Comparable<E>> {
 
     /**
      * 二分搜索树的非递归前序遍历
+     * Classic Non-Recursive algorithm for preorder traversal
+     * Time Complexity: O(n), n is the node number in the tree
+     * Space Complexity: O(h), h is the height of the tree
      */
     public void preOrderNR() {
         if (root == null) {
