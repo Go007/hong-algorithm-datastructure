@@ -196,6 +196,52 @@ public class BST<E extends Comparable<E>> {
         System.out.println(sb);
     }
 
+    /**
+     * 寻找二分搜索树最小节点值
+     * @return
+     */
+    public E minimum(){
+        if (size == 0){
+            throw new IllegalArgumentException("BST is empty!");
+        }
+
+        Node minNode = minimum(root);
+        return minNode.e;
+    }
+
+    /**
+     * 寻找二分搜索树最大节点值
+     * @return
+     */
+    public E maximum(){
+        if (size == 0){
+            throw new IllegalArgumentException("BST is empty!");
+        }
+
+        Node maxNode = maximum(root);
+        return maxNode.e;
+    }
+
+    /**
+     * 删除二分搜索树中最小值节点，并返回最小值
+     * @return
+     */
+    public E removeMin(){
+        E ret = minimum();
+        root = removeMin(root);
+        return ret;
+    }
+
+    /**
+     * 删除二分搜索树中最大值节点，并返回最大值
+     * @return
+     */
+    public E removeMax(){
+        E ret = maximum();
+        root = removeMax(root);
+        return ret;
+    }
+
     private void preOrder(Node node) {
         if (node == null) {
             return;
@@ -224,6 +270,46 @@ public class BST<E extends Comparable<E>> {
         postOrder(node.left);
         postOrder(node.right);
         System.out.println(node.e);
+    }
+
+    private Node minimum(Node node){
+        if (node.left == null){
+            return node;
+        }
+
+        return minimum(node.left);
+    }
+
+    private Node maximum(Node node){
+        if (node.right == null){
+            return node;
+        }
+
+        return maximum(node.right);
+    }
+
+    private Node removeMin(Node node){
+        if (node.left == null){
+            Node right = node.right;
+            node.right = null;
+            size--;
+            return right;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    private Node removeMax(Node node){
+        if (node.right == null){
+            Node left = node.left;
+            node.left = null;
+            size--;
+            return left;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
     }
 
     @Override
