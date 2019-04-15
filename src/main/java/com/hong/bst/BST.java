@@ -1,5 +1,7 @@
 package com.hong.bst;
 
+import java.util.Stack;
+
 /**
  * @author Macrowang
  * @date 2019/04/09 14:13
@@ -36,8 +38,18 @@ public class BST<E extends Comparable<E>> {
             add(root, e);
         }
     }
-
     */
+
+    /**
+     * 通过给定的数组构建二分搜索树
+     *
+     * @param nums
+     */
+    public void build(E[] nums) {
+        for (E e : nums) {
+            add(e);
+        }
+    }
 
     public void add(E e) {
         root = add(root, e);
@@ -117,13 +129,38 @@ public class BST<E extends Comparable<E>> {
         preOrder(root);
     }
 
+    /**
+     * 二分搜索树的非递归前序遍历
+     */
+    public void preOrderNR() {
+        if (root == null) {
+            return;
+        }
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            Node pop = stack.pop();
+            sb.append(pop.e + "->");
+            if (pop.right != null) {
+                stack.push(pop.right);
+            }
+            if (pop.left != null) {
+                stack.push(pop.left);
+            }
+        }
+        sb.delete(sb.length() - 2, sb.length());
+        System.out.println(sb);
+    }
+
     // 中序遍历
-    public void inOrder(){
+    public void inOrder() {
         inOrder(root);
     }
 
     // 后序遍历
-    public void postOrder(){
+    public void postOrder() {
         postOrder(root);
     }
 
@@ -137,8 +174,8 @@ public class BST<E extends Comparable<E>> {
         preOrder(node.right);
     }
 
-    private void inOrder(Node node){
-        if (node == null){
+    private void inOrder(Node node) {
+        if (node == null) {
             return;
         }
 
@@ -147,8 +184,8 @@ public class BST<E extends Comparable<E>> {
         inOrder(node.right);
     }
 
-    private void postOrder(Node node){
-        if (node == null){
+    private void postOrder(Node node) {
+        if (node == null) {
             return;
         }
 
@@ -182,5 +219,12 @@ public class BST<E extends Comparable<E>> {
         for (int i = 0; i < depth; i++)
             res.append("--");
         return res.toString();
+    }
+
+    public static void main(String[] args) {
+        Integer[] nums = {28, 16, 30, 13, 22, 29, 42};
+        BST<Integer> bst = new BST();
+        bst.build(nums);
+        bst.preOrderNR();
     }
 }
