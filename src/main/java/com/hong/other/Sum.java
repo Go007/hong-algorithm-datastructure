@@ -1,4 +1,4 @@
-package com.hong.recursion;
+package com.hong.other;
 
 /**
  * @author Macrowang
