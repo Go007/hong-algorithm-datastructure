@@ -23,7 +23,7 @@ public class Array<T> {
     }
 
     // 获取数组中的元素个数
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
@@ -90,11 +90,11 @@ public class Array<T> {
         return data[index];
     }
 
-    public T getLast(){
+    public T getLast() {
         return get(size - 1);
     }
 
-    public T getFirst(){
+    public T getFirst() {
         return get(0);
     }
 
@@ -196,9 +196,9 @@ public class Array<T> {
          *   addLast -> 超过data.length -> resize -> removeLast -> resize
          *   反复几次，会造成复杂度突然上升，性能下降
          *   解决方案：Lazy
-          */
-      //  if (size == data.length / 2) {
-          if (size == data.length / 4 && data.length / 2 != 0){
+         */
+        //  if (size == data.length / 2) {
+        if (size == data.length / 4 && data.length / 2 != 0) {
             resize(data.length / 2);
         }
 
@@ -232,5 +232,19 @@ public class Array<T> {
             newData[i] = data[i];
         }
         data = newData;
+    }
+
+    /**
+     * 互换i，j位置的两个元素
+     * @param i
+     * @param j
+     */
+    public void swap(int i, int j) {
+        if (i < 0 || i >= size || j < 0 || j >= size)
+            throw new IllegalArgumentException("Index is illegal.");
+
+        T t = data[i];
+        data[i] = data[j];
+        data[j] = t;
     }
 }
