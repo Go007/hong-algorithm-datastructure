@@ -68,6 +68,7 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 向堆中添加元素
+     * 在堆的最后增加一个结点,然后沿这堆树上升.
      *
      * @param e
      */
@@ -78,13 +79,50 @@ public class MaxHeap<E extends Comparable<E>> {
     }
 
     /**
-     *  向上筛选，找到新插入元素的正确位置
+     * 向上筛选，找到新插入元素的正确位置
+     *
      * @param k
      */
     private void siftUp(int k) {
         while (k > 0 && data.get(parent(k)).compareTo(data.get(k)) < 0) {
-            data.swap(k,parent(k));
+            data.swap(k, parent(k));
             k = parent(k);
         }
     }
+
+    /**
+     * 查看堆中的最大元素
+     *
+     * @return
+     */
+    public E findMax() {
+        if (data.getSize() == 0) {
+            throw new IllegalArgumentException("Can not findMax when heap is empty.");
+        }
+
+        return data.get(0);
+    }
+
+    /**
+     * 取出堆中的最大元素
+     *
+     * @return
+     */
+    public E extractMax() {
+        E max = findMax();
+        //将最后一个元素先放到第一个位置，然后数据下沉筛选，找到在堆中的正确位置
+        data.swap(0, data.getSize() - 1);
+        data.removeLast();
+        siftDown(0);
+        return max;
+    }
+
+    /**
+     * 向下调整k位置的元素
+     * @param k
+     */
+    private void siftDown(int k){
+
+    }
+
 }
