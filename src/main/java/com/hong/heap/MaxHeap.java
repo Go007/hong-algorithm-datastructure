@@ -119,10 +119,29 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 向下调整k位置的元素
+     * 当前k位置的元素与 k位置元素的左右孩子中较大的值比较，
+     * 如果 > 较大值，则说明元素已经在正确的位置了，终止循环；
+     * 否则互换，从较大值位置继续上面的逻辑
+     *
      * @param k
      */
-    private void siftDown(int k){
+    private void siftDown(int k) {
+        while (leftChild(k) < data.getSize()) {
+            int j = leftChild(k);
+            // 如果也存在右孩子，则取出左右孩子较大值索引
+            if ((j + 1) < data.getSize() &&
+                    data.get(j + 1).compareTo(data.get(j)) > 0) {
+                j = j + 1;
+            }
 
+            // data[j] 是 leftChild 和 rightChild 中的最大值
+            if (data.get(k).compareTo(data.get(j)) >= 0) {
+                break;
+            }
+
+            data.swap(j, k);
+            k = j;
+        }
     }
 
 }
