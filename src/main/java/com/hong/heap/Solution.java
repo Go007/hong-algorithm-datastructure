@@ -5,6 +5,12 @@ import java.util.*;
 /**
  * @author wanghong
  * @date 2019/04/17 9:57
+ *
+ * 优先队列的经典问题：
+ * 在N个元素中选出前M个元素
+ *  M远小于N
+ *  排序： NlongN
+ *  优先队列 NlogM   维护当前看到的前M个元素
  **/
 public class Solution {
 
@@ -34,6 +40,22 @@ public class Solution {
             } else {
                 return 0;
             }
+        }
+
+        public int getE() {
+            return e;
+        }
+
+        public void setE(int e) {
+            this.e = e;
+        }
+
+        public int getFreq() {
+            return freq;
+        }
+
+        public void setFreq(int freq) {
+            this.freq = freq;
         }
     }
 
@@ -124,12 +146,14 @@ public class Solution {
         }
 
         // JDK中的PriorityQueue默认是按最小堆来的
-        PriorityQueue<Freq> queue = new PriorityQueue<>();
+        //  PriorityQueue<Freq> queue = new PriorityQueue<>();
+        // 如果Freq没有实现Comparable接口，则可以显示的向队列中传递自定义比较器
+        PriorityQueue<Freq> queue = new PriorityQueue<>(Comparator.comparingInt(Freq::getFreq));
         for (Integer key : map.keySet()) {
             if (queue.size() < k) {
                 queue.add(new Freq(key, map.get(key)));
             } else if (map.get(key).compareTo(queue.peek().freq) > 0) {
-                queue.poll();
+                queue.remove();
                 queue.add(new Freq(key, map.get(key)));
             }
         }

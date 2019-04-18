@@ -20,6 +20,25 @@ public class MaxHeap<E extends Comparable<E>> {
     }
 
     /**
+     * 将任意数组转化成堆的形式 heapify
+     * 两种方式：
+     * 1.向堆中一个一个的添加元素，时间复杂度O(NlongN) ,N为元素个数
+     * 2.从第一个非叶子节点开始，进行siftDown，时间复杂度 O(N)
+     *
+     * @param arr
+     */
+    public MaxHeap(E[] arr) {
+        /**
+         *  由最后一个元素的索引推导出第一个非叶子节点的索引,然后开始向前一个一个的进行siftDwon()
+         *  这样，就不需要像第一种方式一样，需要遍历每个元素
+         */
+        data = new Array<>(arr);
+        for (int i = parent(arr.length - 1); i >= 0; i--) {
+            siftDown(i);
+        }
+    }
+
+    /**
      * 返回堆中元素的个数
      *
      * @return
@@ -126,6 +145,7 @@ public class MaxHeap<E extends Comparable<E>> {
      * @param k
      */
     private void siftDown(int k) {
+        // 当前节点是非叶子节点
         while (leftChild(k) < data.getSize()) {
             int j = leftChild(k);
             // 如果也存在右孩子，则取出左右孩子较大值索引
@@ -146,12 +166,13 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 从堆中取出最大元素，替换成元素e
+     *
      * @param e
      * @return
      */
-    public E replace(E e){
+    public E replace(E e) {
         E ret = findMax();
-        data.set(0,e);
+        data.set(0, e);
         siftDown(0);
         return ret;
     }
