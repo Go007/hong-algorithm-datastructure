@@ -144,4 +144,16 @@ public class MaxHeap<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * 从堆中取出最大元素，替换成元素e
+     * @param e
+     * @return
+     */
+    public E replace(E e){
+        E ret = findMax();
+        data.set(0,e);
+        siftDown(0);
+        return ret;
+    }
+
 }

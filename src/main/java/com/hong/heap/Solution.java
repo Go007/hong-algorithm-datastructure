@@ -57,8 +57,10 @@ public class Solution {
         }
 
         LinkedList<Integer> res = new LinkedList<>();
-        while (!heap.isEmpty())
+        while (!heap.isEmpty()) {
             res.add(heap.extractMax().e);
+        }
+
         return res;
     }
 
