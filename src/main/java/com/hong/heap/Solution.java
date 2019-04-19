@@ -5,12 +5,12 @@ import java.util.*;
 /**
  * @author wanghong
  * @date 2019/04/17 9:57
- *
+ * <p>
  * 优先队列的经典问题：
  * 在N个元素中选出前M个元素
- *  M远小于N
- *  排序： NlongN
- *  优先队列 NlogM   维护当前看到的前M个元素
+ * M远小于N
+ * 排序： NlongN
+ * 优先队列 NlogM   维护当前看到的前M个元素
  **/
 public class Solution {
 
@@ -144,8 +144,10 @@ public class Solution {
                 map.put(num, 1);
             }
         }
-
-        // JDK中的PriorityQueue默认是按最小堆来的
+        /**
+         * 其实最小堆或者最大堆本质上是一样的，唯一的不同的在于比较规则，
+         * 改变比较规则，最大堆 《---》 最小堆可以相互转换
+         */
         //  PriorityQueue<Freq> queue = new PriorityQueue<>();
         // 如果Freq没有实现Comparable接口，则可以显示的向队列中传递自定义比较器
         PriorityQueue<Freq> queue = new PriorityQueue<>(Comparator.comparingInt(Freq::getFreq));
@@ -166,10 +168,34 @@ public class Solution {
         return list;
     }
 
+    public List<Integer> topKFrequent4(int[] nums, int k) {
+        Map<Integer, Integer> map = new TreeMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.comparingInt(map::get));
+        for (Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if (queue.size() < k){
+                queue.add(entry.getKey());
+            }else if (entry.getValue().compareTo(map.get(queue.peek())) > 0){
+                queue.remove();
+                queue.add(entry.getKey());
+            }
+        }
+
+        List<Integer> list = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            list.add(queue.remove());
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = {4, 1, -1, 2, -1, 2, 3};
-        List<Integer> list = solution.topKFrequent2(nums, 2);
+        List<Integer> list = solution.topKFrequent4(nums, 2);
         System.out.println(list);
     }
 }
