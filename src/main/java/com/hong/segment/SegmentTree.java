@@ -3,7 +3,7 @@ package com.hong.segment;
 /**
  * @author wanghong
  * @date 2019/04/19 10:12
- * 线段树基础表示
+ * 线段树(区间树)基础表示
  * 线段树，类似区间树，它在各个节点保存一条线段（数组中的一段子数组），
  * 主要用于高效解决连续区间的动态查询问题，
  * 由于二叉结构的特性，它基本能保持每个操作的复杂度为O(logn)。
@@ -70,19 +70,68 @@ public class SegmentTree<E> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder res = new StringBuilder();
         res.append('[');
-        for(int i = 0 ; i < tree.length ; i ++){
-            if(tree[i] != null)
+        for (int i = 0; i < tree.length; i++) {
+            if (tree[i] != null)
                 res.append(tree[i]);
             else
                 res.append("null");
 
-            if(i != tree.length - 1)
+            if (i != tree.length - 1)
                 res.append(", ");
         }
         res.append(']');
         return res.toString();
+    }
+
+    /**
+     * 线段树的区间查询
+     * 返回区间[queryL,queryR]的值
+     *
+     * @param queryL
+     * @param queryR
+     * @return
+     */
+    public E query(int queryL, int queryR) {
+        // 下标检查
+        if (queryL < 0 || queryL >= data.length
+                || queryR < 0 || queryR >= data.length
+                || queryL > queryR) {
+            throw new IllegalArgumentException("Index is illegal.");
+        }
+        return query(0, 0, data.length - 1, queryL, queryR);
+    }
+
+    /**
+     * 在以treeIndex为根的线段树中[l...r]的范围里，搜索区间[queryL,queryR]的值
+     *
+     * @param treeIndex
+     * @param l
+     * @param r
+     * @param queryL
+     * @param queryR
+     * @return
+     */
+    private E query(int treeIndex, int l, int r, int queryL, int queryR) {
+        if (l == queryL && r == queryR) {
+            return tree[treeIndex];
+        }
+
+        int mid = l + (r - l) / 2;
+        // treeIndex的节点分为[l...mid]和[mid+1...r]两部分
+        int leftTreeIndex = leftChild(treeIndex);
+        int rightTreeIndex = rightChild(treeIndex);
+
+        if (queryL >= mid + 1) {
+            return query(rightTreeIndex, mid + 1, r, queryL, queryR);
+        } else if (queryR <= mid) {
+            return query(leftTreeIndex, l, mid, queryL, queryR);
+        } else {
+            E leftResult = query(leftTreeIndex, l, mid, queryL, mid);
+            E rightResult = query(rightTreeIndex, mid + 1, r, mid + 1, queryR);
+            return merger.merge(leftResult, rightResult);
+        }
     }
 }
