@@ -83,24 +83,53 @@ public class TrieR {
             return false;
         }
 
-       return contains(node.next.get(c), word, index + 1);
+        return contains(node.next.get(c), word, index + 1);
     }
 
     // 查询是否在Trie中有单词以prefix为前缀
-    public boolean isPrefix(String prefix){
+    public boolean isPrefix(String prefix) {
         return isPrefix(root, prefix, 0);
     }
 
     // 查询在以Node为根的Trie中是否有单词以prefix[index...end)为前缀, 递归算法
-    private boolean isPrefix(Node node, String prefix, int index){
+    private boolean isPrefix(Node node, String prefix, int index) {
 
-        if(index == prefix.length())
+        if (index == prefix.length())
             return true;
 
         char c = prefix.charAt(index);
-        if(node.next.get(c) == null)
+        if (node.next.get(c) == null)
             return false;
 
         return isPrefix(node.next.get(c), prefix, index + 1);
+    }
+
+    // 删除word, 返回是否删除成功, 递归算法
+    public boolean remove(String word) {
+        if (word.equals(""))
+            return false;
+        return remove(root, word, 0);
+    }
+
+    // 在以Node为根的Trie中删除单词word[index...end),返回是否删除成功, 递归算法
+    private boolean remove(Node node, String word, int index) {
+
+        if (index == word.length()) {
+            if (!node.isWord)
+                return false;
+            node.isWord = false;
+            size--;
+            return true;
+        }
+
+        char c = word.charAt(index);
+        if (!node.next.containsKey(c))
+            return false;
+
+        boolean ret = remove(node.next.get(c), word, index + 1);
+        Node nextNode = node.next.get(c);
+        if (!nextNode.isWord && nextNode.next.size() == 0)
+            node.next.remove(word.charAt(index));
+        return ret;
     }
 }
