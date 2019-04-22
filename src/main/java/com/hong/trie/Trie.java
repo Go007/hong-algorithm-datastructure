@@ -15,7 +15,7 @@ public class Trie {
     private class Node {
         // 表示当前节点是否为一个单词的最后一个字符所在的节点（即某个单词的末尾）
         public boolean isWord;
-        // 当前节点到它所有下一个节点的映射
+        // 当前节点到它所有下一个节点的映射,TreeMap也可以换成HashMap,可以比较下两者的性能差异
         public TreeMap<Character, Node> next;
 
         public Node(boolean isWord) {
