@@ -7,6 +7,8 @@ import java.util.TreeMap;
  * @date 2019/04/21 22:29
  * <p>
  * 字典树的基础表示
+ *
+ * leetcode-208.实现Trie 前缀树
  **/
 public class Trie {
 
@@ -80,6 +82,24 @@ public class Trie {
         }
 
         return cur.isWord;
+    }
+
+    /**
+     * 判断Trie字典树中是否有以prefix为前缀的单词
+     * @param prefix
+     * @return
+     */
+    public boolean isPrefix(String prefix){
+        Node cur = root;
+        for (int i=0;i<prefix.length();i++){
+            char c = prefix.charAt(i);
+            if (cur.next.get(c) == null){
+                return false;
+            }
+            cur = cur.next.get(c);
+        }
+
+        return true;
     }
 
 }
