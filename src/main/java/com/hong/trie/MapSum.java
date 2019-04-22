@@ -6,6 +6,7 @@ import java.util.TreeMap;
  * Created by wanghong
  * Date 2019-04-22 10:59
  * Description: Trie字典树和字符串的映射
+ * 677. 键值映射
  */
 public class MapSum {
 
@@ -57,6 +58,10 @@ public class MapSum {
     }
 
     private int sum(Node node){
+      /*  if (node.next.size() == 0){
+            return node.value;
+        }*/
+
         int res = node.value;
         for (Node n:node.next.values()){
             res += sum(n);

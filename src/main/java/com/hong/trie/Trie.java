@@ -1,5 +1,6 @@
 package com.hong.trie;
 
+import java.util.Stack;
 import java.util.TreeMap;
 
 /**
@@ -7,7 +8,7 @@ import java.util.TreeMap;
  * @date 2019/04/21 22:29
  * <p>
  * 字典树的基础表示
- *
+ * <p>
  * leetcode-208.实现Trie 前缀树
  **/
 public class Trie {
@@ -86,17 +87,66 @@ public class Trie {
 
     /**
      * 判断Trie字典树中是否有以prefix为前缀的单词
+     *
      * @param prefix
      * @return
      */
-    public boolean isPrefix(String prefix){
+    public boolean isPrefix(String prefix) {
         Node cur = root;
-        for (int i=0;i<prefix.length();i++){
+        for (int i = 0; i < prefix.length(); i++) {
             char c = prefix.charAt(i);
-            if (cur.next.get(c) == null){
+            if (cur.next.get(c) == null) {
                 return false;
             }
             cur = cur.next.get(c);
+        }
+
+        return true;
+    }
+
+    /**
+     * 在Trie中删除word
+     *
+     * @param word
+     * @return
+     */
+    public boolean remove(String word) {
+        // 将搜索沿路的节点放入栈中
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (!stack.peek().next.containsKey(c)) {
+                return false;
+            }
+            stack.push(stack.peek().next.get(c));
+        }
+
+        // 如果Trie中不包含该单词，直接返回false
+        if (!stack.peek().isWord) {
+            return false;
+        }
+
+        // 将该单词结尾isWord置空
+        stack.peek().isWord = false;
+        size--;
+
+        /**
+         * 如果单词最后一个字母的节点的next非空，
+         * 说明trie中还存储了其他以该单词为前缀的单词，直接返回
+         */
+        if (stack.peek().next.size() > 0) {
+            return true;
+        }
+
+        stack.pop();
+        // 自底向上删除
+        for (int i = word.length() - 1; i >= 0; i--) {
+            stack.peek().next.remove(word.charAt(i));
+            // 如果一个节点的isWord为true，或者是其他单词的前缀，则直接返回
+            if (stack.peek().isWord || stack.peek().next.size() > 0){
+                return true;
+            }
         }
 
         return true;
