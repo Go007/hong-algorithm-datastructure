@@ -3,20 +3,17 @@ package com.hong.unionfind;
 /**
  * @author wanghong
  * @date 2019/04/24 22:43
- *  并查集优化第五版 - 路径压缩
+ *  并查集优化第六版 - 递归路径压缩
  **/
-public class UnionFind5 implements UF{
+public class UnionFind6 implements UF{
     private int[] parent;
     /**
      *  使用数组记录每棵树的高度
      *  rank[i]表示以i为根的集合所表示的树的层数
-     *  在后续的代码中, 我们并不会维护rank的语意,
-     *  也就是rank的值在路径压缩的过程中,有可能不在是树的层数值
-     *  这也是我们的rank不叫height或者depth的原因, 他只是作为比较的一个标准
      */
     private int[] rank;
 
-    public UnionFind5(int size) {
+    public UnionFind6(int size) {
         parent = new int[size];
         rank = new int[size];
         for (int i = 0; i < size; i++) {
@@ -63,13 +60,11 @@ public class UnionFind5 implements UF{
         if (p < 0 || p >= parent.length){
             throw new IllegalArgumentException("p is out of bound.");
         }
-
-        while (p != parent[p]){
-            // 路径压缩就这么核心的一句代码
-            parent[p] = parent[parent[p]];
-            p = parent[p];
+        //  path compression 2, 递归算法 递归路径压缩核心代码
+        if (p != parent[p]){
+            parent[p] = find(parent[p]);
         }
 
-        return p;
+        return parent[p];
     }
 }
