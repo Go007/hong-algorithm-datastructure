@@ -11,7 +11,7 @@ import java.util.TreeSet;
 public class Solution {
     public int findCircleNum(int[][] M) {
         int n = M.length;
-        UnionFind1 un = new UnionFind1(n);
+        UnionFind2 un = new UnionFind2(n);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < i; j++) {
                 if (M[i][j] == 1) {

@@ -3,7 +3,7 @@ package com.hong.unionfind;
 /**
  * @author wanghong
  * @date 2019/04/24 19:53
- * Union-Find 第一版
+ * Union-Find 第一版 Quick Find
  **/
 public class UnionFind1 implements UF {
 
