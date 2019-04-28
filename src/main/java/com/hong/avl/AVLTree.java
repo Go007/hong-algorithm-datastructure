@@ -118,6 +118,7 @@ public class AVLTree<K extends Comparable<K>, V> {
      * //    z   T3                       T1  T2 T3 T4
      * //   / \
      * // T1   T2
+     * 注意：Tx节点为nill节点，非真实节点，引入Tx是为了一般化的处理
      *
      * @param y
      * @return
@@ -158,7 +159,7 @@ public class AVLTree<K extends Comparable<K>, V> {
         x.left = y;
         y.right = T2;
 
-        // 更新height
+        // 更新height，注意这里更新的顺序，先更新y，再更新x
         y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
         x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
 
@@ -200,12 +201,64 @@ public class AVLTree<K extends Comparable<K>, V> {
             System.out.println("unbalanced : " + balanceFactor);
         }*/
 
-       // 平衡维护
-        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0){
+        // 平衡维护
+        /**
+         *  LL
+         *           y
+         *         /  \
+         *        x   T4
+         *      / \
+         *     z  T3
+         *    / \
+         *   T1 T2
+         */
+        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
             return rightRotate(node);
         }
 
-        if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0){
+        /**
+         * RR
+         *           y
+         *         /  \
+         *        T4  x
+         *           / \
+         *          T3 z
+         *            / \
+         *           T1 T2
+         */
+        if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
+            return leftRotate(node);
+        }
+
+        /**
+         * LR
+         *                 y
+         *               /  \
+         *              x   T4
+         *            /  \
+         *           T3  z
+         *              / \
+         *             T1 T2
+         */
+        if (balanceFactor > 1 && getBalanceFactor(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        /**
+         * RL
+         *        y
+         *      /  \
+         *     T4  x
+         *        / \
+         *       z  T3
+         *     / \
+         *    T1 T2
+         *
+         *
+         */
+        if (balanceFactor < -1 && getBalanceFactor(node.right) > 0) {
+            node.right = rightRotate(node.right);
             return leftRotate(node);
         }
 
