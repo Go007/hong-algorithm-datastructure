@@ -34,6 +34,10 @@ public class AVLTree<K extends Comparable<K>, V> {
         return size;
     }
 
+    public boolean isEmpty(){
+        return size == 0;
+    }
+
     /**
      * 判断该二叉树是否是一颗平衡二叉树
      *
