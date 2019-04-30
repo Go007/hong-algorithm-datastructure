@@ -72,11 +72,17 @@ public class RBTree<K extends Comparable<K>, V> {
         return x;
     }
 
-    //     node                   x
-    //    /   \     右旋转       /  \
-    //   x    T2   ------->   y   node
-    //  / \                       /  \
-    // y  T1                     T1  T2
+
+    /**
+     * 右旋转
+     *            node                   x
+     *     //    /   \     右旋转       /  \
+     *     //   x    T2   ------->   y   node
+     *     //  / \                       /  \
+     *     // y  T1                     T1  T2
+     * @param node
+     * @return
+     */
     private Node rightRotate(Node node){
 
         Node x = node.left;
@@ -130,6 +136,16 @@ public class RBTree<K extends Comparable<K>, V> {
         } else {
             node.value = value;
         }
+
+        if (isRed(node.right) && !isRed(node.left))
+            node = leftRotate(node);
+
+        if (isRed(node.left) && isRed(node.left.left))
+            node = rightRotate(node);
+
+        if (isRed(node.left) && isRed(node.right))
+            flipColors(node);
+
 
         return node;
     }
