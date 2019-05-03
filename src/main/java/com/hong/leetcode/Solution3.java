@@ -9,9 +9,9 @@ import java.util.Map;
  * Date 2019-04-30 15:21
  * Description:
  * 3. 无重复字符的最长子串
+ * 滑动窗口
  */
 public class Solution3 {
-
 
     public static int lengthOfLongestSubstring(String s) {
 
