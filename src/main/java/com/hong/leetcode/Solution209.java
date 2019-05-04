@@ -6,7 +6,7 @@ import java.util.LinkedList;
 /**
  * @author wanghong
  * @date 2019/05/04 18:31
- * 209. 长度最小的子数组
+ * 209. 长度最小的子数组(滑动窗口)
  **/
 public class Solution209 {
 
