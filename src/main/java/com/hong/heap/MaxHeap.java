@@ -114,10 +114,28 @@ public class MaxHeap<E extends Comparable<E>> {
      * @param k
      */
     private void siftUp(int k) {
-        while (k > 0 && data.get(parent(k)).compareTo(data.get(k)) < 0) {
+       /* while (k > 0 && data.get(parent(k)).compareTo(data.get(k)) < 0) {
             data.swap(k, parent(k));
             k = parent(k);
+        }*/
+        /**
+         * siftUp优化：
+         * 在上面的代码中，每次比较当前节点和其父节点的值，符合条件则交换
+         * 这中间的交换过程是可以优化的，我们的目的是最终将k位置的元素与沿着
+         * 其父节点的路径上找到第一个比k位置元素大的节点时或者到达根节点时则停止比较.
+         * 参考Java的PriorityQueue的实现。
+         */
+        E cur = data.get(k);
+        while (k > 0){
+            int parentIndex = parent(k);
+            E parent = data.get(parentIndex);
+            if (cur.compareTo(parent) <= 0){
+                break;
+            }
+            data.set(k,parent);
+            k = parentIndex;
         }
+        data.set(k,cur);
     }
 
     /**
