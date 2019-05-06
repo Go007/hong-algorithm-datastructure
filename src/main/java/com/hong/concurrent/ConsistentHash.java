@@ -2,9 +2,7 @@ package com.hong.concurrent;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.ToLongFunction;
 
 /**
@@ -27,7 +25,7 @@ public class ConsistentHash<T> {
     private int virtualNodeNums;
 
     /**
-     * 一致性Hash环
+     * 使用TreeMap模拟一致性Hash环
      */
     private SortedMap<Long, T> circle = new TreeMap<>();
 
@@ -150,4 +148,29 @@ public class ConsistentHash<T> {
         return hash;
     }
 
+    /**
+     * 分布式测试
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        List<String> nodes = Arrays.asList("0001", "0002");
+        ConsistentHash<String> k = new ConsistentHash<>(100, nodes);
+        String str = "";
+        int num1 = 0;
+        int num2 = 0;
+        for (int i = 0; i < 10; i++) {
+            String key = "user_" + i;
+            // str += String.format("key:%s分配到的Server为：%s\n\n", key, k.get(key));
+            //  System.out.println(str);
+            String server = k.get(key);
+            if ("0001".equals(server)) {
+                num1++;
+            } else if ("0002".equals(server)) {
+                num2++;
+            }
+        }
+
+        System.out.println(num1 + "  " + num2);
+    }
 }
