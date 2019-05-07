@@ -24,35 +24,46 @@ public class Solution92 {
         }
 
         int i = 0;
-        ListNode next = null;
-        ListNode prev = null;
-        ListNode cur = null;
-        while (head != null) {
-            i++;
-            if (i == m-1) {
-                prev = head.next;
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode point = dummyHead;
+        while (point != null) {
+            if (i == m - 1) {
+                ListNode next = null;
+                ListNode prev = null;
+                ListNode cur = null;
+                ListNode node = null;
+                node = prev = point.next;
                 cur = prev.next;
-                while (cur != null && m <= n){
+                prev.next = null;
+                while (cur != null && m < n) {
                     next = cur.next;
                     cur.next = prev;
+                    prev = cur;
                     cur = next;
+                    m++;
                 }
-
-
+                point.next = prev;
+                node.next = cur;
                 break;
             }
-            head = head.next;
+            point = point.next;
+            i++;
         }
 
-        return null;
+        head = dummyHead.next;
+        dummyHead.next = null;
+        return head;
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5};
+        //int[] nums = {3, 5};
+        int[] nums = {1, 2, 3, 4, 5};
         ListNode head = new ListNode(nums);
         System.out.println(head);
-        int m=2,n=4;
-        head = reverseBetween(head,m,n);
+        // int m = 1, n = 2;
+        int m = 2, n = 4;
+        head = reverseBetween(head, m, n);
         System.out.println(head);
     }
 }
