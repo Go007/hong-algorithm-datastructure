@@ -56,6 +56,23 @@ public class Solution92 {
         return head;
     }
 
+    public static ListNode reverseBetween2(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        for(int i = 1; i < m; i++){
+            pre = pre.next;
+        }
+        head = pre.next;
+        for(int i = m; i < n; i++){
+            ListNode nex = head.next;
+            head.next = nex.next;
+            nex.next = pre.next;
+            pre.next = nex;
+        }
+        return dummy.next;
+    }
+
     public static void main(String[] args) {
         //int[] nums = {3, 5};
         int[] nums = {1, 2, 3, 4, 5};
@@ -63,7 +80,7 @@ public class Solution92 {
         System.out.println(head);
         // int m = 1, n = 2;
         int m = 2, n = 4;
-        head = reverseBetween(head, m, n);
+        head = reverseBetween2(head, m, n);
         System.out.println(head);
     }
 }
