@@ -11,6 +11,7 @@ import java.util.function.ToLongFunction;
  * @date 2019/05/06 22:15
  * 一致性Hash算法的简单实现（暂未考虑hash冲突的问题）
  * https://www.cnblogs.com/moonandstar08/p/5405991.html
+ * https://www.cnblogs.com/xrq730/p/5186728.html
  **/
 public class ConsistentHash<T> {
 
@@ -25,7 +26,8 @@ public class ConsistentHash<T> {
     private int virtualNodeNums;
 
     /**
-     * 使用TreeMap模拟一致性Hash环
+     *  使用TreeMap模拟一致性Hash环
+     *  key表示服务器的hash值，value表示服务器的名称
      */
     private SortedMap<Long, T> circle = new TreeMap<>();
 
