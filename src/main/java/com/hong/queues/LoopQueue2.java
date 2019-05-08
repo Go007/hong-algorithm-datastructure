@@ -40,7 +40,13 @@ public class LoopQueue2<E> implements Queue<E> {
     @Override
     public void enqueue(E e) {
 
-        // 注意，我们不再使用front和tail之间的关系来判断队列是否为满，而直接使用size
+        /**
+         * 注意，我们不再使用front和tail之间的关系来判断队列是否为满，而直接使用size
+         * 这里的resize为什么不放在size++之后呢？
+         * 考虑的是这样一种情况：size++后扩容完后，有可能后面就没有元素进来了，造成了内存空间的浪费。
+         * 而采用这样的相当于惰性扩容的策略保证只有确实需要扩容的时候才去扩容，虽然避免了内存空间的
+         * 浪费，但是在高并发的情况下会影响性能。
+         */
         if (size == getCapacity())
             resize(getCapacity() * 2);
 
