@@ -18,6 +18,8 @@ public class MyCircularQueue622 {
      */
     public MyCircularQueue622(int k) {
         data = new int[k];
+        front = 0;
+        rear = -1;
     }
 
     /**
@@ -28,8 +30,8 @@ public class MyCircularQueue622 {
             return false;
         }
 
-        data[rear] = value;
         rear = (rear + 1) % data.length;
+        data[rear] = value;
         size++;
         return true;
     }
@@ -43,7 +45,7 @@ public class MyCircularQueue622 {
         }
 
         data[front] = 0;
-        front = (front + 1) & data.length;
+        front = (front + 1) % data.length;
         size--;
         return true;
     }
@@ -65,18 +67,7 @@ public class MyCircularQueue622 {
         if (isEmpty()) {
             return -1;
         }
-
-        if (rear < front) {
-            // 说明队列循环起来了
-            rear = rear == 0 ? data.length - 1 : rear - 1;
-            return data[rear];
-        }
-
-        if (rear == 0) {
-            return data[size - 1];
-        }
-
-        return data[rear - 1];
+        return data[rear];
     }
 
     /**
@@ -94,10 +85,12 @@ public class MyCircularQueue622 {
     }
 
     public static void main(String[] args) {
-        MyCircularQueue622 circularQueue = new MyCircularQueue622(6);
-        System.out.println(circularQueue.enQueue(6));
+        MyCircularQueue622 circularQueue = new MyCircularQueue622(2);
+        System.out.println(circularQueue.enQueue(4));
         System.out.println(circularQueue.Rear());
-        System.out.println(circularQueue.Rear());
+        System.out.println(circularQueue.enQueue(9));
         System.out.println(circularQueue.deQueue());
+        System.out.println(circularQueue.Front());
+
     }
 }
