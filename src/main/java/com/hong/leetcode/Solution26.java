@@ -8,30 +8,24 @@ package com.hong.leetcode;
  */
 public class Solution26 {
 
+    /**
+     * 双指针法
+     * @param nums
+     * @return
+     */
     public static int removeDuplicates2(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
 
-        int l = 0;
-        int r = nums.length - 1;
-        int len = nums.length;
-        while (l < r) {
-            if (nums[l] == nums[r]) {
-                int i = l + 1;
-                int j = r + 1;
-                while (i <= r && j < len) {
-                    nums[i] = nums[j];
-                    i++;
-                    j++;
-                }
-                len = len - r + l;
-            } else {
-
+        int i = 0;
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[j] != nums[i]) {
+                i++;
             }
+            nums[i] = nums[j];
         }
-
-        return len;
+        return i + 1;
     }
 
     public static int removeDuplicates(int[] nums) {
@@ -89,7 +83,7 @@ public class Solution26 {
 
     public static void main(String[] args) {
         int[] nums = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
-        int len = removeDuplicates3(nums);
+        int len = removeDuplicates2(nums);
         System.out.println(len);
         for (int i = 0; i < len; i++) {
             System.out.print(nums[i] + " ");
