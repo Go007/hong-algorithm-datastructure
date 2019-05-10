@@ -12,16 +12,7 @@ import java.util.Stack;
  **/
 public class BST<E extends Comparable<E>> {
 
-    private class Node {
-        private E e;
-        private Node left, right;
-
-        public Node(E e) {
-            this.e = e;
-        }
-    }
-
-    private Node root;
+    public TreeNode<E> root;
     private int size;
 
     public int size() {
@@ -34,7 +25,7 @@ public class BST<E extends Comparable<E>> {
 
    /* public void add(E e) {
         if (root == null) {
-            root = new Node(e);
+            root = new TreeNode<E>(e);
             size++;
         } else {
             add(root, e);
@@ -64,17 +55,17 @@ public class BST<E extends Comparable<E>> {
      * @param node
      * @param e
      */
-    private Node add(Node node, E e) {
+    private TreeNode<E> add(TreeNode<E> node, E e) {
         if (node == null) {
             size++;
-            return new Node(e);
+            return new TreeNode<E>(e);
         }
 
-        if (e.compareTo(node.e) < 0) {
+        if (e.compareTo(node.val) < 0) {
             node.left = add(node.left, e);
         }
 
-        if (e.compareTo(node.e) > 0) {
+        if (e.compareTo(node.val) > 0) {
             node.right = add(node.right, e);
         }
 
@@ -82,24 +73,24 @@ public class BST<E extends Comparable<E>> {
     }
 
     /*
-    private void add(Node node, E e) {
-        if (e.compareTo(node.e) == 0) {
+    private void add(TreeNode<E> node, E e) {
+        if (e.compareTo(node.val) == 0) {
             return;
         }
 
-        if (e.compareTo(node.e) < 0 && node.left == null) {
-            node.left = new Node(e);
+        if (e.compareTo(node.val) < 0 && node.left == null) {
+            node.left = new TreeNode<E>(e);
             size++;
             return;
         }
 
-        if (e.compareTo(node.e) > 0 && node.right == null) {
-            node.right = new Node(e);
+        if (e.compareTo(node.val) > 0 && node.right == null) {
+            node.right = new TreeNode<E>(e);
             size++;
             return;
         }
 
-        if (e.compareTo(node.e) < 0) {
+        if (e.compareTo(node.val) < 0) {
             add(node.left, e);
         } else {
             add(node.right, e);
@@ -110,16 +101,16 @@ public class BST<E extends Comparable<E>> {
         return contains(root, e);
     }
 
-    private boolean contains(Node node, E e) {
+    private boolean contains(TreeNode<E> node, E e) {
         if (node == null) {
             return false;
         }
 
-        if (e.compareTo(node.e) == 0) {
+        if (e.compareTo(node.val) == 0) {
             return true;
         }
 
-        if (e.compareTo(node.e) < 0) {
+        if (e.compareTo(node.val) < 0) {
             return contains(node.left, e);
         } else {
             return contains(node.right, e);
@@ -142,12 +133,12 @@ public class BST<E extends Comparable<E>> {
             return;
         }
 
-        Stack<Node> stack = new Stack<>();
+        Stack<TreeNode<E>> stack = new Stack<>();
         stack.push(root);
         StringBuilder sb = new StringBuilder();
         while (!stack.isEmpty()) {
-            Node pop = stack.pop();
-            sb.append(pop.e + "->");
+            TreeNode<E> pop = stack.pop();
+            sb.append(pop.val + "->");
             if (pop.right != null) {
                 stack.push(pop.right);
             }
@@ -179,12 +170,12 @@ public class BST<E extends Comparable<E>> {
          * 使用LinkedList add() 和remove() 作为
          * 队列的先入先出特性使用
          */
-        Queue<Node> queue = new LinkedList<>();
+        Queue<TreeNode<E>> queue = new LinkedList<>();
         queue.add(root);
         StringBuilder sb = new StringBuilder();
         while (!queue.isEmpty()) {
-            Node cur = queue.remove();
-            sb.append(cur.e + "->");
+            TreeNode<E> cur = queue.remove();
+            sb.append(cur.val + "->");
 
             if (cur.left != null) {
                 queue.add(cur.left);
@@ -209,8 +200,8 @@ public class BST<E extends Comparable<E>> {
             throw new IllegalArgumentException("BST is empty!");
         }
 
-        Node minNode = minimum(root);
-        return minNode.e;
+        TreeNode<E> minNode = minimum(root);
+        return minNode.val;
     }
 
     /**
@@ -223,8 +214,8 @@ public class BST<E extends Comparable<E>> {
             throw new IllegalArgumentException("BST is empty!");
         }
 
-        Node maxNode = maximum(root);
-        return maxNode.e;
+        TreeNode<E> maxNode = maximum(root);
+        return maxNode.val;
     }
 
     /**
@@ -258,37 +249,37 @@ public class BST<E extends Comparable<E>> {
         root = remove(root, e);
     }
 
-    private void preOrder(Node node) {
+    private void preOrder(TreeNode<E> node) {
         if (node == null) {
             return;
         }
 
-        System.out.println(node.e);
+        System.out.println(node.val);
         preOrder(node.left);
         preOrder(node.right);
     }
 
-    private void inOrder(Node node) {
+    private void inOrder(TreeNode<E> node) {
         if (node == null) {
             return;
         }
 
         inOrder(node.left);
-        System.out.println(node.e);
+        System.out.println(node.val);
         inOrder(node.right);
     }
 
-    private void postOrder(Node node) {
+    private void postOrder(TreeNode<E> node) {
         if (node == null) {
             return;
         }
 
         postOrder(node.left);
         postOrder(node.right);
-        System.out.println(node.e);
+        System.out.println(node.val);
     }
 
-    private Node minimum(Node node) {
+    private TreeNode<E> minimum(TreeNode<E> node) {
         if (node.left == null) {
             return node;
         }
@@ -296,7 +287,7 @@ public class BST<E extends Comparable<E>> {
         return minimum(node.left);
     }
 
-    private Node maximum(Node node) {
+    private TreeNode<E> maximum(TreeNode<E> node) {
         if (node.right == null) {
             return node;
         }
@@ -304,9 +295,9 @@ public class BST<E extends Comparable<E>> {
         return maximum(node.right);
     }
 
-    private Node removeMin(Node node) {
+    private TreeNode<E> removeMin(TreeNode<E> node) {
         if (node.left == null) {
-            Node right = node.right;
+            TreeNode<E> right = node.right;
             node.right = null;
             size--;
             return right;
@@ -316,9 +307,9 @@ public class BST<E extends Comparable<E>> {
         return node;
     }
 
-    private Node removeMax(Node node) {
+    private TreeNode<E> removeMax(TreeNode<E> node) {
         if (node.right == null) {
-            Node left = node.left;
+            TreeNode<E> left = node.left;
             node.left = null;
             size--;
             return left;
@@ -334,15 +325,15 @@ public class BST<E extends Comparable<E>> {
      * @param node
      * @param e
      */
-    private Node remove(Node node, E e) {
+    private TreeNode<E> remove(TreeNode<E> node, E e) {
         if (node == null) {
             return null;
         }
 
-        if (e.compareTo(node.e) < 0) {
+        if (e.compareTo(node.val) < 0) {
             node.left = remove(node.left, e);
             return node;
-        } else if (e.compareTo(node.e) > 0) {
+        } else if (e.compareTo(node.val) > 0) {
             node.right = remove(node.right, e);
             return node;
         } else {
@@ -351,14 +342,14 @@ public class BST<E extends Comparable<E>> {
              * 如果待删除的节点的右子树为空，则直接将其左孩子代替它
              */
             if (node.left == null) {
-                Node right = node.right;
+                TreeNode<E> right = node.right;
                 node.right = null;
                 size--;
                 return right;
             }
 
             if (node.right == null) {
-                Node left = node.left;
+                TreeNode<E> left = node.left;
                 node.left = null;
                 size--;
                 return left;
@@ -368,7 +359,7 @@ public class BST<E extends Comparable<E>> {
              * 如果待删除节点的左右孩子均不为空，则找到比待删除节点
              * 大的最小节点，即待删除节点右子树的最小值节点，用它代替待删除节点
              */
-            Node successor = minimum(node);
+            TreeNode<E> successor = minimum(node);
             successor.left = node.left;
             successor.right = removeMin(node);
             node.left = node.right = null;
@@ -384,14 +375,14 @@ public class BST<E extends Comparable<E>> {
     }
 
     // 生成以node为根节点，深度为depth的描述二叉树的字符串
-    private void generateBSTString(Node node, int depth, StringBuilder res) {
+    private void generateBSTString(TreeNode<E> node, int depth, StringBuilder res) {
 
         if (node == null) {
             res.append(generateDepthString(depth) + "null\n");
             return;
         }
 
-        res.append(generateDepthString(depth) + node.e + "\n");
+        res.append(generateDepthString(depth) + node.val + "\n");
         generateBSTString(node.left, depth + 1, res);
         generateBSTString(node.right, depth + 1, res);
     }
