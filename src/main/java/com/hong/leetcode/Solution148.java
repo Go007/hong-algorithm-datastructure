@@ -2,9 +2,6 @@ package com.hong.leetcode;
 
 import com.hong.linked.ListNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by wanghong
  * Date 2019-05-10 19:18
@@ -12,71 +9,56 @@ import java.util.List;
  */
 public class Solution148 {
 
-    public static ListNode sortList(ListNode head) {
-        Bst bst = new Bst();
-        while (head != null) {
-            bst.add(head.val);
-        }
+    public ListNode sortList(ListNode head) {
+        return head == null ? null : mergeSort(head);
+    }
 
-        List<Integer> list = new ArrayList<>();
-        bst.inOrder(list);
-        ListNode newHead = null, tail = null;
-        for (Integer i : list) {
-            if (newHead == null) {
-                newHead = tail = new ListNode(i);
+    private ListNode mergeSort(ListNode head) {
+        if (head.next == null) {
+            return head;
+        }
+        ListNode p = head, q = head, pre = null;
+        while (q != null && q.next != null) {
+            pre = p;
+            p = p.next;
+            q = q.next.next;
+        }
+        pre.next = null;
+        ListNode l = mergeSort(head);
+        ListNode r = mergeSort(p);
+        return merge(l, r);
+    }
+
+    ListNode merge(ListNode l, ListNode r) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode cur = dummyHead;
+        while (l != null && r != null) {
+            if (l.val <= r.val) {
+                cur.next = l;
+                cur = cur.next;
+                l = l.next;
             } else {
-                tail = tail.next = new ListNode(i);
+                cur.next = r;
+                cur = cur.next;
+                r = r.next;
             }
         }
-        return newHead;
+        if (l != null) {
+            cur.next = l;
+        }
+        if (r != null) {
+            cur.next = r;
+        }
+        return dummyHead.next;
     }
 
-    private static class Bst {
-
-        private class TreeNode {
-            public int val;
-            public TreeNode left, right;
-
-            public TreeNode(int val) {
-                this.val = val;
-            }
-        }
-
-        public TreeNode root;
-
-
-        public void add(int e) {
-            root = add(root, e);
-        }
-
-        private TreeNode add(TreeNode node, int e) {
-            if (node == null) {
-                return new TreeNode(e);
-            }
-
-            if (e - node.val < 0) {
-                node.left = add(node.left, e);
-            }
-
-            if (e - node.val > 0) {
-                node.right = add(node.right, e);
-            }
-
-            return node;
-        }
-
-        public void inOrder(List<Integer> list) {
-            inOrder(root, list);
-        }
-
-        private void inOrder(TreeNode node, List<Integer> list) {
-            if (node == null) {
-                return;
-            }
-
-            inOrder(node.left, list);
-            list.add(node.val);
-            inOrder(node.right, list);
-        }
+    public static void main(String[] args) {
+        Solution148 s = new Solution148();
+        int[] nums = {4,2,1,3};
+        ListNode head = new ListNode(nums);
+        System.out.println(head);
+        head = s.sortList(head);
+        System.out.println(head);
     }
+
 }
