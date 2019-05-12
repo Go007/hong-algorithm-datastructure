@@ -7,7 +7,7 @@ import java.util.List;
  * @date 2019/05/11 9:28
  **/
 public class Bst {
-    private class TreeNode {
+    public class TreeNode {
         public int val;
         public TreeNode left, right;
 
@@ -17,6 +17,12 @@ public class Bst {
     }
 
     public TreeNode root;
+
+    public Bst(int[] nums) {
+        for (int e : nums) {
+            add(e);
+        }
+    }
 
     public void add(int e) {
         root = add(root, e);
@@ -50,5 +56,31 @@ public class Bst {
         inOrder(node.left, list);
         list.add(node.val);
         inOrder(node.right, list);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        generateBSTString(root, 0, res);
+        return res.toString();
+    }
+
+    private void generateBSTString(TreeNode node, int depth, StringBuilder res) {
+
+        if (node == null) {
+            res.append(generateDepthString(depth) + "null\n");
+            return;
+        }
+
+        res.append(generateDepthString(depth) + node.val + "\n");
+        generateBSTString(node.left, depth + 1, res);
+        generateBSTString(node.right, depth + 1, res);
+    }
+
+    private String generateDepthString(int depth) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < depth; i++)
+            res.append("--");
+        return res.toString();
     }
 }
