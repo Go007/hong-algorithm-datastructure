@@ -22,10 +22,27 @@ public class Solution206 {
         return newHead;
     }
 
+    public static ListNode reverseList2(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode pre = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+
+        return pre;
+    }
+
+
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5};
+        int[] nums = {1, 2, 3, 4, 5};
         ListNode head = new ListNode(nums);
-        head = reverseList(head);
+        head = reverseList2(head);
         System.out.println(head);
     }
 
