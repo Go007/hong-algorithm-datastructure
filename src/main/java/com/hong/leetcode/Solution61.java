@@ -62,6 +62,31 @@ public class Solution61 {
         return newHead;
     }
 
+    public ListNode rotateRight2(ListNode head, int k) {
+        if (head == null || k == 0) {
+            return head;
+        }
+        ListNode cursor = head;
+        ListNode tail = null;//尾指针
+        int length = 1;
+        while (cursor.next != null)//循环 得到总长度
+        {
+            cursor = cursor.next;
+            length++;
+        }
+        //因为cursor是从head节点开始循环的，让它循环到原链表的倒数第(k%len)个需要len-(k%len)次
+        int loop = length - (k % length);//得到循环的次数
+        tail = cursor;//指向尾结点
+        cursor.next = head;//改成循环链表
+        cursor = head;//指向头结点
+        for (int i = 0; i < loop; i++) {//开始循环
+            cursor = cursor.next;
+            tail = tail.next;
+        }
+        tail.next = null;//改成单链表
+        return cursor;//返回当前头
+    }
+
     public static void main(String[] args) {
         int[] nums = {1, 2};
         ListNode head = new ListNode(nums);
