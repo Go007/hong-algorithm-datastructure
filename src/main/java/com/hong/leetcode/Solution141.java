@@ -3,7 +3,9 @@ package com.hong.leetcode;
 import com.hong.linked.ListNode;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by wanghong
@@ -13,7 +15,31 @@ import java.util.Map;
  */
 public class Solution141 {
 
-    public static boolean hasCycle(ListNode head) {
+    /**
+     * 可以通过检查一个结点此前是否被访问过来判断链表是否为环形链表。
+     * 常用的方法是使用哈希表
+     *
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        Set<ListNode> nodesSeen = new HashSet<>();
+        while (head != null) {
+            if (nodesSeen.contains(head)) {
+                return true;
+            } else {
+                nodesSeen.add(head);
+            }
+            head = head.next;
+        }
+        return false;
+    }
+
+    /**
+     * @param head
+     * @return
+     */
+    public static boolean hasCycle2(ListNode head) {
         int pos = -1;
         Map<ListNode, Integer> map = new HashMap<>();
         ListNode cur = head;
@@ -31,24 +57,31 @@ public class Solution141 {
         return pos == -1 ? false : true;
     }
 
-    public static boolean hasCycle2(ListNode head) {
-        if (head == null) {
+    /**
+     * 快慢指针
+     * 通过使用具有 不同速度 的快、慢两个指针遍历链表，空间复杂度可以被降低至 O(1)O(1)。
+     * 慢指针每次移动一步，而快指针每次移动两步。
+     *
+     * @param head
+     * @return
+     */
+    public static boolean hasCycle3(ListNode head) {
+        if (head == null || head.next == null) {
             return false;
         }
 
-        while (head.next != head) {
-            ListNode next = head.next;
-            if (next == null){
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
                 return false;
             }
-            if (next.next == head){
-                return true;
-            }
 
-
+            slow = slow.next;
+            fast = fast.next.next;
         }
 
-        return false;
+        return true;
     }
 
 }
