@@ -20,12 +20,13 @@ public class Solution541 {
 
         while (end - begin > 0) {
             int diff = end - begin + 1;
-            if (diff > k) {
+            if (diff >= k) {
                 reverse(chr, begin, begin + k - 1);
                 begin = end + 1;
                 end += Math.min(size - end - 1, 2 * k);
             } else {
                 reverse(chr, begin, end);
+                break;
             }
         }
 
@@ -49,7 +50,7 @@ public class Solution541 {
 
     public static void main(String[] args) {
         String s = "abcdefg";
-        int k = 2;
+        int k = 8;
         String str = reverseStr(s, k);
         System.out.println(str);
     }
