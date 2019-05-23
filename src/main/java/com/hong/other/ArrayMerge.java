@@ -112,31 +112,6 @@ public class ArrayMerge {
         return result;
     }
 
-    /**
-     * 88. 合并两个有序数组
-     * https://leetcode-cn.com/problems/merge-sorted-array/
-     * 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 nums1 成为一个有序数组。
-     * 输入:
-     * nums1 = [1,2,3,0,0,0], m = 3
-     * nums2 = [2,5,6],       n = 3
-     * <p>
-     * 输出: [1,2,2,3,5,6]
-     *
-     * @param nums1
-     * @param m
-     * @param nums2
-     * @param n
-     */
-    public static void merge(int[] nums1, int m, int[] nums2, int n) {
-        int p = m-- + n-- - 1;
-        while (m >= 0 && n >= 0) {
-            nums1[p--] = nums1[m] > nums2[n] ? nums1[m--] : nums2[n--];
-        }
-        while (n >= 0) {
-            nums1[p--] = nums2[n--];
-        }
-    }
-
     public static int[] merge2(int[] arr1, int[] arr2) {
         int m = arr1.length;
         int n = arr2.length;
