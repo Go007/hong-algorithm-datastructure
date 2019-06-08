@@ -44,7 +44,11 @@ public class Solution142 {
         while (fast != null && fast.next != null){
             slow = slow.next;
             fast = fast.next.next;
-            // slow == fast 说明有环
+            /**
+             *  slow == fast 说明有环
+             *  快指针遍历距离一定是慢指针两倍。
+             *  快指针和慢指针相遇后，相遇点一定在环内，再经过a 的距离，会距离相遇点 b长度，也就是入环点处。
+              */
             if (slow == fast){
                 slow = head;
                 while (slow != fast){
