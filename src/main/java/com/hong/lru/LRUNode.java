@@ -7,6 +7,13 @@ package com.hong.lru;
  */
 public class LRUNode<K,V> {
 
+    public K key;
+    public V value;
+    public LRUNode pre;
+    public LRUNode next;
 
-
+    public LRUNode(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
 }
