@@ -7,7 +7,11 @@ import java.util.Map;
  * Created by wanghong
  * Date 2019-07-01 17:21
  * Description:
- * LRU cache算法实现
+ * LRU cache算法实现  最近最少使用(Least Recently Used)
+ * 核心思想：根据访问时间淘汰key，把数据加入一个链表中，按访问时间排序，发生淘汰的时候，把访问时间最旧的淘汰掉。
+ * 缺点：表面功夫做得好的人可以逃过优化，即LRU算法只关注了最近的时刻key的使用情况，却没有对key平时的活跃度进行考量
+ * 比如：某个平常一直很少访问的key，在内存满了，触发执行淘汰策略之前，刚好被访问到了，
+ *  那么这个key就逃过了此次的淘汰，而实际上它是应该在淘汰范围内的。
  */
 public class LRUCache<K,V> {
 
@@ -35,7 +39,7 @@ public class LRUCache<K,V> {
         return node.value;
     }
 
-    public void set(K key,V value){
+    public void put(K key,V value){
         LRUNode<K,V> node = map.get(key);
         if (node == null){
             while (map.size() >= capacity){
@@ -87,5 +91,19 @@ public class LRUCache<K,V> {
         if (head == null){
             head = tail;
         }
+    }
+
+    public static void main(String[] args) {
+        LRUCache cache = new LRUCache( 2 /* 缓存容量 */ );
+
+        cache.put(1, 1);
+        cache.put(2, 2);
+        System.out.println(cache.get(1));       // 返回  1
+        cache.put(3, 3);    // 该操作会使得密钥 2 作废
+        System.out.println(cache.get(2) );      // 返回 -1 (未找到)
+        cache.put(4, 4);    // 该操作会使得密钥 1 作废
+        System.out.println(cache.get(1) );       // 返回 -1 (未找到)
+        System.out.println(cache.get(3) );     // 返回  3
+        System.out.println(cache.get(4) );       // 返回  4
     }
 }
