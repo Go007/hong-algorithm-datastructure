@@ -47,8 +47,19 @@ public class LFUCache2<K, V> {
 
         if (node != null) {
             node.value = value;
-
+            // 从原来的频次链表中移除
+            removeNode(node);
+            node.freq++;
+            // 加入频率自增后新的链表中
+            addNode(node);
         }else {
+            // 检查容量是否满了
+            if (keyMap.size() == capacity){
+                // 删除 频次最小的链表中的头节点
+                FreqAggregation minFa = freqMap.get(minFreq);
+                removeNode(minFa.head);
+            }
+
             node = new Node(key, value);
             if (fa == null){
                 fa = new FreqAggregation(node);
@@ -58,6 +69,52 @@ public class LFUCache2<K, V> {
 
         }
 
+
+    }
+
+    private void addNode(Node node) {
+        FreqAggregation fa = freqMap.get(node.freq);
+        if (fa == null){
+            fa = new FreqAggregation(node);
+            fa.head = fa.tail = node;
+            fa.size++;
+            freqMap.put(node.freq,fa);
+        }else{
+            fa.tail = fa.tail.next = node;
+        }
+
+        fa.size++;
+        // 更新最小频次
+        minFreq = Math.min(minFreq == 0 ? 1:minFreq,node.freq);
+    }
+
+    private void removeNode(Node node) {
+        if (node == null){
+            return;
+        }
+
+        FreqAggregation fa = freqMap.get(node.freq);
+        if (node == fa.head){
+            fa.head = node.next;
+            node.next = null;
+        }else if (node == fa.tail){
+            fa.tail = node.prev;
+            node.prev = null;
+        }else{
+            node.prev.next = node.next;
+            node.next.prev =  node.prev;
+            node.prev = node.next = null;
+        }
+
+        fa.size--;
+        if (fa.size == 0){
+            freqMap.remove(node.freq);
+        }
+
+        if (minFreq == node.freq){
+            // 更新最小频次
+            minFreq =
+        }
 
     }
 
