@@ -71,7 +71,7 @@ public class LFUCache2<K, V> {
                 keyMap.remove(delNode.key);
             }
             node = new Node(key, value);
-            keyMap.put(key,node);
+            keyMap.put(key, node);
             addNode(node);
         }
     }
@@ -127,9 +127,9 @@ public class LFUCache2<K, V> {
         fa.size--;
         if (fa.size == 0) {
             freqMap.remove(node.freq);
-            if (freqMap.size() == 0){
+            if (freqMap.size() == 0) {
                 minFreq = -1;
-            }else if (minFreq == node.freq) {
+            } else if (minFreq == node.freq) {
                 ArrayList<Integer> freqList = new ArrayList<>(freqMap.keySet());
                 Collections.sort(freqList);
                 minFreq = freqList.get(0);
@@ -144,35 +144,7 @@ public class LFUCache2<K, V> {
         Node head;
         Node tail;
         int size;
-        /**
-         * 假设现在:
-         * capacity = 3
-         * 频次链表如下：
-         * 频次          Node聚集
-         * 1           [n0]   FreqAggregation1
-         * 2           [n2,n3]   FreqAggregation2
-         * <p>
-         * 则FreqAggregation1.next = FreqAggregation2
-         * minFreq = 1
-         * <p>
-         * put()操作，插入n4，判断key是否已经存在：
-         * 1.存在更新value,
-         * 由n4.freq 找到 fa4,将n4从fa4中删除：
-         * 如果删除后 size == 0，fa4.prev.next = fa4.next; fa4.next.prev = fa4.prev;
-         * 从map中删除fa4，minFreq = fa4.prev.head.freq;
-         * n4.freq++ ,找fa5:
-         * 找到了，则将 fa5.head = n4；
-         * 没有找到，则新建fa5，放入map中；
-         * if minFreq > n4.freq,则 minFreq ==  n4.freq; fa5.next = minFreq对应的fa0；
-         * <p>
-         * <p>
-         * 2.不存在,发现 keyMap.size == capacity,触发执行淘汰策略。
-         * 根据 minFreq = 1，找到 FreqAggregation1，删除头节点，size--变为0；
-         * 插入n4，
-         * <p>
-         * 再由next = FreqAggregation2，将minFreq更新为 FreqAggregation2.head.freq,
-         * 同时删除 FreqAggregation1。
-         */
+
         public FreqAggregation(Node node) {
             head = tail = node;
             size++;
@@ -199,7 +171,22 @@ public class LFUCache2<K, V> {
     }
 
     public static void main(String[] args) {
-        LFUCache2 cache = new LFUCache2( 2 /* capacity (缓存容量) */ );
+        String[] operation = {"LFUCache", "put", "get", "put", "get", "put","get"};
+        int[][] data = {{2}, {1, 2}, {1}, {3}, {2,3}, {4},{1,3,4}};
+
+        LFUCache2<Integer,Integer> cache = new LFUCache2(data[0][0]);
+
+        for (int i = 1; i < operation.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                if ("put".equals(operation[i])) {
+                    cache.put(data[i][j],data[i][j]);
+                }else {
+                    System.out.println(cache.get(data[i][j]));
+                }
+            }
+        }
+
+        /*  LFUCache2 cache = new LFUCache2(2 *//* capacity (缓存容量) *//*);
         cache.put(1, 1);
         cache.put(2, 2);
         System.out.println(cache.get(1)); // 返回 1
@@ -209,6 +196,6 @@ public class LFUCache2<K, V> {
         cache.put(4, 4);    // 去除 key 1
         System.out.println(cache.get(1));// 返回 -1 (未找到 key 1)
         System.out.println(cache.get(3));     // 返回 3
-        System.out.println(cache.get(4));     // 返回 4
+        System.out.println(cache.get(4));     // 返回 4*/
     }
 }
