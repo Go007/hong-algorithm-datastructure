@@ -9,7 +9,7 @@ public class LFUCache3 {
 
     private Map<Integer, FreqAggregation> freqMap;
 
-    private int minFreq = -1;
+    private int minFreq;
 
     private int capacity;
 
@@ -25,7 +25,8 @@ public class LFUCache3 {
         }
 
         Node node = keyMap.get(key);
-        refreshNode(node);
+        refresh(node);
+
         return node.value;
     }
 
@@ -37,47 +38,48 @@ public class LFUCache3 {
         Node node = keyMap.get(key);
         if (node != null) {
             node.value = value;
-            // 从原来的频次链表中移除
-            removeNode(node);
-            node.freq++;
-            // 加入频率自增后新的链表中
-            addNode(node);
+            refresh(node);
         } else {
-            // 检查容量是否满了
             while (keyMap.size() == capacity) {
-                // 删除 频次最小的链表中的头节点
-                FreqAggregation minFa = freqMap.get(minFreq);
-                Node delNode = minFa.head;
-                removeNode(minFa.head);
-                keyMap.remove(delNode.key);
+                reject();
             }
             node = new Node(key, value);
             keyMap.put(key, node);
             addNode(node);
+            minFreq = 1;
+        }
+    }
+
+    private void reject() {
+        FreqAggregation minFa = freqMap.get(minFreq);
+        keyMap.remove(minFa.head.key);
+        minFa = removeNode(minFa.head);
+        if (minFa.size == 0) {
+            freqMap.remove(minFreq);
         }
     }
 
     private FreqAggregation addNode(Node node) {
         FreqAggregation fa = freqMap.get(node.freq);
-
         if (fa == null) {
             fa = new FreqAggregation(node);
             freqMap.put(node.freq, fa);
         } else {
+            node.prev = fa.tail;
             fa.tail = fa.tail.next = node;
             fa.size++;
         }
-
         return fa;
     }
 
-    /**
-     * 当get(key)或put(key)时，刷新node的频次
-     *
-     * @param node
-     */
-    public void refreshGet(Node node) {
-        removeNode(node);
+    public void refresh(Node node) {
+        FreqAggregation fa = removeNode(node);
+        if (fa.size == 0) {
+            freqMap.remove(node.freq);
+            if (minFreq == node.freq) {
+                minFreq = node.freq + 1;
+            }
+        }
         node.freq++;
         addNode(node);
     }
@@ -100,9 +102,7 @@ public class LFUCache3 {
             node.next.prev = node.prev;
             node.prev = node.next = null;
         }
-
         fa.size--;
-
         return fa;
     }
 
@@ -120,10 +120,10 @@ public class LFUCache3 {
     private static class Node {
         int key;
         int value;
-        int freq; // 访问频次,初始化为1
+        int freq;
 
-        Node prev;// 前驱节点
-        Node next;// 后继节点
+        Node prev;
+        Node next;
 
         Node(int key, int value) {
             this(key, value, 1);
@@ -135,6 +135,4 @@ public class LFUCache3 {
             this.freq = freq;
         }
     }
-
-
 }
