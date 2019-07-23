@@ -70,5 +70,14 @@ public class FileOperation {
                 return i;
         return s.length();
     }
+
+    public static void main(String[] args) {
+        String s0 = "<span class=\"highlight\">";
+        String s1 = "</span>";
+        String str = "<span class=\"highlight\">万</span><span class=\"highlight\">科</span>开发公司";
+        str = str.replace(s0,"").replace(s1,"");
+        System.out.println(str);
+        System.out.println(str.length());
+    }
 }
 

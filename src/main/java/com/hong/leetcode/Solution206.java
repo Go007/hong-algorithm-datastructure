@@ -23,10 +23,6 @@ public class Solution206 {
     }
 
     public static ListNode reverseList2(ListNode head) {
-        if (head == null) {
-            return null;
-        }
-
         ListNode pre = null;
         while (head != null) {
             ListNode next = head.next;
@@ -42,7 +38,7 @@ public class Solution206 {
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 4, 5};
         ListNode head = new ListNode(nums);
-        head = reverseList2(head);
+        head = reverseList(head);
         System.out.println(head);
     }
 
