@@ -114,7 +114,7 @@ public class AVLTree<K extends Comparable<K>, V> {
     }
 
     /**
-     * 对节点y进行右旋操作，返回旋转后新的根节点x
+     * 对节点y进行右旋(顺时针)操作，返回旋转后新的根节点x
      * //        y                              x
      * //       / \                           /   \
      * //      x   T4     向右旋转 (y)        z     y
@@ -143,7 +143,7 @@ public class AVLTree<K extends Comparable<K>, V> {
     }
 
     /**
-     * 对节点y进行向左旋转操作，返回旋转后新的根节点x
+     * 对节点y进行向左旋转操作(逆时针)，返回旋转后新的根节点x
      * //    y                             x
      * //  /  \                          /   \
      * // T1   x      向左旋转 (y)       y     z
