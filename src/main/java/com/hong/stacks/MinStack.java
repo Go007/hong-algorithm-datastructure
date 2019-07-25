@@ -1,5 +1,7 @@
 package com.hong.stacks;
 
+import java.util.Stack;
+
 /**
  * Created by wanghong
  * Date 2019-07-24 16:32
@@ -16,48 +18,55 @@ package com.hong.stacks;
  */
 public class MinStack {
 
-    private class Node {
-        private int e;
-        private Node next;
+    /** 思路：每次入栈2个元素，一个是入栈的元素本身，一个是当前栈元素的最小值
+     ** 如：入栈序列为2-3-1，则入栈后栈中元素序列为：2-2-3-2-1-1
+     ** 用空间换取时间
+     **/
 
-        public Node(int e) {
-            this(e, null);
-        }
+    private java.util.Stack<Integer> stack;
 
-        public Node(int e, Node next) {
-            this.e = e;
-            this.next = next;
-        }
 
-    }
-
-    private Node dummyNode;
-
-    /**
-     * initialize your data structure here.
-     */
+    /** initialize your data structure here. */
     public MinStack() {
-        dummyNode = new Node(-1);
+        stack = new Stack();
     }
 
     public void push(int x) {
-        dummyNode.next = new Node(x, dummyNode.next);
-    }
-
-    public void pop() {
-        if (dummyNode.next != null) {
-            Node head = dummyNode.next;
-            dummyNode.next = head.next;
-            head.next = null;
+        if (stack.isEmpty()){
+            stack.push(x);
+            stack.push(x);
+        }else {
+            int peek = stack.peek();
+            stack.push(x);
+            if (peek < x){
+                stack.push(peek);
+            }else {
+                stack.push(x);
+            }
         }
     }
 
+    public void pop() {
+        stack.pop();
+        stack.pop();
+    }
+
     public int top() {
-        return dummyNode.next == null ? -1 : dummyNode.next.e;
+        return stack.get(stack.size() - 2);
     }
 
     public int getMin() {
-        return -1;
+        return stack.peek();
     }
 
+    public static void main(String[] args) {
+        MinStack minStack = new MinStack();
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+        System.out.println(minStack.getMin());
+        minStack.pop();
+        System.out.println(minStack.top());
+        System.out.println(minStack.getMin());
+    }
 }
