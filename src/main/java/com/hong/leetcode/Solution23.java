@@ -17,6 +17,7 @@ import java.util.PriorityQueue;
 public class Solution23 {
 
     /**
+     * 1. 优先队列 ，最小堆
      * 首先把 k 个链表的首元素都加入最小堆中，它们会自动排好序。
      * 然后我们每次取出最小的那个元素加入我们最终结果的链表中，
      * 然后把取出元素的下一个元素再加入堆中，下次仍从堆中取出最小的元素做相同的操作，
@@ -59,6 +60,37 @@ public class Solution23 {
         }
 
         return head;
+    }
+
+    /**
+     * 2. 分而治之
+     * @param lists
+     * @return
+     */
+    public ListNode mergeKLists2(ListNode[] lists){
+
+
+    }
+
+    private ListNode merge(ListNode[] lists,int left,int right){
+
+    }
+
+    private ListNode mergeTwoLists(ListNode l1,ListNode l2){
+        if (l1 == null){
+            return l2;
+        }
+        if (l2 == null){
+            return l1;
+        }
+
+        if (l1.val <= l2.val){
+            l1.next = mergeTwoLists(l1.next,l2);
+            return l1;
+        }else {
+            l2.next = mergeTwoLists(l1,l2.next);
+            return l2;
+        }
     }
 
     public static void main(String[] args) {
