@@ -40,4 +40,8 @@ public class ListNode {
         s.append("NULL");
         return s.toString();
     }
+
+    public int getVal() {
+        return val;
+    }
 }
