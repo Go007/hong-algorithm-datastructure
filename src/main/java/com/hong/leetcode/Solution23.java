@@ -41,12 +41,12 @@ public class Solution23 {
         });*/
 
         for (ListNode node : lists) {
-            if (node != null){
+            if (node != null) {
                 queue.add(node);
             }
         }
 
-        if (queue.isEmpty()){
+        if (queue.isEmpty()) {
             return null;
         }
 
@@ -64,31 +64,50 @@ public class Solution23 {
 
     /**
      * 2. 分而治之
+     *
      * @param lists
      * @return
      */
-    public ListNode mergeKLists2(ListNode[] lists){
+    public ListNode mergeKLists2(ListNode[] lists) {
+        if (lists == null || lists.length == 0){
+            return null;
+        }
 
-
+        return merge(lists,0,lists.length-1);
     }
 
-    private ListNode merge(ListNode[] lists,int left,int right){
+    /**
+     * 归并
+     *
+     * @param lists
+     * @param left
+     * @param right
+     * @return
+     */
+    private ListNode merge(ListNode[] lists, int left, int right) {
+        if (left == right) {
+            return lists[left];
+        }
 
+        int mid = left + (right - left) / 2;
+        ListNode l1 = merge(lists, left, mid);
+        ListNode l2 = merge(lists, mid + 1, right);
+        return mergeTwoLists(l1,l2);
     }
 
-    private ListNode mergeTwoLists(ListNode l1,ListNode l2){
-        if (l1 == null){
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
             return l2;
         }
-        if (l2 == null){
+        if (l2 == null) {
             return l1;
         }
 
-        if (l1.val <= l2.val){
-            l1.next = mergeTwoLists(l1.next,l2);
+        if (l1.val <= l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
             return l1;
-        }else {
-            l2.next = mergeTwoLists(l1,l2.next);
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
             return l2;
         }
     }
@@ -97,9 +116,11 @@ public class Solution23 {
         ListNode l0 = new ListNode(new int[]{1, 4, 5});
         ListNode l1 = new ListNode(new int[]{1, 3, 4});
         ListNode l2 = new ListNode(new int[]{2, 6});
-        // ListNode[] listNodes = new ListNode[]{l0, l1, l2};
-        ListNode[] listNodes = new ListNode[1];
-        ListNode head = mergeKLists(listNodes);
+        ListNode[] listNodes = new ListNode[]{l0, l1, l2};
+        //ListNode[] listNodes = new ListNode[1];
+        //ListNode head = mergeKLists(listNodes);
+        Solution23 s = new Solution23();
+        ListNode head = s.mergeKLists2(listNodes);
         System.out.println(head);
     }
 
