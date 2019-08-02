@@ -28,12 +28,14 @@ public class Solution119 {
         } else {
             result.set(0,1);
             for (int i = 1; i < rowIndex; i++) {
-                result.set(i,result.)
+                int a = result.get(i-1);
+                int b = result.get(i);
+                result.set(i,a+b);
             }
             result.set(rowIndex,1);
         }
 
-        return
+        return result;
     }
 
 }
