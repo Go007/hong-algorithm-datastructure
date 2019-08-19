@@ -94,7 +94,7 @@ public class LRUCache<K,V> {
     }
 
     public static void main(String[] args) {
-        LRUCache cache = new LRUCache( 2 /* 缓存容量 */ );
+        LRUCache3 cache = new LRUCache3( 2 /* 缓存容量 */ );
 
         cache.put(1, 1);
         cache.put(2, 2);

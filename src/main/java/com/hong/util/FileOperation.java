@@ -78,6 +78,11 @@ public class FileOperation {
         str = str.replace(s0,"").replace(s1,"");
         System.out.println(str);
         System.out.println(str.length());
+
+        String localMaven = System.getProperty("user.home") + "/.m2/repository";
+        System.out.println(localMaven);
+        File file = new File(localMaven);
+        System.out.println(file.getAbsoluteFile());
     }
 }
 
