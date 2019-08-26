@@ -9,9 +9,6 @@ package com.hong.leetcode;
 public class Solution121 {
 
     public static int maxProfit(int[] prices) {
-        if (prices == null || prices.length == 0 || prices.length == 1) {
-            return 0;
-        }
 
         int minPrice = prices[0];
         int maxProfit = 0;
