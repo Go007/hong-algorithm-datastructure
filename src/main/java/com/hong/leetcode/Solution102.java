@@ -63,8 +63,8 @@ public class Solution102 {
             return;
         }
 
+        //当前层数还没有元素，先 new 一个空的列表
         if (res.size() <= depth){
-            // 当前层的第一个节点
             res.add(new ArrayList<>());
         }
 
