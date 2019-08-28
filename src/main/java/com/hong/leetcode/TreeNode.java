@@ -1,7 +1,6 @@
 package com.hong.leetcode;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 /**
  * Created by wanghong
@@ -20,51 +19,47 @@ public class TreeNode {
         this.val = val;
     }
 
-    public static TreeNode build(int[] nums){
-        TreeNode root = new TreeNode(nums[0]);
-        for (int i=1;i<nums.length;i++) {
-            add(root,nums[i],i);
+    public TreeNode build(int[] nums){
+        return createTree(nums,0);
+    }
+
+    private TreeNode createTree(int[] nums, int index) {
+        TreeNode root = null;
+        if (index < nums.length){
+            root = new TreeNode(nums[index]);
+            root.left = createTree(nums,leftChild(index));
+            root.right = createTree(nums,rightChild(index));
         }
         return root;
     }
 
-    private static TreeNode add(TreeNode node, int e,int index){
-        if (node == null) {
-            return new TreeNode(e);
-        }
-
-        if (index % 2 == 0){
-            node.right = add(node.right,e,index);
-        }else {
-            node.left = add(node.left,e,index);
-        }
-
-        return node;
+    private int leftChild(int index) {
+        return index * 2 + 1;
     }
 
-    public static void traverse(TreeNode root){
-        // 使用Linked List作为队列使用
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            TreeNode node = queue.remove();
-            System.out.print(node.val + ",");
-
-            if (node.left != null) {
-                queue.add(node.left);
-            }
-            if (node.right != null) {
-                queue.add(node.right);
-            }
-        }
+    private int rightChild(int index) {
+        return index * 2 + 2;
     }
 
+    private int parent(int index) {
+        if (index == 0) {
+            throw new IllegalArgumentException("index-0 doesn't have parent.");
+        }
 
+        return (index - 1) / 2;
+    }
 
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5,6};
-        TreeNode root = TreeNode.build(nums);
-        traverse(root);
+        int[] nums = {3,9,20,-1,-1,15,7};
+        TreeNode node = new TreeNode();
+        TreeNode root = node.build(nums);
+        Solution102 solution102 = new Solution102();
+        List<List<Integer>> lists = solution102.levelOrder(root);
+        lists.stream().forEach(l -> {
+            l.stream().forEach(i -> System.out.print(i + ","));
+            System.out.println();
+        });
+        TreeOperation.show(root);
     }
 
 }
