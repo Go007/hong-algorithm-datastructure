@@ -19,16 +19,28 @@ public class TreeNode {
         this.val = val;
     }
 
-    public TreeNode build(int[] nums){
+    /**
+     * 如果给定 [3,9,20,null,null,15,7]
+     * 如何构建如下的二叉树？
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     */
+    public TreeNode build(Integer[] nums){
         return createTree(nums,0);
     }
 
-    private TreeNode createTree(int[] nums, int index) {
+    private TreeNode createTree(Integer[] nums, int index) {
         TreeNode root = null;
         if (index < nums.length){
-            root = new TreeNode(nums[index]);
-            root.left = createTree(nums,leftChild(index));
-            root.right = createTree(nums,rightChild(index));
+            Integer val = nums[index];
+            if (val != null){
+                root = new TreeNode(val);
+                root.left = createTree(nums,leftChild(index));
+                root.right = createTree(nums,rightChild(index));
+            }
         }
         return root;
     }
@@ -50,7 +62,7 @@ public class TreeNode {
     }
 
     public static void main(String[] args) {
-        int[] nums = {3,9,20,-1,-1,15,7};
+        Integer[] nums = {3,9,20,null,null,15,7};
         TreeNode node = new TreeNode();
         TreeNode root = node.build(nums);
         Solution102 solution102 = new Solution102();
