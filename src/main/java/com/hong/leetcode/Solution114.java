@@ -38,7 +38,7 @@ public class Solution114 {
         }
         flatten2(root.right); // 先转换右子树
         flatten2(root.left);
-        root .right = pre; // 右子树指向链表的头
+        root.right = pre; // 右子树指向链表的头
         root.left = null;  // 左子树置空
         pre = root; // 当前节点变更为链表头
     }
