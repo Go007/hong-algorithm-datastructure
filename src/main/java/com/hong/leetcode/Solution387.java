@@ -5,7 +5,7 @@ package com.hong.leetcode;
  * @date 2019/05/03 16:54
  * 387. 字符串中的第一个唯一字符
  **/
-public class Solutino387 {
+public class Solution387 {
 
     public int firstUniqChar(String s) {
         int[] freq = new int[26];
