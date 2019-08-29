@@ -1,5 +1,7 @@
 package com.hong.leetcode;
 
+import java.util.Stack;
+
 /**
  * Created by wanghong
  * Date 2019-08-28 15:46
@@ -34,11 +36,28 @@ public class Solution114 {
         if (root == null){
             return;
         }
-        flatten2(root.right);
+        flatten2(root.right); // 先转换右子树
         flatten2(root.left);
-        root .right = pre;
-        root.left = null;
-        pre = root;
+        root .right = pre; // 右子树指向链表的头
+        root.left = null;  // 左子树置空
+        pre = root; // 当前节点变更为链表头
+    }
+
+    /**
+     * 用一个stack记录节点，右子树先入栈，左子树后入栈，但是这样不满足原地展开
+     * @param root
+     */
+    public void flatten3(TreeNode root){
+        if (root == null) return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode current = stack.pop();
+            if (current.right != null) stack.push(current.right);
+            if (current.left != null) stack.push(current.left);
+            if (!stack.isEmpty()) current.right = stack.peek();
+            current.left = null;
+        }
     }
 
 }
