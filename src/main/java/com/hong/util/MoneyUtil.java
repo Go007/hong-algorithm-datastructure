@@ -1,6 +1,7 @@
 package com.hong.util;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -34,6 +35,13 @@ public class MoneyUtil {
         BigDecimal m = new BigDecimal(d);
         String money = format(m);
         System.out.println(money);
+
+        // 数字格式化 NumberFormat
+        DecimalFormat df = new DecimalFormat("######0.00");
+        String s0 = "0.0567";
+        Double dd = Double.parseDouble(s0);
+        String s = df.format(dd);
+        System.out.println(s);
     }
 
 }
