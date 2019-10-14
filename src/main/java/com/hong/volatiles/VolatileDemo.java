@@ -1,5 +1,7 @@
 package com.hong.volatiles;
 
+import com.sun.deploy.security.MozillaMyKeyStore;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,7 +18,7 @@ public class VolatileDemo {
     public static void main(String[] args) {
         // 资源类
         MyData myData = new MyData();
-        new Thread(() -> {
+       /* new Thread(() -> {
             System.out.println(Thread.currentThread().getName() + "\t come in");
             try {
                 TimeUnit.SECONDS.sleep(3);
@@ -31,6 +33,23 @@ public class VolatileDemo {
         while (myData.number == 0){
             // main线程一直在这里循环等待，直到number != 0
         }
-        System.out.println(Thread.currentThread().getName() + "\t mission is over");
+        System.out.println(Thread.currentThread().getName() + "\t mission is over");*/
+
+        for (int i=0;i<20;i++){
+            new Thread(() -> {
+                for (int j=1;j<=1000;j++){
+                    myData.addPlusPlus();
+                    myData.addAtomic();
+                }
+            },String.valueOf(i)).start();
+        }
+
+        // 等待上面20个线程全部计算完成后，再用main线程取得最终的结果看值是多少？
+        while (Thread.activeCount() > 2){
+            Thread.yield();
+        }
+
+        System.out.println(Thread.currentThread().getName() + "\t int type,finally number value:" + myData.number);
+        System.out.println(Thread.currentThread().getName() + "\t AtomicInteger type,finally number value:" + myData.atomicInteger);
     }
 }
