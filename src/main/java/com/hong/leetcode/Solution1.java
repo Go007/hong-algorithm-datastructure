@@ -37,9 +37,29 @@ public class Solution1 {
         return null;
     }
 
+    public static int[] twoSum2(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
+
+        int len = nums.length;
+        for (int i=0;i<len;i++){
+            if (i > 0 && nums[i-1] == nums[i]) continue;
+            int diff = target - nums[i];
+            int j = i+1;
+            while (j < len){
+                if (nums[j] == diff){
+                    return new int[]{i,j};
+                }
+                j++;
+            }
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         int[] nums= {2,11,7,15};
-        int[] index = twoSum(nums, 9);
+        int[] index = twoSum2(nums, 9);
         for (int i:index){
             System.out.println(i);
         }
