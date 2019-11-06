@@ -12,7 +12,7 @@ public class InsertionSort {
     public static void sort(int[] arr) {
         int n = arr.length;
         /**
-         * 这里的i从1开始，因为插入排序的思想是把当前元素以此和它前面
+         * 这里的i从1开始，因为插入排序的思想是把当前元素依次和它前面
          * 已排好序的元素做比较,第0个元素前面没有元素，所以直接从第1个开始。
          */
         for (int i = 1; i < n; i++) {
