@@ -1,5 +1,7 @@
 package com.hong.leetcode;
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,17 +16,35 @@ import java.util.*;
 public class Solution15 {
 
     /**
-     * 以下是错误的第一版
+     * 以下是暴力破解法 超时
      * @param nums
      * @return
      */
     public static List<List<Integer>> threeSum2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length <= 0){
+            return result;
+        }
+
+        Arrays.sort(nums);
+        if (nums[0] > 0 || nums[nums.length-1] < 0){
+            return result;
+        }
+
         List<Integer> list = null;
         int len = nums.length;
         for (int i = 0; i < len - 2; i++) {
+            if (i > 0 && nums[i] == nums[i-1]){
+                continue;
+            }
             for (int j = i + 1; j < len - 1; j++) {
+                if (j > i + 1 && nums[j] == nums[j-1]){
+                    continue;
+                }
                 for (int k = j + 1; k < len; k++) {
+                    if (k > j + 1 && nums[k] == nums[k-1]){
+                        continue;
+                    }
                     if (nums[i] + nums[j] + nums[k] == 0){
                         list = new ArrayList<>();
                         list.add(nums[i]);
@@ -36,7 +56,7 @@ public class Solution15 {
             }
         }
 
-        int size = result.size();
+     /*   int size = result.size();
         Set<Integer> repetitionIndex = new HashSet<>();
 
         for (int i = 0;i < size-1;i++){
@@ -45,7 +65,7 @@ public class Solution15 {
                     repetitionIndex.add(j);
                 }
             }
-        }
+        }*/
 
         /*
          TODO 下面两种方式无法删除对应的索引数据
@@ -60,11 +80,11 @@ public class Solution15 {
             result.remove(it.next());
         }*/
 
-        List<Integer> indexList = new ArrayList<>(repetitionIndex);
+      /*  List<Integer> indexList = new ArrayList<>(repetitionIndex);
         indexList.sort(Comparator.naturalOrder());
         for (int j = indexList.size()-1;j >= 0;j--){
             result.remove(j);
-        }
+        }*/
 
         return result;
     }
@@ -75,6 +95,10 @@ public class Solution15 {
         int[] nums = {-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6};
         List<List<Integer>> result = threeSum(nums);
         result.forEach(l -> System.out.println(l));
+        System.out.println("========================");
+        List<List<Integer>> result2 = threeSum2(nums);
+        result2.forEach(l -> System.out.println(l));
+        System.out.println(result.size() == result2.size());
     }
 
     /**
@@ -150,4 +174,12 @@ public class Solution15 {
         return ans;
     }
 
+    public static List<List<Integer>> threeSum3(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length <= 0){
+            return result;
+        }
+
+       return result;
+    }
 }
