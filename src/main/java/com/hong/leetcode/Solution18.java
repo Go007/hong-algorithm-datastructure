@@ -62,6 +62,59 @@ public class Solution18 {
         int[] nums = {1,-2,-5,-4,-3,3,3,5};
         List<List<Integer>> result = fourSum(nums,-11);
         System.out.println(result);
-        System.out.println(3 << 2);
+        System.out.println("===================");
+        List<List<Integer>> result2 = fourSum2(nums,-11);
+        System.out.println(result2);
+    }
+
+    public static List<List<Integer>> fourSum2(int[] nums, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (nums == null || nums.length < 4){
+            return ans;
+        }
+
+        Arrays.sort(nums);
+        int len = nums.length;
+
+        // i为起点，j为终点，l，r为滑动窗口的两端
+        for (int i = 0;i < len - 3;i++){
+            // 最小sum > target，直接终止循环
+            if (nums[i] << 2 > target){
+                break;
+            }
+            if (i > 0 && nums[i] == nums[i-1]){
+                continue;
+            }
+            for (int j = len - 1;j > i + 2;j--){
+                // 最大sum < target,跳出本层循环
+                if (nums[j] << 2 < target){
+                    break;
+                }
+                if (j < len - 1 && nums[j] == nums[j+1]){
+                    continue;
+                }
+                int l = i + 1;
+                int r = j - 1;
+                while (l < r){
+                    int sum = nums[i] + nums[l] + nums[r] + nums[j];
+                    if (sum == target){
+                        ans.add(Arrays.asList(nums[i],nums[l],nums[r],nums[j]));
+                        while (l < r && nums[l] == nums[l+1]){
+                            l++;
+                        }
+                        while (r > l && nums[r] == nums[r-1]){
+                            r--;
+                        }
+                        l++;
+                        r--;
+                    }else if (sum < target){
+                        l++;
+                    }else {
+                        r--;
+                    }
+                }
+            }
+        }
+        return ans;
     }
 }
