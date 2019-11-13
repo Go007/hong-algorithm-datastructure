@@ -1,12 +1,8 @@
 package com.hong.leetcode;
 
-import com.sun.org.apache.regexp.internal.RE;
-
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.*;
 
 /**
  * @author wanghong
@@ -141,7 +137,7 @@ public class Solution15 {
             return ans;
         }
 
-        for (int i=0;i<len;i++){
+        for (int i=0;i<len-2;i++){
             /**
              * 如果当前元素非首元素，且 值 = 前一个元素值，
              * 则说明已经在前一轮比较过了，为了去重，直接跳过
