@@ -20,13 +20,19 @@ public class Solution18 {
         int len = nums.length;
 
         for (int i = 0;i < len-3;i++){
+            // 跳过起点值相同元素，避免重复解
             if (i > 0 && nums[i] == nums[i-1]){
                 continue;
+            }
+            // 排序后最小sum值
+            if (nums[i] << 2 > target){
+                break;
             }
             for (int j = i + 1;j < len - 2;j++){
                 if (j > i + 1 && nums[j] == nums[j-1]){
                     continue;
                 }
+                // l,r构成滑动窗口
                 int l = j + 1;
                 int r = len - 1;
                 while (l < r){
@@ -56,5 +62,6 @@ public class Solution18 {
         int[] nums = {1,-2,-5,-4,-3,3,3,5};
         List<List<Integer>> result = fourSum(nums,-11);
         System.out.println(result);
+        System.out.println(3 << 2);
     }
 }
