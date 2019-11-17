@@ -5,6 +5,8 @@ import java.util.Arrays;
 /**
  * <br>自底向上的归并排序</br>
  * 之前的归并排序中是自顶向下,扩散式逐步拆分成小的组,排好序后,再逐步向上收敛整合成一个最终有序的序列
+ *
+ *
  */
 public class MergeSort3 {
 
@@ -37,9 +39,12 @@ public class MergeSort3 {
     public static void sort0(int[] arr) {
         int n = arr.length;
 
-        for (int sz = 1; sz < n; sz *= 2) {
+        // sz 表示对需要进行merge的元素个数进行遍历
+        // 第一轮 看 1个元素。之后看2个元素。。。
+      for (int sz = 1; sz < n; sz *= 2) {
+            // 每一轮在归并的过程中，起始元素位置
             for (int i = 0; i < n - sz; i += sz + sz) {
-                // 对 arr[i...i+sz-1] 和 arr[i+sz...i+2*sz-1] 进行归并
+                // 对 arr[i...i+sz-1] 和 arr[i+sz...i+2*sz-1] 进行归并，注意越界问题
                 merge(arr, i, i + sz - 1, Math.min(i + sz + sz - 1, n - 1));
             }
         }
