@@ -2,21 +2,25 @@ package com.hong.sort;
 
 /**
  * <br>双路快速排序法</br>
+ * 在之前的快排中，对于与给定的标定点相同的重复元素都是放到了一边，
+ * 这样会导致某一边会有可能有大量重复元素；
+ * 为了解决这个弊端，双路快排会尽可能平均的将重复元素放到标定点的两边
  */
 public class QuickSort2Ways {
 
     public static int partition(int[] arr, int l, int r) {
         swap(arr, l, (int) (Math.random() * (r - l + 1)) + l);
         int v = arr[l];
+        // arr[l+1...i) <= v ; arr(j...r] >= v
         int i = l + 1;
         int j = r;
         while (true) {
             // 注意这里的边界, arr[i].compareTo(v) < 0, 不能是arr[i].compareTo(v) <= 0
-            while (arr[i] < v) {
+            while (i<= r && arr[i] < v) {
                 i++;
             }
             // 注意这里的边界, arr[j].compareTo(v) > 0, 不能是arr[j].compareTo(v) >= 0
-            while (arr[j] > v) {
+            while (j >= l+1 && arr[j] > v) {
                 j--;
             }
 
