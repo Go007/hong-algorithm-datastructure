@@ -2,6 +2,8 @@ package com.hong.sort;
 
 /**
  * <br>快速排序</br>
+ *
+ * 快速排序是不稳定的算法
  */
 public class QuickSort {
 
