@@ -40,7 +40,17 @@ public class QuickSort {
         arr[j] = t;
     }
 
-
+    public static int partition2(int[] arr, int l, int r) {
+        int v = arr[l];
+        int j = l;
+        for (int i = l + 1; i <= r; i++) {
+            if (arr[i] < v){
+                swap(arr,i,++j);
+            }
+        }
+        swap(arr, l, j);
+        return j;
+    }
     public static void sort(int[] arr) {
         int n = arr.length;
         sort(arr, 0, n-1);
@@ -55,7 +65,7 @@ public class QuickSort {
             return;
         }
 
-        int p = partition(arr, l, r);
+        int p = partition2(arr, l, r);
         sort(arr, l, p-1 );
         sort(arr, p+1, r);
     }
