@@ -52,7 +52,8 @@ public class MergeSort {
             return;
         }
 
-        int mid = (l + r) / 2;
+       // int mid = (l + r) / 2;
+        int mid = l + (r-l)/2;
         sort(arr, l, mid);
         sort(arr, mid + 1, r);
         merge(arr, l, mid, r);

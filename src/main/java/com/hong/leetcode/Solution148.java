@@ -26,10 +26,9 @@ public class Solution148 {
      * 知识点2：找到一个链表的中间节点的方法
      * 知识点3：合并两个已排好序的链表为一个新的有序链表
      *
-     *   // 一切的前提就是搞清为啥归并排序可以排序链表，原因如下
-     *     // 包括选择、插入、堆排序、快排等等都需要随机读取进行
-     *     // 元素的交换，这正是链表所缺乏的，归并排序是为数不多
-     *     // 不需要随机读取的排序算法
+     * 一切的前提就是搞清为啥归并排序可以排序链表，原因如下
+     * 包括选择、插入、堆排序、快排等等都需要随机读取进行元素的交换，
+     * 这正是链表所缺乏的，归并排序是为数不多不需要随机读取的排序算法
      */
     public ListNode sortList(ListNode head) {
         return head == null ? null : mergeSort(head);
@@ -39,12 +38,14 @@ public class Solution148 {
         if (head.next == null) {
             return head;
         }
+        // p 最后表示中间节点，pre 最后表示 中间节点的前一个节点
         ListNode p = head, q = head, pre = null;
         while (q != null && q.next != null) {
             pre = p;
             p = p.next;
             q = q.next.next;
         }
+        // 将整个链表一分为二
         pre.next = null;
         ListNode l = mergeSort(head);
         ListNode r = mergeSort(p);
@@ -76,7 +77,7 @@ public class Solution148 {
     }
 
     /****************************************************/
-    /**
+    /** TODO 链表排序的自底向上的归并排序实现
      *要求空间复杂度是 O(1)，因此不能使用递归。因此这里使用 bottom-to-up 的算法来解决
      * bottom-to-up 的归并思路是这样的：先两个两个的 merge，完成一趟后，再 4 个4个的 merge，直到结束。举个简单的例子：[4,3,1,7,8,9,2,11,5,6].
      *

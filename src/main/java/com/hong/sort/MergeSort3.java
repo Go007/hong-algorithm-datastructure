@@ -6,7 +6,6 @@ import java.util.Arrays;
  * <br>自底向上的归并排序</br>
  * 之前的归并排序中是自顶向下,扩散式逐步拆分成小的组,排好序后,再逐步向上收敛整合成一个最终有序的序列
  *
- *
  */
 public class MergeSort3 {
 

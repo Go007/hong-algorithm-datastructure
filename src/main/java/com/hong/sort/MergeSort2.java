@@ -21,7 +21,8 @@ public class MergeSort2 {
             return;
         }
 
-        int mid = (left + right) / 2;
+       // int mid = (left + right) / 2;
+        int mid = left + (right - left)/2;
         sort(arr, left, mid);
         sort(arr, mid + 1, right);
         /**
