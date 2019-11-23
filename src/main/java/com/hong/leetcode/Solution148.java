@@ -67,12 +67,14 @@ public class Solution148 {
                 r = r.next;
             }
         }
-        if (l != null) {
+      /*  if (l != null) {
             cur.next = l;
         }
         if (r != null) {
             cur.next = r;
-        }
+        }*/
+
+       cur.next = l != null ?  l:r;
         return dummyHead.next;
     }
 
@@ -90,12 +92,62 @@ public class Solution148 {
      * merge(l1, l2)，双路归并，我相信这个操作大家已经非常熟练的，就不做介绍了。
      * cut(l, n)，可能有些同学没有听说过，它其实就是一种 split 操作，即断链操作。不过我感觉使用 cut 更准确一些，它表示，将链表 l 切掉前 n 个节点，并返回后半部分的链表头。
      * 额外再补充一个 dummyHead 大法，已经讲过无数次了，仔细体会吧。
+     * dummyHead：哑链表头。临时创建的一个链表头，把边界情况和普通情况做统一处理。
      * @param head
      * @return
      */
     public ListNode sortList2(ListNode head) {
+        if(head == null || head.next == null) return head;
 
-        return null;
+        //统计链表长度
+        ListNode p = head;
+        int length = 0;
+        while (p != null){
+            length++;
+            p = p.next;
+        }
+
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        //共循环logN次，每次循环都将进行一次全链表的遍历并逐步恢复次序
+        for (int size = 1;size < length;size += size){
+            //将链表分为四段，第一段为已排序的部分,第二段为待排序的第一部分(由left表示头节点),
+            // 第三段为待排序的第二部分(由right表示头节点),第四段为未排序的部分(由tail表示头节点)
+            ListNode cur = dummyHead.next;
+            ListNode tail = dummyHead;
+            ListNode left = null;
+            ListNode right = null;
+            while (cur != null){
+                left = cur;
+                right = cut(left,size);
+                cur = cut(right,size);
+                // 将merge后的链表头连接到tail后，同时移动tail重新指向到merge后链表的尾部
+                tail.next = merge(left,right);
+                while (tail.next != null){
+                    tail = tail.next;
+                }
+            }
+        }
+
+        return dummyHead.next;
+    }
+
+    /**
+     *  将链表从head节点开始的n个节点切断，并返回第n+1个节点
+     * @param head
+     * @param n
+     * @return
+     */
+    private ListNode cut(ListNode head,int n){
+        if (head == null) return null;
+        ListNode p = head;
+        while (--n > 0 && p != null){
+            p = p.next;
+        }
+        if (p == null) return null;
+        ListNode next = p.next;
+        p.next = null;
+        return next;
     }
 
     public static void main(String[] args) {
@@ -103,8 +155,10 @@ public class Solution148 {
         int[] nums = {4,2,1,3};
         ListNode head = new ListNode(nums);
         System.out.println(head);
-        head = s.sortList(head);
+        head = s.sortList2(head);
         System.out.println(head);
+       // System.out.println(s.cut(head,3));
+       // System.out.println(head);
     }
 
 }
