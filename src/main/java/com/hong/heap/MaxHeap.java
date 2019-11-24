@@ -10,6 +10,8 @@ import com.hong.arrays.Array;
  * 堆树的定义如下：
  *
  * （1）堆树是一颗完全二叉树；
+ *  完全二叉树：除了最后一层，其他层的节点个数都是最大值，即 2^N,N为层数，根节点为0;
+ *  且最后一层自左向右的节点是连续的
  *
  * （2）堆树中某个节点的值总是不大于或不小于其孩子节点的值；
  *
@@ -40,7 +42,7 @@ public class MaxHeap<E extends Comparable<E>> {
      */
     public MaxHeap(E[] arr) {
         /**
-         *  由最后一个元素的索引推导出第一个非叶子节点的索引,然后开始向前一个一个的进行siftDwon()
+         *  由最后一个元素的索引推导出第一个非叶子节点的索引,然后开始向前一个一个的进行siftDown()
          *  这样，就不需要像第一种方式一样，需要遍历每个元素
          */
         data = new Array<>(arr);
@@ -72,7 +74,6 @@ public class MaxHeap<E extends Comparable<E>> {
         if (index == 0) {
             throw new IllegalArgumentException("index-0 doesn't have parent.");
         }
-
         return (index - 1) / 2;
     }
 
