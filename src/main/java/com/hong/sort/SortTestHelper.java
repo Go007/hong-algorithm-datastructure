@@ -121,4 +121,45 @@ public class SortTestHelper {
         list.forEach(i -> System.out.println(i + " "));
     }
 
+    public static Integer[] generateRandomArray2(int n, int leftRange, int rightRange) {
+        assert leftRange <= rightRange;
+        Random random = new Random();
+        Integer[] arr = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = leftRange + random.nextInt(rightRange) % (rightRange - leftRange + 1);
+        }
+        return arr;
+    }
+
+    public static boolean isSorted2(Integer[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void testSort2(String sortClassName, Integer[] arr) {
+        /**
+         * Java的反射机制，通过排序的类名，运行排序函数
+         */
+        try {
+            Class sortClass = Class.forName(sortClassName);
+            Method sortMethod = sortClass.getMethod("sort", new Class[]{Integer[].class});
+            Object[] params = new Object[]{arr};
+
+            long startTime = System.currentTimeMillis();
+            // 调用排序函数
+            sortMethod.invoke(null, params);
+            long endTime = System.currentTimeMillis();
+
+            assert isSorted2(arr);
+            System.out.println(isSorted2(arr));
+            System.out.println(sortClass.getSimpleName() + " : " + (endTime - startTime) + "ms");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
