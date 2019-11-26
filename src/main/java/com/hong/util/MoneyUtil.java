@@ -14,6 +14,30 @@ public class MoneyUtil {
     public static String format(BigDecimal m){
         String money = "";
         if (m != null){
+            BigDecimal k = m.divide(new BigDecimal("1"),4,BigDecimal.ROUND_DOWN);
+            if (k.doubleValue() != 0){
+                k = m.divide(new BigDecimal("10000"),2,BigDecimal.ROUND_DOWN);
+                NumberFormat ks = NumberFormat.getNumberInstance();
+                money = ks.format(k);
+                if (money.indexOf(".") > 0){
+                    money = money.replaceAll("0+?$",""); // 去掉多余的0
+                    money = money.replaceAll("[.]$",""); // 最后一位是 . 去掉
+                }
+            }else {
+                money = "0";
+            }
+        }
+        return money;
+    }
+
+    public static String percent(BigDecimal a,BigDecimal b){
+        BigDecimal c = a.divide(b,2,BigDecimal.ROUND_HALF_UP);
+        return c.multiply(new BigDecimal(100)) + "%";
+    }
+
+    public static String format2(BigDecimal m){
+        String money = "";
+        if (m != null){
             BigDecimal k = m.divide(new BigDecimal("1"),9,BigDecimal.ROUND_DOWN);
             if (k.doubleValue() != 0){
                 k = m.divide(new BigDecimal("100000000"),2,BigDecimal.ROUND_DOWN);
@@ -42,6 +66,13 @@ public class MoneyUtil {
         Double dd = Double.parseDouble(s0);
         String s = df.format(dd);
         System.out.println(s);
+
+        BigDecimal mm = new BigDecimal(3000800);
+        String ss = format(mm);
+        System.out.println(ss);
+
+        System.out.println(percent(m,mm));
+        System.out.println(new BigDecimal(0).floatValue() == 0);
     }
 
 }
