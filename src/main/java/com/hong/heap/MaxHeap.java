@@ -100,7 +100,7 @@ public class MaxHeap<E extends Comparable<E>> {
     /**
      * 向堆中添加元素
      * 在堆的最后增加一个结点,然后沿这堆树上升.
-     *
+     * 将新元素放到数组末尾，然后上浮到合适的位置。
      * @param e
      */
     public void add(E e) {
@@ -111,6 +111,8 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 向上筛选，找到新插入元素的正确位置
+     * 在堆中，当一个节点比父节点大，那么需要交换这个两个节点。
+     * 交换后还可能比它新的父节点大，因此需要不断地进行比较和交换操作，把这种操作称为上浮（ShiftUp）。
      *
      * @param k
      */
@@ -172,6 +174,8 @@ public class MaxHeap<E extends Comparable<E>> {
      * 如果 > 较大值，则说明元素已经在正确的位置了，终止循环；
      * 否则互换，从较大值位置继续上面的逻辑
      *
+     * 类似地，当一个节点比子节点来得小，也需要不断地向下进行比较和交换操作，把这种操作称为下沉（Shift Down）。
+     * 一个节点如果有两个子节点，应当与两个子节点中最大那么节点进行交换。
      * @param k
      */
     private void siftDown(int k) {
