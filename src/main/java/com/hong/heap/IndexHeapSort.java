@@ -16,7 +16,7 @@ public class IndexHeapSort {
 
     public static void sort(Integer[] arr){
         int n = arr.length;
-        IndexMaxHeap<Integer> indexMaxHeap = new IndexMaxHeap<>(n);
+        IndexMaxHeap2<Integer> indexMaxHeap = new IndexMaxHeap2<>(n);
         for( int i = 0 ; i < n ; i ++ )
             indexMaxHeap.insert( i , arr[i] );
 
