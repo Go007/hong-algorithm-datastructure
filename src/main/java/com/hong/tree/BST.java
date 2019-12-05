@@ -307,7 +307,7 @@ public class BST<K extends Comparable<K>, V> {
     private void postOrder(Node node) {
         if (node != null) {
             postOrder(node.left);
-            preOrder(node.right);
+            postOrder(node.right);
             System.out.print(node.key + ",");
         }
     }
@@ -351,7 +351,7 @@ public class BST<K extends Comparable<K>, V> {
     /**
      * 删除以node为根的二分搜索树中指定key的节点，
      * 返回删除后新的root
-     *
+     * Hubbard Deletion
      * @param node
      * @param k
      * @return
@@ -374,7 +374,7 @@ public class BST<K extends Comparable<K>, V> {
              */
             if (node.left == null) {
                 Node rightNode = node.right;
-                node.right = node;
+                node.right = null;
                 count--;
                 return rightNode;
             }
@@ -388,9 +388,10 @@ public class BST<K extends Comparable<K>, V> {
 
             /**
              *   找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
-             *   用这个节点顶替代删除节点的位置
+             *   用这个节点顶替待删除节点的位置
              */
             Node successor = new Node(minimum(node.right));
+            // TODO 这里为什么要先count++，下面再count-- ?
             count++;
 
             successor.right = removeMin(node.right);
@@ -506,6 +507,14 @@ public class BST<K extends Comparable<K>, V> {
         System.out.println();
         levelList = bst.levelOrder2(bst.getRoot());
         levelList.forEach(list -> System.out.println(list));
+
+        System.out.println("----------------");
+        bst.postOrder();
+
+        System.out.println();
+        System.out.println(bst.count);
+        bst.remove(16);
+        System.out.println(bst.count);
 
 /*        int N = 10;
 
