@@ -61,6 +61,23 @@ public class Solution94 {
         return list;
     }
 
+    public static List<Integer> inorderTraversal3(Bst.TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Stack<Bst.TreeNode> stack = new Stack<>();
+        Bst.TreeNode cur = root;
+        while (cur != null && !stack.isEmpty()){
+            if (cur != null){
+                stack.push(cur);
+                cur = cur.left;
+            }else {
+                cur = stack.pop();
+                list.add(cur.val);
+                cur = cur.right;
+            }
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         int[] arr = {4, 6, 5, 7, 2, 8, 9, 3, 1};
         Bst bst = new Bst(arr);
