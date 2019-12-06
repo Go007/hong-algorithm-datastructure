@@ -490,6 +490,97 @@ public class BST<K extends Comparable<K>, V> {
         return res;
     }
 
+    /**
+     * 寻找key的floor值，递归算法 <= key
+     * 如果不存在key的floor值，即key比BST树中的最小值还要小，则返回null
+     * @param key
+     * @return
+     */
+    public K floor(K key){
+        if (count == 0 || key.compareTo(minimum(root).key) < 0){
+            return null;
+        }
+
+        Node floorNode = floor(root,key);
+        return floorNode.key;
+    }
+
+    /**
+     * 在以node为根的二叉搜索树中, 寻找key的floor值所处的节点, 递归算法
+     * @param node
+     * @param key
+     * @return
+     */
+    private Node floor(Node node, K key) {
+        if (node == null){
+            return null;
+        }
+
+        // 如果node的key值和要寻找的key值相等
+        // 则node本身就是key的floor节点
+        if( node.key.compareTo(key) == 0 )
+            return node;
+
+        // 如果node的key值比要寻找的key值大
+        // 则要寻找的key的floor节点一定在node的左子树中
+        if( node.key.compareTo(key) > 0 )
+            return floor( node.left , key );
+
+        // 如果node->key < key
+        // 则node有可能是key的floor节点, 也有可能不是(存在比node->key大但是小于key的其余节点)
+        // 需要尝试向node的右子树寻找一下
+        Node tempNode = floor( node.right , key );
+        if( tempNode != null )
+            return tempNode;
+
+        return node;
+    }
+
+    /**
+     * 寻找key的ceil值，递归算法 >= key
+     * 如果不存在key的ceil值，即key比BST树中的最大值还要大，则返回null
+     * @param key
+     * @return
+     */
+    public K ceil(K key){
+        if (count == 0|| key.compareTo(maximum(root).key) > 0){
+            return null;
+        }
+
+        Node ceilNode = ceil(root,key);
+        return ceilNode.key;
+    }
+
+    /**
+     * 在以node为根的二叉搜索树中, 寻找key的ceil值所处的节点, 递归算法
+     * @param node
+     * @param key
+     * @return
+     */
+    private Node ceil(Node node, K key) {
+        if( node == null )
+            return null;
+
+        // 如果node的key值和要寻找的key值相等
+        // 则node本身就是key的ceil节点
+        if( node.key.compareTo(key) == 0 )
+            return node;
+
+        // 如果node的key值比要寻找的key值小
+        // 则要寻找的key的ceil节点一定在node的右子树中
+        if( node.key.compareTo(key) < 0 )
+            return ceil( node.right , key );
+
+        // 如果node->key > key
+        // 则node有可能是key的ceil节点, 也有可能不是(存在比node->key小但是大于key的其余节点)
+        // 需要尝试向node的左子树寻找一下
+        Node tempNode = ceil( node.left , key );
+        if( tempNode != null )
+            return tempNode;
+
+        return node;
+    }
+
     // 测试二分搜索树
     public static void main(String[] args) {
         BST<Integer, String> bst = new BST<>();
