@@ -96,10 +96,66 @@ public class BinarySearch {
         return r;
     }
 
+    /**
+     * 二分查找法, 实现lower_bound
+     * 即在一个有序数组arr中, 寻找大于等于target的元素的第一个索引
+     * 如果存在, 则返回相应的索引index
+     * 否则, 返回arr的元素个数 n
+     * @param arr
+     * @param target
+     * @return
+     */
+    public static int lowerBound(Comparable[] arr,Comparable target){
+        if (arr == null){
+            throw new IllegalArgumentException("Array can not be null.");
+        }
+
+        int l = 0,r = arr.length;
+        while (l != r){
+            int mid = l + (r-l)/2;
+            if (arr[mid].compareTo(target) < 0){
+                l = mid + 1;
+            }else {
+                r = mid;
+            }
+        }
+
+        return l;
+    }
+
+    /**
+     * 二分查找法, 实现upper_bound
+     * 即在一个有序数组arr中, 寻找大于target的元素的第一个索引
+     * 如果存在, 则返回相应的索引index
+     * 否则, 返回arr的元素个数 n
+     * @param arr
+     * @param target
+     * @return
+     */
+    public static int upperBound(Comparable[] arr,Comparable target){
+        if (arr == null){
+            throw new IllegalArgumentException("Array can not be null.");
+        }
+
+        int l = 0,r = arr.length;
+        while (l != r){
+            int mid = l + (r-l)/2;
+            if (arr[mid].compareTo(target) <= 0){
+                l = mid + 1;
+            }else {
+                r = mid;
+            }
+        }
+        return l;
+    }
+
     // 测试我们用二分查找法实现的floor和ceil两个函数
     // 请仔细观察在我们的测试用例中，有若干的重复元素，对于这些重复元素，floor和ceil计算结果的区别：）
     public static void main(String[] args) {
         Integer arr[] = new Integer[]{1, 1, 1, 2, 2, 2, 2, 2, 4, 4, 5, 5, 5, 6, 6, 6};
+        System.out.println(lowerBound(arr,4));
+        System.out.println(upperBound(arr,4));
+        System.out.println("==================");
         for (int i = 0; i <= 8; i++) {
             int floorIndex = floor(arr, i);
             System.out.println("the floor index of " + i + " is " + floorIndex + ".");
