@@ -1,5 +1,7 @@
 package com.hong.graph;
 
+import java.util.Vector;
+
 /**
  * @author wanghong
  * @date 2019/12/11 22:25
@@ -91,5 +93,23 @@ public class DenseGraph {
         }
 
         return g[v][w];
+    }
+
+    /**
+     *  返回图中一个顶点的所有邻边
+     * @param v
+     * @return
+     */
+    public Iterable<Integer> adj(int v){
+        if (v < 0 || v > n){
+            throw new IllegalArgumentException("param is illegal.");
+        }
+        Vector<Integer> adjV = new Vector<>();
+        for (int i = 0;i < n;i++){
+            if (g[v][i]){
+                adjV.add(i);
+            }
+        }
+        return adjV;
     }
 }

@@ -100,6 +100,20 @@ public class SparseGraph {
         return false;
     }
 
+    /**
+     *  返回图中一个顶点的所有邻边
+     *  由于java使用引用机制，返回一个Vector不会带来额外开销
+     * @param v
+     * @return
+     */
+    public Iterable<Integer> adj(int v){
+        if (v < 0 || v > n){
+            throw new IllegalArgumentException("param is illegal.");
+        }
+
+        return g[v];
+    }
+
     public static void main(String[] args){
         SparseGraph graph = new SparseGraph(7, false);
         graph.addEdge(0, 1);
