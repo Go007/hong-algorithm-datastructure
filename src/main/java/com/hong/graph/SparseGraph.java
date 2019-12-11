@@ -60,7 +60,7 @@ public class SparseGraph {
     }
 
     /**
-     * 返回边的个数
+     * 向图中添加一个边
      * @param v
      * @param w
      */
@@ -69,6 +69,9 @@ public class SparseGraph {
             throw new IllegalArgumentException("param is illegal.");
         }
 
+        if (hasEdge(v,w)){
+            return;
+        }
         g[v].add(w);
         // 如果v，w不相等，且是无向图，则需要将边在连接的两个节点中都要保存数据
         if (v != w && !directed){
