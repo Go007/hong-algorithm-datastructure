@@ -8,7 +8,7 @@ import java.util.Vector;
  * <p>
  * 稠密图--邻接矩阵
  **/
-public class DenseGraph {
+public class DenseGraph implements Graph {
 
     /**
      * 节点个数
@@ -69,12 +69,12 @@ public class DenseGraph {
             throw new IllegalArgumentException("param is illegal.");
         }
 
-        if (hasEdge(v,w)){
+        if (hasEdge(v, w)) {
             return;
         }
 
         g[v][w] = true;
-        if (!directed){
+        if (!directed) {
             g[w][v] = true;
         }
         m++;
@@ -95,18 +95,28 @@ public class DenseGraph {
         return g[v][w];
     }
 
+    @Override
+    public void show() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++)
+                System.out.print(g[i][j] + "\t");
+            System.out.println();
+        }
+    }
+
     /**
-     *  返回图中一个顶点的所有邻边
+     * 返回图中一个顶点的所有邻边
+     *
      * @param v
      * @return
      */
-    public Iterable<Integer> adj(int v){
-        if (v < 0 || v > n){
+    public Iterable<Integer> adj(int v) {
+        if (v < 0 || v > n) {
             throw new IllegalArgumentException("param is illegal.");
         }
         Vector<Integer> adjV = new Vector<>();
-        for (int i = 0;i < n;i++){
-            if (g[v][i]){
+        for (int i = 0; i < n; i++) {
+            if (g[v][i]) {
                 adjV.add(i);
             }
         }
