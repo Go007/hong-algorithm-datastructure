@@ -10,6 +10,8 @@ import java.util.concurrent.CountDownLatch;
  * Created by wanghong
  * Date 2020-01-08 14:26
  * Description:
+ * java集合遍历删除指定元素异常分析总结
+ * https://www.cnblogs.com/cowboys/p/9313264.html
  */
 public class CollectionTest {
 
