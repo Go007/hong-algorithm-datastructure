@@ -1,9 +1,6 @@
 package com.hong.other;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -78,5 +75,14 @@ public class CollectionTest {
         }
 
         System.out.println(count);
+
+        Map<String,String> map = new HashMap<>(16);
+        map.put("a","a");
+        map.put("b","b");
+        map.forEach((k,v) -> System.out.println(k + "->" +v)); //JDK8
+        // < JDK8
+        for (Map.Entry entry:map.entrySet()){
+            System.out.println(entry.getKey() + "->" + entry.getValue());
+        }
     }
 }
