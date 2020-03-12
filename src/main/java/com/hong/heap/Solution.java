@@ -9,7 +9,7 @@ import java.util.*;
  * 优先队列的经典问题：
  * 在N个元素中选出前M个元素
  * M远小于N
- * 排序： NlongN
+ * 排序： NlogN
  * 优先队列 NlogM   维护当前看到的前M个元素
  **/
 public class Solution {

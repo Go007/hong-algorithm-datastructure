@@ -16,8 +16,8 @@ public class LoaderTest1 {
         while (true) {
            // 每次创建一个新的类加载器，实现热加载(即 当 HelloService代码改动时，不需要重启，也能加载到最新的代码)
            // URLClassLoader loader = new URLClassLoader(new URL[]{classUrl});
-            URLClassLoader loader = new URLClassLoader(new URL[]{classUrl},parentLoader);
             // 创建一个新的类加载器，它的父加载器为上面的parentLoader
+            URLClassLoader loader = new URLClassLoader(new URL[]{classUrl},parentLoader);
            // URLClassLoader loader = new URLClassLoader(new URL[]{classUrl}, LoaderTest1.class.getClassLoader());
 
             Class clazz = loader.loadClass("HelloService");
