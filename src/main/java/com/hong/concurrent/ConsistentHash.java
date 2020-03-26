@@ -156,6 +156,24 @@ public class ConsistentHash<T> {
      * @param args
      */
     public static void main(String[] args) {
+        SortedMap<Integer,String> map = new TreeMap<>();
+        map.put(3,"c");
+        map.put(5,"e");
+        map.put(1,"a");
+        map.put(4,"d");
+        map.put(2,"b");
+        map.forEach((k,v) -> System.out.print(k + "->" + v + ","));
+        // 返回部分视图
+        SortedMap<Integer,String> tailMap = map.tailMap(3);
+        tailMap.forEach((k,v) -> System.out.print(k + "->" + v + ","));
+        System.out.println();
+        System.out.println(tailMap.firstKey());
+        System.out.println(tailMap.lastKey());
+        // 改变视图同样会更新原map
+        tailMap.remove(tailMap.lastKey());
+        map.forEach((k,v) -> System.out.print(k + "->" + v + ","));
+        System.out.println("==================");
+
         List<String> nodes = Arrays.asList("0001", "0002");
         ConsistentHash<String> k = new ConsistentHash<>(100, nodes);
         String str = "";
