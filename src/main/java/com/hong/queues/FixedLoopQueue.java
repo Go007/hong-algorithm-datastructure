@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class FixedLoopQueue<E> {
 
     private E[] data;
-    // front 指向头元素，tail指向尾元素
+    // front 指向头元素，tail指向尾元素的下一个位置
     private int front,tail;
     // 队列固定容量
     private int capacity;
