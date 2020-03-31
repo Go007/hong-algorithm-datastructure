@@ -26,8 +26,11 @@ public class MyCircularQueue {
             return false;
         }
 
-        data[(front + size) % capacity] = value;
+        //data[(front + size) % capacity] = value;
+        //size++;
+        // 调整为下面，保持计算 tail 的方式统一
         size++;
+        data[(front + size - 1) % capacity] = value;
         return true;
     }
 
