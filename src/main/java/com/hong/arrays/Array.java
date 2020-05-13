@@ -69,6 +69,11 @@ public class Array<T> {
             throw new IllegalArgumentException("Add failed,Require index > 0 and index <= size");
         }
 
+        /**
+         *  扩容有有两种触发方式：
+         *  1. 先检测当前容量是否已达到阈值，是则扩容然后插入新元素；
+         *  2. 先插入新元素，然后再检测当前容量是否已达到阈值，是则扩容
+         */
         // 判断当前数组容量是否已满，满了自动扩容
         if (size == data.length) {
             // throw new IllegalArgumentException("Add failed,Array is full");
@@ -230,7 +235,7 @@ public class Array<T> {
     }
 
     /**
-     * 将数组扩容为newCapacity大小
+     * 将数组扩容为newCapacity大小，从旧数组迁移元素到新数组中
      *
      * @param newCapacity
      */
