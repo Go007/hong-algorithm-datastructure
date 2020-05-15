@@ -6,6 +6,10 @@ import com.hong.linked.LinkedList;
  * @author wanghong
  * @date 2019/04/15 21:19
  * 基于链表的集合实现
+ * 时间复杂度
+ * add        O(N)
+ * contains   O(N)
+ * remove     O(N)
  **/
 public class LinkedListSet<E extends Comparable<E>> implements Set<E> {
 

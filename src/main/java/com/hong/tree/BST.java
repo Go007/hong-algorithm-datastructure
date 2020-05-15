@@ -249,6 +249,11 @@ public class BST<K extends Comparable<K>, V> {
      */
     // 对以node为根的二叉搜索树进行前序遍历, 递归算法
     private void preOrder(Node node) {
+        // 递归终止条件
+//        if (node == null){
+//            return;
+//        }
+
         if (node != null) {
             System.out.print(node.key + ",");
             preOrder(node.left);
@@ -340,7 +345,7 @@ public class BST<K extends Comparable<K>, V> {
     private Node removeMax(Node node) {
         if (node.right == null) {
             Node leftNode = node.left;
-            node.right = null;
+            node.left = null;
             count--;
             return leftNode;
         }

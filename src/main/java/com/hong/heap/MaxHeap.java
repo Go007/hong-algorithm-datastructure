@@ -8,7 +8,7 @@ import com.hong.arrays.Array;
  * 基于数组实现的最大堆
  *
  * 堆树的定义如下：
- *
+ *   二叉堆 Binary Heap
  * （1）堆树是一颗完全二叉树；
  *  完全二叉树：除了最后一层，其他层的节点个数都是最大值，即 2^N,N为层数，根节点为0;
  *  且最后一层自左向右的节点是连续的
@@ -22,6 +22,9 @@ import com.hong.arrays.Array;
  **/
 public class MaxHeap<E extends Comparable<E>> {
 
+    /**
+     * 用数组存储堆
+     */
     private Array<E> data;
 
     public MaxHeap(int capacity) {
@@ -175,7 +178,7 @@ public class MaxHeap<E extends Comparable<E>> {
      * 否则互换，从较大值位置继续上面的逻辑
      *
      * 类似地，当一个节点比子节点来得小，也需要不断地向下进行比较和交换操作，把这种操作称为下沉（Shift Down）。
-     * 一个节点如果有两个子节点，应当与两个子节点中最大那么节点进行交换。
+     * 一个节点如果有两个子节点，应当与两个子节点中最大那个节点进行交换。
      * @param k
      */
     private void siftDown(int k) {
