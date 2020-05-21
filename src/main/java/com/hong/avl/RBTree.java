@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * @author wanghong
  * @date 2019/04/29 19:25
- * 红黑树的基本实现
+ * 红黑树的基本实现 左倾红黑树
  *
  * 红黑树和2-3树的等价性
  *   红黑树中的红色节点等价于该节点和其父节点在2-3树中是融合在一起的。
@@ -23,6 +23,11 @@ import java.util.ArrayList;
  *
  *  红黑树是一颗保持“黑平衡”的二叉树，严格意义上，不是平衡二叉树，
  *  最大高度： 2logN
+ *  https://www.cnblogs.com/hello-shf/p/11364565.html
+ *
+ *  另一种统计性能优秀的树结构：Splay Tree 伸展树
+ *  局部性原理：刚被访问的内容下次高频率会被再次访问
+ *
  **/
 public class RBTree<K extends Comparable<K>, V> {
 
