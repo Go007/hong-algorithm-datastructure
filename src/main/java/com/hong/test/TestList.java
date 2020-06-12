@@ -19,7 +19,7 @@ public class TestList {
         list.add("a");
         list.add("b");
         list.add("c");
-        list = wrongDelete(list);
+        list = rightDelete3(list);
         System.out.println(list);
     }
 
@@ -38,6 +38,48 @@ public class TestList {
             String s = it.next();
             if ("a".equals(s)) {
                 list.remove(s);
+            }
+        }
+        return list;
+    }
+
+    public static List<String> wrongDelete3(List<String> list) {
+        for (int i = 0;i < list.size();i++) {
+            String s = list.get(i);
+            if ("b".equals(s)) {
+                list.remove(s);
+            }
+        }
+        return list;
+    }
+
+    public static List<String> rightDelete(List<String> list) {
+        Iterator<String> it = list.iterator();
+        while (it.hasNext()) {
+            String s = it.next();
+            if ("a".equals(s)) {
+                it.remove();
+            }
+        }
+        return list;
+    }
+
+    public static List<String> rightDelete2(List<String> list) {
+        for (int i = 0;i < list.size();i++) {
+            String s = list.get(i);
+            if ("a".equals(s)) {
+                list.remove(i);
+                i = i - 1;
+            }
+        }
+        return list;
+    }
+
+    public static List<String> rightDelete3(List<String> list) {
+        for (int i = list.size() - 1;i >= 0;i--) {
+            String s = list.get(i);
+            if ("a".equals(s)) {
+                list.remove(i);
             }
         }
         return list;
