@@ -9,7 +9,8 @@ package com.hong.cas;
  **/
 public class Counter {
 
-    public static int i;
+    //public static int i;
+    public int i;
 
     public void increment(){
         i++;
