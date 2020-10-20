@@ -147,7 +147,8 @@ public class Solution {
         /**
          * 其实最小堆或者最大堆本质上是一样的，唯一的不同的在于比较规则，
          * 改变比较规则，最大堆 《---》 最小堆可以相互转换
-         * Java中的PriorityQueue默认是一个最小堆
+         * Java中的PriorityQueue 在不传Comparator时默认是一个最小堆；
+         * 传了Comparator 默认是最大堆
          */
         //  PriorityQueue<Freq> queue = new PriorityQueue<>();
         // 如果Freq没有实现Comparable接口，则可以显示的向队列中传递自定义比较器
