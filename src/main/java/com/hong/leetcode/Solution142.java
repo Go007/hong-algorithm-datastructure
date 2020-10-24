@@ -6,7 +6,7 @@ import com.hong.linked.ListNode;
  * Created by wanghong
  * Date 2019-05-20 09:17
  * Description:
- * 142. 环形链表 II
+ * 142. 环形链表 II - 返回有环链表的环的起点
  */
 public class Solution142 {
 
@@ -41,21 +41,48 @@ public class Solution142 {
     public static ListNode detectCycle2(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
-        while (fast != null && fast.next != null){
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
             /**
              *  slow == fast 说明有环
              *  快指针遍历距离一定是慢指针两倍。
              *  快指针和慢指针相遇后，相遇点一定在环内，再经过a 的距离，会距离相遇点 b长度，也就是入环点处。
-              */
-            if (slow == fast){
+             */
+            if (slow == fast) {
                 slow = head;
-                while (slow != fast){
+                while (slow != fast) {
                     slow = slow.next;
                     fast = fast.next;
                 }
                 return fast;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 先摆出结论：
+     * 快慢指针从链表头开始走，相遇的那点，记为 M；
+     * 再用 2 个指针，一个从头开始走，一个从 M 开始走，相遇点即为 cycle 的起点。
+     *
+     * @param head
+     * @return
+     */
+    public static ListNode detectCycle3(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                ListNode x = head;
+                ListNode y = slow;
+                while (x != y) {
+                    x = x.next;
+                    y = y.next;
+                }
+                return x;
             }
         }
         return null;

@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by wanghong
  * Date 2019-05-17 09:46
  * Description:
- * 141. 环形链表
+ * 141. 环形链表-判断单链表是否有环
  */
 public class Solution141 {
 
@@ -82,6 +82,19 @@ public class Solution141 {
         }
 
         return true;
+    }
+
+    public boolean hasCycle4(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
