@@ -31,6 +31,13 @@ public class Solution23 {
             return null;
         }
 
+        Comparator<ListNode> comparator = new Comparator<ListNode>() {
+            @Override
+            public int compare(ListNode l0, ListNode l1) {
+                return Integer.valueOf(l0.val).compareTo(l1.val);
+            }
+        };
+
         // PriorityQueue<ListNode> queue = new PriorityQueue<>((l0,l1) -> Integer.valueOf(l0.val).compareTo(l1.val));
         PriorityQueue<ListNode> queue = new PriorityQueue<>(Comparator.comparing(ListNode::getVal));
         /*PriorityQueue<ListNode> queue = new PriorityQueue<>(new Comparator<ListNode>() {
@@ -69,11 +76,11 @@ public class Solution23 {
      * @return
      */
     public ListNode mergeKLists2(ListNode[] lists) {
-        if (lists == null || lists.length == 0){
+        if (lists == null || lists.length == 0) {
             return null;
         }
 
-        return merge(lists,0,lists.length-1);
+        return merge(lists, 0, lists.length - 1);
     }
 
     /**
@@ -92,7 +99,7 @@ public class Solution23 {
         int mid = left + (right - left) / 2;
         ListNode l1 = merge(lists, left, mid);
         ListNode l2 = merge(lists, mid + 1, right);
-        return mergeTwoLists(l1,l2);
+        return mergeTwoLists(l1, l2);
     }
 
     private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
