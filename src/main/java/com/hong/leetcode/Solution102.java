@@ -75,4 +75,15 @@ public class Solution102 {
         levelOrderHelper(res,node.right,depth+1);
     }
 
+    public static void main(String[] args) {
+        Integer[] nums = {1,2,3,4,5,6};
+        TreeNode treeNode = new TreeNode();
+        TreeNode root = treeNode.build(nums);
+        Solution102 s = new Solution102();
+        List<List<Integer>> lists = s.levelOrder(root);
+        for (List<Integer> l:lists){
+            System.out.println(l);
+        }
+    }
+
 }
