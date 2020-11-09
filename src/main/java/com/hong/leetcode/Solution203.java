@@ -41,10 +41,34 @@ public class Solution203 {
         return dummy.next;
     }
 
+    public ListNode removeElements3(ListNode head,int val){
+        if (head == null){
+            return head;
+        }
+
+        ListNode next = removeElements3(head.next,val);
+        if (head.val == val){
+            head.next = null;
+            return next;
+        }else {
+            head.next = next;
+            return head;
+        }
+    }
+
+    public ListNode removeElements4(ListNode head,int val){
+        if (head == null){
+            return head;
+        }
+
+        head.next = removeElements4(head.next,val);
+        return head.val == val ? head.next:head;
+    }
+
     public static void main(String[] args) {
         Solution203 s = new Solution203();
         ListNode head = new ListNode(new int[]{6, 1, 2, 6, 3, 4, 5, 6});
-        System.out.println(s.removeElements2(head, 6));
+        System.out.println(s.removeElements4(head, 6));
     }
 
 }
