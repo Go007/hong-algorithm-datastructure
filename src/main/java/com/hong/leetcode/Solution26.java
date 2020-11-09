@@ -10,6 +10,7 @@ public class Solution26 {
 
     /**
      * 双指针法
+     *
      * @param nums
      * @return
      */
@@ -21,9 +22,8 @@ public class Solution26 {
         int i = 0;
         for (int j = 1; j < nums.length; j++) {
             if (nums[j] != nums[i]) {
-                i++;
+                nums[++i] = nums[j];
             }
-            nums[i] = nums[j];
         }
         return i + 1;
     }
