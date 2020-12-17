@@ -1,7 +1,9 @@
 package com.hong.other.regex;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,18 +29,33 @@ public class TestReg {
      * @param args
      */
     public static void main(String[] args) {
-        String oldSql = "  select\n" +
+        String oldSql = "select\n" +
                 " *\n" +
                 " from app_borrower_info /*LT*/ b where 1=1\n";
 
         String newSql = "select * from app_borrower_info where find_in_set({userId},creator)";
         String userId = "308";
 
-       //替换字符串换行,回车,TAB
+        test0(oldSql, newSql, userId);
+        System.out.println("==============================");
+        test1(oldSql,userId);
+    }
+
+    public static void test0(String oldSql, String newSql, String userId) {
+        //替换字符串换行,回车,TAB
         oldSql = removeAlltrn.matcher(oldSql).replaceAll(" ");
         //匹配表名+空格+/*LT*/,以用户权限sql定义进行替换
-        newSql = replaceTable(oldSql, newSql,userId);
+        newSql = replaceTable(oldSql, newSql, userId);
         System.out.println(oldSql);
+        System.out.println(newSql);
+    }
+
+    public static void test1(String oldSql, String userId) {
+        Map<String, String> tableAuths = new HashMap<>();
+        tableAuths.put("app_borrower_info", "select * from app_borrower_info where find_in_set({userId},creator)");
+        Set<String> columnAuths = new HashSet();
+        String newSql = SqlUtil.replaceColumn(oldSql, columnAuths);
+        newSql = SqlUtil.replaceTable(newSql == null ? oldSql : newSql, tableAuths);
         System.out.println(newSql);
     }
 
@@ -53,7 +70,7 @@ public class TestReg {
     }
 
     // 匹配表名+空格+ /*LT*/ ,以用户权限sql定义进行替换
-    public static String replaceTable(String oldSql, String newSql,String userId) {
+    public static String replaceTable(String oldSql, String newSql, String userId) {
         StringBuffer sb = new StringBuffer();
         Matcher m = ROWAUTH_PATTERN.matcher(oldSql);
         boolean changed = false;
