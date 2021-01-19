@@ -15,30 +15,38 @@ import org.junit.Test;
 public class CasTest {
 
     @Test
-    public void testCounter() throws Exception{
+    public void testCounter() throws Exception {
         Counter counter = new Counter();
         BenchmarkCallback task = () -> counter.increment();
-        Benchmark benchmark = new Benchmark(5000,task);
+        Benchmark benchmark = new Benchmark(5000, task);
         benchmark.test();
         System.out.println(counter.i);
     }
 
     @Test
-    public void testCounterUnsafe() throws Exception{
+    public void testCounterUnsafe() throws Exception {
         CounterUnsafe counterUnsafe = new CounterUnsafe();
         BenchmarkCallback task = () -> counterUnsafe.increment();
-        Benchmark benchmark = new Benchmark(5000,task);
+        Benchmark benchmark = new Benchmark(5000, task);
         benchmark.test();
         System.out.println(counterUnsafe.i);
     }
 
     @Test
-    public void testLock() throws Exception{
+    public void testLock() throws Exception {
         CounterLock counterLock = new CounterLock(new SpinLockDemo2());
         BenchmarkCallback task = () -> counterLock.increment();
-        Benchmark benchmark = new Benchmark(5000,task);
+        Benchmark benchmark = new Benchmark(5000, task);
         benchmark.test();
         System.out.println(counterLock.i);
+    }
+
+    @Test
+    public void testWhile() {
+        int index = 2;
+        while (index-- >= 0) {
+            System.out.println("*");
+        }
     }
 
 }
