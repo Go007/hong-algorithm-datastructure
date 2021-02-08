@@ -65,7 +65,7 @@ public class Solution94 {
         List<Integer> list = new ArrayList<>();
         Stack<Bst.TreeNode> stack = new Stack<>();
         Bst.TreeNode cur = root;
-        while (cur != null && !stack.isEmpty()){
+        while (cur != null || !stack.isEmpty()){
             if (cur != null){
                 stack.push(cur);
                 cur = cur.left;
