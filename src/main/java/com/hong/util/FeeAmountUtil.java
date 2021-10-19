@@ -115,9 +115,60 @@ public class FeeAmountUtil {
         System.out.println(hangeToBig(money));
 
         System.out.println("++++++++++++++++++++++++");
-        String m = "8582008.67";
+        String m = "10234.67";
         MoneyDTO moneyDTO = convert(m);
         System.out.println(moneyDTO);
+
+        System.out.println(Math.pow(10, 0));
+        System.out.println(12345 - Math.pow(10, 2) * 123);
+
+        System.out.println("****************************");
+        System.out.println(convertMoney(m));
+    }
+
+    public static MoneyDTO convertMoney(String money) {
+        if (StringUtils.isEmpty(money) || !NumberUtils.isCreatable(money)) {
+            return new MoneyDTO();
+        }
+
+        MoneyDTO moneyDTO = new MoneyDTO();
+        List<String> list = convertMoney(money, 4);
+        moneyDTO.setWan(list.get(0));
+        moneyDTO.setQian(list.get(1));
+        moneyDTO.setBai(list.get(2));
+        moneyDTO.setShi(list.get(3));
+        moneyDTO.setYuan(list.get(4));
+
+        return moneyDTO;
+    }
+
+    public static List<String> convertMoney(String money, int num) {
+        BigDecimal bd = new BigDecimal(money);
+        long amount = toFixScale(bd, 0).longValue();
+        List<String> list = new ArrayList<>(num + 1);
+        doConvert(amount, num, list);
+        return list;
+    }
+
+    private static void doConvert(Long amount, int num, List<String> list) {
+        if (num < 0) {
+            return;
+        }
+
+        if (amount > 0) {
+            int pow = (int) Math.pow(10, num);
+            long temp = amount / pow;
+            if (temp > 0) {
+                list.add(temp + "");
+                amount -= temp * pow;
+            } else {
+                list.add("");
+            }
+        } else {
+            list.add("");
+        }
+
+        doConvert(amount, --num, list);
     }
 
     public static MoneyDTO convert(String money) {
@@ -126,7 +177,7 @@ public class FeeAmountUtil {
         }
 
         BigDecimal bd = new BigDecimal(money);
-        long amount = toFixScale(bd,0).longValue();
+        long amount = toFixScale(bd, 0).longValue();
 
         MoneyDTO moneyDTO = new MoneyDTO();
         long wan = amount / 10000;
