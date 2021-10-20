@@ -111,11 +111,11 @@ public class FeeAmountUtil {
         System.out.println(Long.parseLong(ss) / 10000);
 
         System.out.println("=================");
-        double money = 123456;
+        String money = "120234.32";
         System.out.println(hangeToBig(money));
 
         System.out.println("++++++++++++++++++++++++");
-        String m = "10234.67";
+        String m = "578120234.67";
         MoneyDTO moneyDTO = convert(m);
         System.out.println(moneyDTO);
 
@@ -224,30 +224,37 @@ public class FeeAmountUtil {
         return value;
     }
 
+    private static final BigDecimal BD_HUNDRED = new BigDecimal("100");
     /**
      * 人民币转成大写
      *
-     * @param value
+     * @param money
      * @return String
      */
-    public static String hangeToBig(double value) {
+    public static String hangeToBig(String money) {
+        if (StringUtils.isEmpty(money) || !NumberUtils.isCreatable(money)) {
+            return "";
+        }
+
+        BigDecimal bd = toFixScale(new BigDecimal(money), 2);
+
         char[] hunit = {'拾', '佰', '仟'}; // 段内位置表示
         char[] vunit = {'万', '亿'}; // 段名表示
         char[] digit = {'零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'}; // 数字表示
-        long midVal = (long) (value * 100); // 转化成整形
+        long midVal = BD_HUNDRED.multiply(bd).longValue(); // 转化成整形
         String valStr = String.valueOf(midVal); // 转化成字符串
         String head = valStr.substring(0, valStr.length() - 2); // 取整数部分
         String rail = valStr.substring(valStr.length() - 2); // 取小数部分
         String prefix = ""; // 整数部分转化的结果
         String suffix = ""; // 小数部分转化的结果
-// 处理小数点后面的数
+        // 处理小数点后面的数
         if (rail.equals("00")) { // 如果小数部分为0
             suffix = "整";
         } else {
             suffix = digit[rail.charAt(0) - '0'] + "角"
                     + digit[rail.charAt(1) - '0'] + "分"; // 否则把角分转化出来
         }
-// 处理小数点前面的数
+        // 处理小数点前面的数
         char[] chDig = head.toCharArray(); // 把整数部分转化成字符数组
         char zero = '0'; // 标志'0'表示出现过0
         byte zeroSerNum = 0; // 连续出现0的次数
