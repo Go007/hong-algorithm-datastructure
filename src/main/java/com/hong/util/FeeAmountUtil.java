@@ -103,15 +103,11 @@ public class FeeAmountUtil {
         System.out.println(eliminateDecimalPointWithYuanUnit(bd2));
 
         String ss = "1672345";
-        List<String> list = Arrays.asList(ss);
-        List<MoneyDTO> convert = convert(list);
-        convert.forEach(s -> System.out.println(s));
-
         System.out.println(ss.substring(0, 5)); // index [);
         System.out.println(Long.parseLong(ss) / 10000);
 
         System.out.println("=================");
-        String money = "120234.32";
+        String money = "767120234.32";
         System.out.println(hangeToBig(money));
 
         System.out.println("++++++++++++++++++++++++");
@@ -123,24 +119,80 @@ public class FeeAmountUtil {
         System.out.println(12345 - Math.pow(10, 2) * 123);
 
         System.out.println("****************************");
-        System.out.println(convertMoney(m));
+        String mm = "3123473789.87";
+        System.out.println(convertMoney(mm));
+        System.out.println(hangeToBig(mm));
+        System.out.println(convert(mm));
+        System.out.println(convertAmountMap(mm));
     }
 
+    /**
+     * 转换以元为单位的字符串数值为特定bean
+     *
+     * @param money
+     * @return
+     */
     public static MoneyDTO convertMoney(String money) {
         if (StringUtils.isEmpty(money) || !NumberUtils.isCreatable(money)) {
             return new MoneyDTO();
         }
 
+        BigDecimal bdFenUnit = eliminateDecimalPointWithYuanUnit(money);
+
         MoneyDTO moneyDTO = new MoneyDTO();
-        List<String> list = convertMoney(money, 4);
-        moneyDTO.setWan(list.get(0));
-        moneyDTO.setQian(list.get(1));
-        moneyDTO.setBai(list.get(2));
-        moneyDTO.setShi(list.get(3));
-        moneyDTO.setYuan(list.get(4));
+        List<String> list = convertMoney(bdFenUnit.toPlainString(), 10);
+        System.out.println(list);
+
+        moneyDTO.setYi(list.get(0));
+        moneyDTO.setWan(list.get(1));
+        moneyDTO.setQian(list.get(2));
+        moneyDTO.setBai(list.get(3));
+        moneyDTO.setShi(list.get(4));
+        moneyDTO.setYuan(list.get(5));
+        moneyDTO.setJiao(list.get(6));
+        moneyDTO.setFen(list.get(7));
 
         return moneyDTO;
     }
+
+    /**
+     * 转换以元为单位的金额
+     *
+     * @param money
+     * @return
+     */
+    public static Map<String, String> convertAmountMap(String money) {
+        Map<String, String> map = new LinkedHashMap<>();
+        if (StringUtils.isEmpty(money) || !NumberUtils.isCreatable(money)) {
+            return map;
+        }
+
+        String[] digit = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
+        String[] amountUnit = {"分", "角", "元", "十", "百", "千", "万", "十万", "百万", "千万", "亿"};
+        String s = new StringBuilder(eliminateDecimalPointWithYuanUnit(money).toPlainString()).reverse().toString();
+
+        String overYiStr = null;
+        char[] chars = null;
+        if (s.length() > 11) {
+            overYiStr = s.substring(11);
+            chars = s.substring(0, 11).toCharArray();
+        } else {
+            chars = s.toCharArray();
+        }
+
+        for (int i = 0; i < chars.length; i++) {
+            map.put(amountUnit[i], digit[chars[i] - '0']);
+        }
+
+        if (overYiStr != null){
+            String yiStr = s.substring(10);
+
+        }
+
+        return map;
+    }
+
+
 
     public static List<String> convertMoney(String money, int num) {
         BigDecimal bd = new BigDecimal(money);
@@ -156,56 +208,95 @@ public class FeeAmountUtil {
         }
 
         if (amount > 0) {
-            int pow = (int) Math.pow(10, num);
+            long pow = (long) Math.pow(10, num);
             long temp = amount / pow;
             if (temp > 0) {
                 list.add(temp + "");
                 amount -= temp * pow;
             } else {
-                list.add("");
+                list.add("0");
             }
         } else {
-            list.add("");
+            list.add("0");
         }
 
         doConvert(amount, --num, list);
     }
 
+    /**
+     * 转换以元为单位的字符串数值为特定bean
+     *
+     * @param money
+     * @return
+     */
     public static MoneyDTO convert(String money) {
         if (StringUtils.isEmpty(money) || !NumberUtils.isCreatable(money)) {
             return new MoneyDTO();
         }
 
-        BigDecimal bd = new BigDecimal(money);
-        long amount = toFixScale(bd, 0).longValue();
+        BigDecimal bdFenUnit = eliminateDecimalPointWithYuanUnit(money);
+        return convertWithFenUnit(bdFenUnit.toPlainString());
+    }
 
-        MoneyDTO moneyDTO = new MoneyDTO();
-        long wan = amount / 10000;
-        if (wan > 0) {
-            moneyDTO.setWan(wan + "");
-            amount = amount - wan * 10000;
+    /**
+     * 转换以分为单位的字符串数值为特定bean
+     *
+     * @param money
+     * @return
+     */
+    public static MoneyDTO convertWithFenUnit(String money) {
+        if (StringUtils.isEmpty(money) || !NumberUtils.isCreatable(money)) {
+            return new MoneyDTO();
         }
 
+        MoneyDTO moneyDTO = new MoneyDTO();
+        long amount = Long.parseLong(money);
         if (amount > 0) {
-            long qian = amount / 1000;
-            if (qian > 0) {
-                moneyDTO.setQian(qian + "");
-                amount = amount - qian * 1000;
+            long yi = amount / (long) Math.pow(10, 10);
+            moneyDTO.setYi(yi + "");
+            if (yi > 0) {
+                amount -= yi * (long) Math.pow(10, 10);
             }
             if (amount > 0) {
-                long bai = amount / 100;
-                if (bai > 0) {
-                    moneyDTO.setBai(bai + "");
-                    amount = amount - bai * 100;
+                long wan = amount / 1000000;
+                moneyDTO.setWan(wan + "");
+                if (wan > 0) {
+                    amount = amount - wan * 1000000;
                 }
                 if (amount > 0) {
-                    long shi = amount / 10;
-                    if (shi > 0) {
-                        moneyDTO.setShi(shi + "");
-                        amount = amount - shi * 10;
+                    long qian = amount / 100000;
+                    moneyDTO.setQian(qian + "");
+                    if (qian > 0) {
+                        amount = amount - qian * 100000;
                     }
                     if (amount > 0) {
-                        moneyDTO.setYuan(amount + "");
+                        long bai = amount / 10000;
+                        moneyDTO.setBai(bai + "");
+                        if (bai > 0) {
+                            amount = amount - bai * 10000;
+                        }
+                        if (amount > 0) {
+                            long shi = amount / 1000;
+                            moneyDTO.setShi(shi + "");
+                            if (shi > 0) {
+                                amount = amount - shi * 1000;
+                            }
+                            if (amount > 0) {
+                                long yuan = amount / 100;
+                                moneyDTO.setYuan(yuan + "");
+                                if (yuan > 0) {
+                                    amount -= yuan * 100;
+                                }
+                                if (amount > 0) {
+                                    long jiao = amount / 10;
+                                    moneyDTO.setJiao(jiao + "");
+                                    if (jiao > 0) {
+                                        amount -= jiao * 10;
+                                    }
+                                    moneyDTO.setFen(amount + "");
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -225,6 +316,7 @@ public class FeeAmountUtil {
     }
 
     private static final BigDecimal BD_HUNDRED = new BigDecimal("100");
+
     /**
      * 人民币转成大写
      *
@@ -288,58 +380,38 @@ public class FeeAmountUtil {
         return prefix + suffix; // 返回正确表示
     }
 
-    public static List<MoneyDTO> convert(List<String> moneyList) {
-        if (moneyList == null || moneyList.size() == 0) {
-            return new ArrayList<>();
-        }
-
-        List<MoneyDTO> result = new ArrayList<>();
-        for (String s : moneyList) {
-            if (!NumberUtils.isCreatable(s)) { //非数字
-                continue;
-            }
-
-            Long amount = null;
-            if (s.contains(".")) {
-                BigDecimal bd = toFixScale(new BigDecimal(s), 0);
-                amount = bd.longValue();
-            } else {
-                amount = Long.parseLong(s);
-            }
-
-            MoneyDTO moneyDTO = null;
-            long wan = amount / 10000 % 10;
-            if (wan > 0) {
-                String wanStr = s.substring(0, 5);
-
-            }
-
-            result.add(new MoneyDTO(amount / 10000 % 10 + "", amount / 1000 % 10 + "", amount / 100 % 10 + "", amount / 10 % 10 + "", amount % 10 + ""));
-        }
-
-        return result;
-    }
-
     public static class MoneyDTO {
+        private String yi = "";
         private String wan = "";
         private String qian = "";
         private String bai = "";
         private String shi = "";
         private String yuan = "";
+        private String jiao = "";
+        private String fen = "";
 
         public MoneyDTO() {
         }
 
-        public MoneyDTO(String wan, String qian, String bai, String shi, String yuan) {
-            this.wan = "0".equals(wan) ? "" : wan;
-            this.qian = "0".equals(qian) ? "" : qian;
-            ;
-            this.bai = "0".equals(bai) ? "" : bai;
-            ;
-            this.shi = "0".equals(shi) ? "" : shi;
-            ;
-            this.yuan = "0".equals(yuan) ? "" : yuan;
-            ;
+//        public MoneyDTO(String wan, String qian, String bai, String shi, String yuan) {
+//            this.wan = "0".equals(wan) ? "" : wan;
+//            this.qian = "0".equals(qian) ? "" : qian;
+//            ;
+//            this.bai = "0".equals(bai) ? "" : bai;
+//            ;
+//            this.shi = "0".equals(shi) ? "" : shi;
+//            ;
+//            this.yuan = "0".equals(yuan) ? "" : yuan;
+//            ;
+//        }
+
+
+        public String getYi() {
+            return yi;
+        }
+
+        public void setYi(String yi) {
+            this.yi = yi;
         }
 
         public String getWan() {
@@ -382,14 +454,33 @@ public class FeeAmountUtil {
             this.yuan = yuan;
         }
 
+        public String getJiao() {
+            return jiao;
+        }
+
+        public void setJiao(String jiao) {
+            this.jiao = jiao;
+        }
+
+        public String getFen() {
+            return fen;
+        }
+
+        public void setFen(String fen) {
+            this.fen = fen;
+        }
+
         @Override
         public String toString() {
             return "MoneyDTO{" +
-                    "wan='" + wan + '\'' +
+                    "yi='" + yi + '\'' +
+                    ", wan='" + wan + '\'' +
                     ", qian='" + qian + '\'' +
                     ", bai='" + bai + '\'' +
                     ", shi='" + shi + '\'' +
                     ", yuan='" + yuan + '\'' +
+                    ", jiao='" + jiao + '\'' +
+                    ", fen='" + fen + '\'' +
                     '}';
         }
     }
