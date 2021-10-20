@@ -119,11 +119,11 @@ public class FeeAmountUtil {
         System.out.println(12345 - Math.pow(10, 2) * 123);
 
         System.out.println("****************************");
-        String mm = "3123473789.87";
+        String mm = "56789";
         System.out.println(convertMoney(mm));
         System.out.println(hangeToBig(mm));
         System.out.println(convert(mm));
-        System.out.println(convertAmountMap(mm));
+        System.out.println(convertAmountMap2(mm));
     }
 
     /**
@@ -155,6 +155,31 @@ public class FeeAmountUtil {
         return moneyDTO;
     }
 
+    public static Map<String, String> convertAmountMap2(String money) {
+        Map<String, String> map = new LinkedHashMap<>();
+        if (StringUtils.isEmpty(money) || !NumberUtils.isCreatable(money)) {
+            return map;
+        }
+
+        String[] digit = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
+        String[] amountUnit = {"分", "角", "元", "十", "百", "千", "万", "十万", "百万", "千万", "亿"};
+        String s = eliminateDecimalPointWithYuanUnit(money).toPlainString();
+        if (s.length() > 11) {
+            return map;
+        }
+        char[] chars = new StringBuilder(s).reverse().toString().toCharArray();
+        int len = chars.length;
+        for (int i = 0; i < amountUnit.length; i++) {
+            if (i > len - 1) {
+                map.put(amountUnit[i], "零");
+            } else {
+                map.put(amountUnit[i], digit[chars[i] - '0']);
+            }
+        }
+
+        return map;
+    }
+
     /**
      * 转换以元为单位的金额
      *
@@ -184,14 +209,13 @@ public class FeeAmountUtil {
             map.put(amountUnit[i], digit[chars[i] - '0']);
         }
 
-        if (overYiStr != null){
+        if (overYiStr != null) {
             String yiStr = s.substring(10);
 
         }
 
         return map;
     }
-
 
 
     public static List<String> convertMoney(String money, int num) {
