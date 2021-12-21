@@ -3,7 +3,6 @@ package com.hong.util;
 /**
  * @description:
  * @author: 王宏
- * @email hong.wang8@amh-group.com
  * @date: 2021/10/20 14:26
  * @version: 1.0
  */
