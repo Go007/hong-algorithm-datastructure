@@ -16,6 +16,8 @@ public class CasTest {
 
     @Test
     public void testCounter() throws Exception {
+        Integer i = null;
+        System.out.println(i == 1);
         Counter counter = new Counter();
         BenchmarkCallback task = () -> counter.increment();
         Benchmark benchmark = new Benchmark(5000, task);
