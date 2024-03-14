@@ -1,5 +1,7 @@
 package com.hong.test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +19,19 @@ public class TestString {
         String s = ":";
         String[] split = s.split(":");
         System.out.println(split.length);
+
+        Double newestScore = 0.003;
+        Double recentlyScore = 0.0;
+        // 防止除以零异常
+        BigDecimal bd = BigDecimal.valueOf(recentlyScore);
+//        if (BigDecimal.ZERO.compareTo(bd) == 0){
+//            // 以一个很小的数代替
+//            bd = BigDecimal.valueOf(0.0001);
+//        }
+        double percent = (BigDecimal.valueOf(newestScore).subtract(BigDecimal.valueOf(recentlyScore)))
+                .divide(bd, 2, RoundingMode.HALF_UP).doubleValue();
+        System.out.println(percent);
+
 
 
         System.out.println("当天03点的时间戳为：" + getTimeStamp(0,3));
