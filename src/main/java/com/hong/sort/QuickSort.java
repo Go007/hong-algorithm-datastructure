@@ -7,6 +7,11 @@ package com.hong.sort;
  */
 public class QuickSort {
 
+    public static void sort(int[] arr) {
+        int n = arr.length;
+        sort(arr, 0, n - 1);
+    }
+
     /**
      * 递归使用快速排序,对arr[l...r]的范围进行排序
      *
@@ -54,12 +59,6 @@ public class QuickSort {
         arr[i] = arr[j];
         arr[j] = t;
     }
-
-    public static void sort(int[] arr) {
-        int n = arr.length;
-        sort(arr, 0, n - 1);
-    }
-
 
     public static void main(String[] args) {
         // Quick Sort也是一个O(nlogn)复杂度的算法
